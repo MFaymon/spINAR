@@ -6,15 +6,15 @@
 
 The goal of package1 is to :
 
-  1) Simulate INAR(p), take arbitrary innovation distributions (parametric family), probability mass function.
+  1) Simulate INAR(p) data with arbitrary innovation distributions (parametric family or probability mass function).
 
-  2) Semi parametric estimation.
+  2) Semiparametric estimation of INAR(p) model.
 
-  3) INAR Boostrap: derived directly.
+  3) Semiparametric INAR Boostrap.
 
-  4) Fully parametric estimation.
+  4) Fully parametric estimation of INAR(p) model.
 
-  5) Penalized (semiparametric) estimation of INAR(p) models.
+  5) Penalized (semiparametric) estimation of INAR(p) model.
   
 
 
