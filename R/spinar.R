@@ -28,7 +28,7 @@ spinar <- function(dat, p) {
     vec
   }
   # constraints for input
-  if (!is.numeric(p)) {
+  if (!is.integer(p)) {
     stop('Lag p for INAR(p) must be integer')
   }
   if (!is.vector(dat)) {
