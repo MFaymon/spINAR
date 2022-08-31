@@ -6,7 +6,7 @@
 #' @return (alpha, pmf0, pmf1, ...) estimated parameters
 #' @export
 #'
-#' @examples spinar(c(2,3,1,1,1,1,1,1,3),1)
+#' @examples spinar(c(2,3,1,1,1,1,1,1,3), 1)
 #'2.362001e-11 4.205347e-09 6.128583e-01 5.021233e-10 3.871417e-01
 #'
 
