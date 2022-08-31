@@ -26,17 +26,52 @@ You can install the development version of package1 like so:
 # install.package("package1")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+## Examples
 
 ``` r
+# Install library
 library(package1)
-## basic example code
-dat <- c(2,3,1,1,1,1,1,1,3)
-p <- 1
-upper <- 3
-par <- c(0.1,0.8, 0.7, 0.6, 0.4)
-spinar(dat, p, upper, par)
+```
+
+### Example 1
+
+In this example, we simulate INAR(1) data with poisson distributed innovations.
+
+``` r
+n <- 500 # sample size
+m <- 100 # additional observations to ensure stationarity
+alpha <- 0.5 # true INAR(1) coefficient
+lambda <- 1 # true parameter of the poisson innovation distribution
+
+pinar1 <- function(n, alpha, lambda){
+  err <- rpois(n, lambda)
+  x <- numeric(n)
+  #initialization x_0 = 0
+  x[1] <- err[1]
+  for(i in 2:n){
+    x[i] <- rbinom(1, x[i-1], alpha) + err[i]
+  }
+  return(x)
+}
+
+sim <- pinar1(n+m, alpha, lambda)
+sim <- sim[-(1:m)] # remove first m observations
+```
+
+Now, we estime the parameters:
+
+``` r
+params_est <- package1::spinar(sim,1)
+alpha_est <- params_est[1] # estimation of INAR(1) coefficient alpha1
+pmf_est <- params_est[-1]) # estimation of pmf/innovation distribution (pmf0, pmf1, ...)
+```
+### Example 2
+
+This is a basic example which shows you how to solve a common problem for INAR(2)
+
+``` r
+params_est <- package1::spinar(c(3,2,1,1,1,2,2,3),2)
+alpha_est <- params_est[1:2] # estimation of INAR(2) coefficient (alpha1, alpha2)
+pmf_est <- params_est[-(1:2)] # estimation of pmf/innovation distribution (pmf0, pmf1, pmf2, pmf3)
 ```
 
