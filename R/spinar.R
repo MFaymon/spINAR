@@ -123,7 +123,7 @@ spinar <- function(dat, p) {
     parameters <- c(parameters[1], 1-sum(parameters[-1]), parameters[-1])
   }
   else if (p==2){
-    parameters <- c(parameters[1], 1-sum(parameters[-(1:2)]), parameters[-(1:2)])
+    parameters <- c(parameters[1:2], 1-sum(parameters[-(1:2)]), parameters[-(1:2)])
   }
   return(parameters)
 }
