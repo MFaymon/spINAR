@@ -4,25 +4,23 @@
 \alias{spinar}
 \title{Spinar(p)}
 \usage{
-spinar(dat, p, upper, par)
+spinar(dat, p)
 }
 \arguments{
-\item{dat}{: dataset}
+\item{dat}{dataset}
 
-\item{p}{: lag}
-
-\item{upper}{: upper value for constraints}
-
-\item{par}{: vector with values (alpha, pmf1, ...) where alpha is the true coefficient}
+\item{p}{lag}
 }
 \value{
-estimated parameters
+Return the estimated parameters of the INAR(p) the first p-values
+returns the values for alpha (alpha_1,..., alpha_p)
+and the rest values returns the probability mass function (pmf0, pmf1, ...)
 }
 \description{
-Spinar(p)
+This function takes a data set and the lag of INAR process
 }
 \examples{
-spinar(c(2,3,1,1,1,1,1,1,3),1,3,c(0.1,0.8, 0.7, 0.6, 0.4))
-returns 2.362001e-11 6.128583e-01 5.021233e-10 3.871417e-01
+spinar(c(2,3,1,1,1,1,1,1,3), 1)
+2.362001e-11 4.205347e-09 6.128583e-01 5.021233e-10 3.871417e-01
 
 }

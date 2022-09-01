@@ -1,15 +1,16 @@
-#' Spinar(p)
+#' @title Spinar(p)
+#' @description This function takes a data set and the lag of INAR process
+#' @param dat dataset
+#' @param p lag
 #'
-#' @param dat : dataset
-#' @param p : lag
-#'
-#' @return (alpha, pmf0, pmf1, ...) estimated parameters
-#' @export
+#' @return Return the estimated parameters of the INAR(p). The first p-values
+#' corresponds to (alpha_1,..., alpha_p)
+#' the next values corresponds to the probability mass function (pmf0, pmf1, ...)
+#' @export a vector value
 #'
 #' @examples spinar(c(2,3,1,1,1,1,1,1,3), 1)
 #'2.362001e-11 4.205347e-09 6.128583e-01 5.021233e-10 3.871417e-01
 #'
-
 #importFrom("stats", "acf", "constrOptim", "dbinom")
 spinar <- function(dat, p) {
   # auxiliar function 2
