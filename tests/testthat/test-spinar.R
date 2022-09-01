@@ -3,5 +3,5 @@ test_that("spinar output size", {
 })
 
 test_that("Non-interger or missing inputs should error",{
-  expect_error(package1::spinar(c(1,2,2,2,1), "1"), "Lag p for INAR(p) must be integer")
+  expect_error(package1::spinar(c(1,2,2,2,1), "1"), "Lag p must be integer")
 })
