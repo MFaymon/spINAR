@@ -11,8 +11,8 @@
 #'
 spinar <- function(dat, p) {
   # constraints for input
-  assert_integerish(p)
-  assert_integerish(dat, min.len = 2) # weitere Bedingungen an den Input?
+  assert_integerish(p,lower = 1, min.len = 1, max.len = 1)
+  assert_integerish(dat, min.len = p+1) # further requirements on input?
   xmax <- max(dat)
   est <-
     suppressWarnings(constrOptim(
