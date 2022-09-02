@@ -12,9 +12,9 @@ spinar(dat, p)
 \item{p}{lag}
 }
 \value{
-Return the estimated parameters of the INAR(p) the first p-values
-returns the values for alpha (alpha_1,..., alpha_p)
-and the rest values returns the probability mass function (pmf0, pmf1, ...)
+Return the estimated parameters of the INAR(p). The first p-values
+corresponds to (alpha_1,..., alpha_p)
+the next values corresponds to the probability mass function (pmf0, pmf1, ...)
 }
 \description{
 This function takes a data set and the lag of INAR process
