@@ -6,9 +6,14 @@ Author: Who wrote it
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL (>= 3)
 Encoding: UTF-8
+Depends:
+	R (>= 3.5.0)
+Imports:
+	checkmate (>= 1.8.5),
+	stats
 LazyData: true
 RoxygenNote: 7.1.1
-URL: https://github.com/jariffo/package1
-BugReports: https://github.com/jariffo/package1/issues
+URL: https://github.com/MFaymon/spINAR
+BugReports: https://github.com/MFaymon/spINAR/issues
