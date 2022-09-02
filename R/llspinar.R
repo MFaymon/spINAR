@@ -12,7 +12,7 @@ llspinar <- list(
           size = dat[t - 1],
           prob = alpha
         )
-        * pmf[dat[t] +  1 - (0:min(dat[t], dat[t - 1]))])
+        * pmf[dat[t] +  1 - (0:min(dat[t], dat[t-1]))])
       value <- value - log(cp)
     }
     value
@@ -32,8 +32,7 @@ llspinar <- list(
         cp <-
           cp + dbinom(i1, dat[t - 1], alpha1) * sum(dbinom((0:min(
             dat[t] - i1, dat[t - 2]
-          )), dat[t - 2], alpha2) * pmf[dat[t] + 1 - i1 - (0:min(dat[t] - i1, dat[t -
-                                                                                    2]))])
+          )), dat[t - 2], alpha2) * pmf[dat[t] + 1 - i1 - (0:min(dat[t] - i1, dat[t-2]))])
       }
       value <- value - log(cp)
     }
