@@ -29,7 +29,3 @@ spinar <- function(dat, p) {
                   parameters[-seq_len(p)])
   return(parameters)
 }
-
-
-
-
