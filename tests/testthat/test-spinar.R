@@ -20,3 +20,7 @@ test_that("Non big enough inputs should be an error", {
 })
 
 #devtools::check()
+#usethis::use_git_remote(name = "origin", url = "https://github.com/jariffo/spINAR.git", overwrite = TRUE)
+#usethis::use_git_remote(name = "upstream")
+
+
