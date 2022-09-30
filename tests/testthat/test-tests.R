@@ -13,7 +13,7 @@ testthat::test_that("check sum pmf equal 1", {
   expect_equal(sum(package1::spinar(c(2, 9, 9, 9, 0, 1), 2)[3:12]), 1)
 })
 
-test_that("Non-interger p, non-vector dat or missing inputs should error", {
+testthat::test_that("Non-interger p, non-vector dat or missing inputs should error", {
   expect_error(package1::spinar(c(1), 1)) # dat with p+1 entries
   expect_error(package1::spinar(c(1, 0), 2))
   expect_error(package1::spinar(c(2, 3, 1, 1, 0), "1")) # lag p must be integer
@@ -23,7 +23,7 @@ test_that("Non-interger p, non-vector dat or missing inputs should error", {
   expect_error(package1::spinar(c(2, 2, 2, 2, 2), 1))
 })
 
-test_that("Check the type of output obtained", {
+testthat::test_that("Check the type of output obtained", {
   expect_type(package1::spinar(c(2, 0, 1), 1), "double")
   expect_type(package1::spinar(c(2, 0, 1), 1)[1], "double")
 })
