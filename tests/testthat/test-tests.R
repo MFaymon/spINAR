@@ -13,6 +13,13 @@ testthat::test_that("check sum pmf equal 1", {
   expect_equal(sum(package1::spinar(c(2, 9, 9, 9, 0, 1), 2)[3:12]), 1)
 })
 
+testthat::test_that("alpha in range (0,1)", {
+  expect_true(spinar(c(2, 8, 9, 9, 0, 1), 2)[1] < 1)
+  expect_true(spinar(c(2, 8, 9, 9, 0, 1), 2)[1] > 0)
+  expect_true(spinar(c(2, 8, 9, 9, 0, 1), 2)[2] < 1)
+  expect_true(spinar(c(2, 8, 9, 9, 0, 1), 2)[1] > 0)
+})
+
 testthat::test_that("Non-interger p, non-vector dat or missing inputs should error", {
   expect_error(package1::spinar(c(1), 1)) # dat with p+1 entries
   expect_error(package1::spinar(c(1, 0), 2))
