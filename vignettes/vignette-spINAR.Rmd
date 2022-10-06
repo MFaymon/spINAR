@@ -1,0 +1,138 @@
+---
+title: "Vignette spINAR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette-spINAR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>")
+```
+
+# Introduction to spINAR
+
+The spINAR package:
+
+  + It provides an efficient estimation of auto-regression parameters and innovation distribution for an integer-value autoregressive INAR(p) model, limited to the case $p=1$ or $p=2$.
+  + The estimation of the parameters are obtained by maximizing the conditional likelihood.
+  
+```{r setup}
+library(package1)
+set.seed(1234)
+```
+
+## INAR(1)
+
+To explore the basic INAR(1), we'll simulate poisson distributions and compare them with the `spinar` function in the `package1` package.
+
+First, we create the function `pinar1` to generate INAR(1) data with poisson distributed innovations, where we take initialization $x_0 = 0$. The function `pinar1` take three arguments:
+
+1. `n`: sample size.
+2. `alpha`: true INAR(1) coefficient.
+3. `lambda`: true parameter of the poisson innovation distribution.
+
+```{r}
+pinar1 <- function(n, alpha, lambda) {
+  err <- rpois(n, lambda)
+  x <- numeric(n)
+  x[1] <- err[1]
+  for (i in 2:n) {
+    x[i] <- rbinom(1, x[i - 1], alpha) + err[i]
+  }
+  return(x)
+}
+```
+
+Fixing the parameters $n=1000$, $\alpha=0.5$ and $\lambda=1$ in the `pinar1`, we generate the INAR(1) data with poisson distributed innovations denoted by `data_p1`.
+
+```{r}
+n<-1000
+alpha <- 0.5
+lambda <- 1
+data_p1 <- pinar1(n, alpha, lambda)
+str(data_p1)
+```
+```{r fig.align = 'center'}
+hist(data_p1, freq=TRUE, breaks=max(data_p1)+4, col='gray')
+```
+
+The `spinar` function in the `package1` returns the following two parameters:
+
+  + vector of auto-regression coefficients $\alpha_1,\ldots, \alpha_p$, where $\alpha_i \in (0,1)$.
+  + probability distribution on the non-negative integers, also called immigration or innovation distribution $\pi_1, \ldots, \pi_m$ with $\pi_{i}\geq 0$ and $\sum_{i=1}^{m} \pi_i =1$.
+  
+```{r}
+sim_p1 <- spinar(data_p1, 1)
+str(sim_p1)
+```
+
+Here, we get $\alpha_1 =$ `r round(sim_p1[1],4)` and $\pi_{1} =$ `r round(sim_p1[2],4)`, $\pi_{2} =$ `r round(sim_p1[3],4)`, $\pi_{3} =$ `r round(sim_p1[4],4)`, $\pi_{4} =$ `r round(sim_p1[5],4)`, , $\pi_{5} =$ `r round(sim_p1[6],4)`, $\pi_{6} =$ `r round(sim_p1[7],4)`, $\pi_{7} =$ `r round(sim_p1[8],4)`, $\pi_{8} =$ `r round(sim_p1[9],4)`.
+
+The squared L2 distance between the `sim_p1` and the true distribution is given as follows. 
+```{r}
+sum((sim_p1-c(alpha, dpois(0:(length(sim_p1)-2),lambda)))^2)
+```
+These results shows that:
+
+1. The estimation in terms of the squared error is small. The error `r round( sum((sim_p1-c(alpha, dpois(0:(length(sim_p1)-2),lambda)))^2) , 4)` is small so, this confirm the good estimation.
+
+2. The parameters obtained in the `spinar` function are:
+
+  * $\alpha_1 =$ `r round(sim_p1[1],4)`, which is close to the real value  $\alpha = 0.5$ (parameter used to generated the data).
+  
+  * The probability mass function denoted by $\pi$, where $\pi =$ `r round(sim_p1[-1],4)` we can see that $\sum_{i=1}^{9} \pi_{i} = $ `r round(sum(sim_p1[-1]),4)`.
+
+
+
+## INAR(2)
+
+Analogously we create the function `pinar2` to generate the data.
+
+```{r}
+pinar2 <- function(n, alpha1, alpha2, lambda2) {
+  err <- rpois(n, lambda2)
+  x <- numeric(n)
+  x[1] <- err[1]
+  x[2] <- x[1] + err[2]
+  for (i in 3:n) {
+    x[i] <-
+      rbinom(1, x[i - 1], alpha1) + rbinom(1, x[i - 2], alpha2) + err[i]
+  }
+  return(x)
+}
+```
+
+We fix the parameters as follow.
+```{r}
+n <- 1000
+alpha1 <- 0.4
+alpha2 <- 0.2
+lambda2 <- 1.5
+data_p2 <- pinar2(n, alpha1, alpha2, lambda2)
+```
+
+```{r fig.align = 'center'}
+hist(data_p2, freq=TRUE, breaks=max(data_p2)+5, col='gray')
+```
+
+```{r}
+sim_p2 <- spinar(data_p2, 2)
+```
+
+```{r}
+sum((sim_p2-c(alpha1, alpha2, dpois(0:(length(sim_p2)-3),lambda2)))^2)
+```
+
+These results shows that:
+
+1. The estimation in terms of the squared error is small. The error `r round( sum((sim_p2-c(alpha1, alpha2, dpois(0:(length(sim_p2)-3),lambda2)))^2) , 4)` is small so, this confirm the good estimation.
+
+2. The parameters obtained in the `spinar` function are:
+
+  * $\alpha_1 =$ `r round(sim_p2[1],4)`, and $\alpha_2 =$ `r round(sim_p2[2],4)` which is close to the real value  $\lambda_1 = 0.4$ and $\lambda_2 = 0.2$ (parameter used to generated the data).
+  
+  * The probability mass function denoted by $\pi$, where $\pi =$ `r round(sim_p2[-(1:2)],4)` we can see that $\sum_{i=1}^12 \pi_{i} = $ `r round(sum(sim_p2[-(1:2)]),4)`.
+
