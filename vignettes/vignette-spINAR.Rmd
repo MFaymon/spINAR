@@ -20,13 +20,13 @@ The spINAR package:
   + The estimation of the parameters are obtained by maximizing the conditional likelihood.
   
 ```{r setup}
-library(package1)
+library(spINAR)
 set.seed(1234)
 ```
 
 ## INAR(1)
 
-To explore the basic INAR(1), we'll simulate poisson distributions and compare them with the `spinar` function in the `package1` package.
+To explore the basic INAR(1), we'll simulate poisson distributions and compare them with the `spinar` function in the `spINAR` package.
 
 First, we create the function `pinar1` to generate INAR(1) data with poisson distributed innovations, where we take initialization $x_0 = 0$. The function `pinar1` take three arguments:
 
@@ -59,7 +59,7 @@ str(data_p1)
 hist(data_p1, freq=TRUE, breaks=max(data_p1)+4, col='gray')
 ```
 
-The `spinar` function in the `package1` returns the following two parameters:
+The `spinar` function in the `spINAR` returns the following two parameters:
 
   + vector of auto-regression coefficients $\alpha_1,\ldots, \alpha_p$, where $\alpha_i \in (0,1)$.
   + probability distribution on the non-negative integers, also called immigration or innovation distribution $\pi_1, \ldots, \pi_m$ with $\pi_{i}\geq 0$ and $\sum_{i=1}^{m} \pi_i =1$.
@@ -83,7 +83,14 @@ These results shows that:
 
   * $\alpha_1 =$ `r round(sim_p1[1],4)`, which is close to the real value  $\alpha = 0.5$ (parameter used to generated the data).
   
-  * The probability mass function denoted by $\pi$, where $\pi =$ `r round(sim_p1[-1],4)` we can see that $\sum_{i=1}^{9} \pi_{i} = $ `r round(sum(sim_p1[-1]),4)`.
+  * The probability mass function denoted by $\pi$, where $\pi_1 =$ `r round(sim_p1[2],4)`, $\pi_2 =$ `r round(sim_p1[3],4)`, 
+$\pi_3 =$ `r round(sim_p1[4],4)`, 
+$\pi_4 =$ `r round(sim_p1[5],4)`,
+$\pi_5 =$ `r round(sim_p1[6],4)`, 
+$\pi_6 =$ `r round(sim_p1[7],4)`,
+$\pi_8 =$ `r round(sim_p1[9],4)`, 
+$\pi_9 =$ `r round(sim_p1[10],4)`, we can see that $\sum_{i=1}^{9} \pi_{i} =$ 
+`r round(sum(sim_p1[-1]),4)`.
 
 
 
@@ -134,5 +141,18 @@ These results shows that:
 
   * $\alpha_1 =$ `r round(sim_p2[1],4)`, and $\alpha_2 =$ `r round(sim_p2[2],4)` which is close to the real value  $\lambda_1 = 0.4$ and $\lambda_2 = 0.2$ (parameter used to generated the data).
   
-  * The probability mass function denoted by $\pi$, where $\pi =$ `r round(sim_p2[-(1:2)],4)` we can see that $\sum_{i=1}^12 \pi_{i} = $ `r round(sum(sim_p2[-(1:2)]),4)`.
+  * The probability mass function denoted by $\pi$, where 
+$\pi_1 =$ `r round(sim_p2[3],4)`,
+$\pi_2 =$ `r round(sim_p2[4],4)`,
+$\pi_3 =$ `r round(sim_p2[5],4)`,
+$\pi_4 =$ `r round(sim_p2[6],4)`,
+$\pi_5 =$ `r round(sim_p2[7],4)`,
+$\pi_6 =$ `r round(sim_p2[8],4)`,
+$\pi_7 =$ `r round(sim_p2[9],4)`, 
+$\pi_8 =$ `r round(sim_p2[10],4)`,
+$\pi_9 =$ `r round(sim_p2[11],4)`,
+$\pi_{10} =$ `r round(sim_p2[12],4)`,
+$\pi_{11} =$ `r round(sim_p2[13],4)`,
+$\pi_{12} =$ `r round(sim_p2[14],4)`,
+we can see that $\sum_{i=1}^{12} \pi_i =1$
 
