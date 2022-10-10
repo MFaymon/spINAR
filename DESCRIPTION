@@ -1,11 +1,26 @@
-Package: package1
+Package: spINAR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: The 'spINAR' package
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(person(given = "Maxime",
+           family = "Faymonville",
+           role = c("aut", "cre"),
+           email = "faymonville@statistik.tu-dortmund.de"),
+    person(given = "Jonas",
+           family = "Rieger",
+           role = "ctb",
+           email = "rieger@statistik.tu-dortmund.de"),
+    person(given = "Javiera",
+           family = "Riffo",
+           role = "ctb",
+           email = "javiera.riffo@tu-dortmund.de"))
+Maintainer: Maxime Faymonville <faymonville@statistik.tu-dortmund.de>
+Description: The 'spINAR' package is a set of functions used for the following tasks.
+    1. Simulate INAR(p) data with arbitrary innovation distributions (parametric family or probability mass function).
+    2. Semiparametric estimation of INAR(p) model.
+    3. Semiparametric INAR Boostrap.
+    4. Fully parametric estimation of INAR(p) model.
+    5. Penalized (semiparametric) estimation of INAR(p) model.
 License: GPL (>= 3)
 Encoding: UTF-8
 Depends:
@@ -17,3 +32,12 @@ LazyData: true
 RoxygenNote: 7.1.1
 URL: https://github.com/MFaymon/spINAR
 BugReports: https://github.com/MFaymon/spINAR/issues
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+
+
+

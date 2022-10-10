@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
-library(package1)
+library(spINAR)
 
-test_check("package1")
+test_check("spINAR")
