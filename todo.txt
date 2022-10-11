@@ -1,0 +1,11 @@
+expect_error more specific - in form of expect_error(spinar(...), "Assertion on '...' failed")
+
+parameter explanation in more detail
+result explanation in more detail
+at least a second example, maybe more
+
+improve tests
+and: there are some tests erroring on my machine...
+
+nice Vignette! Maxime has to have a look on it regarding content. From a technical perspective it is good.
+then, we need to have a look at how to add the Vignette to the help pages

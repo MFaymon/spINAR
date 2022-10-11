@@ -2,27 +2,26 @@
 % Please edit documentation in R/spinar.R
 \name{spinar}
 \alias{spinar}
-\title{Spinar(p)}
+\title{Parameter estimation of (semi)parametric integer autoregressive models}
 \usage{
-spinar(dat, p, upper, par)
+spinar(x, p)
 }
 \arguments{
-\item{dat}{: dataset}
+\item{x}{[\code{integer}]\cr
+EXPLAIN IN DETAIL!.}
 
-\item{p}{: lag}
-
-\item{upper}{: upper value for constraints}
-
-\item{par}{: vector with values (alpha, pmf1, ...) where alpha is the true coefficient}
+\item{p}{[\code{integer(1)}]\cr
+Lag. EXPLAIN IN DETAIL!}
 }
 \value{
-estimated parameters
+[\code{numeric(p+??)}]\cr
+Estimated parameters \code{(alpha_1,..., alpha_p, pmf0, pmf1, ...)}. EXPLAIN IN DETAIL!
 }
 \description{
-Spinar(p)
+Performs bla bla.... EXPLAIN IN DETAIL!
 }
 \examples{
-spinar(c(2,3,1,1,1,1,1,1,3),1,3,c(0.1,0.8, 0.7, 0.6, 0.4))
-returns 2.362001e-11 6.128583e-01 5.021233e-10 3.871417e-01
-
+# EXPLAIN IN DETAIL!
+spinar(c(2,3,1,1,1,1,1,1,3), 1)
+# 2nd EXAMPLE!
 }

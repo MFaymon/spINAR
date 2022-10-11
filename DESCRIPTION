@@ -1,21 +1,22 @@
 Package: spINAR
 Type: Package
-Title: The 'spINAR' package
-Version: 0.1.0
+Title: Estimation of semiparametric integer autoregressive models
+Version: 0.0.1
 Authors@R: c(person(given = "Maxime",
            family = "Faymonville",
            role = c("aut", "cre"),
            email = "faymonville@statistik.tu-dortmund.de"),
-    person(given = "Jonas",
-           family = "Rieger",
-           role = "ctb",
-           email = "rieger@statistik.tu-dortmund.de"),
     person(given = "Javiera",
            family = "Riffo",
-           role = "ctb",
-           email = "javiera.riffo@tu-dortmund.de"))
+           role = "aut",
+           email = "javiera.riffo@tu-dortmund.de"),
+    person(given = "Jonas",
+           family = "Rieger",
+           role = "aut",
+           email = "rieger@statistik.tu-dortmund.de",
+           comment = c(ORCID = "0000-0002-0007-4478")))
 Maintainer: Maxime Faymonville <faymonville@statistik.tu-dortmund.de>
-Description: The 'spINAR' package is a set of functions used for the following tasks.
+Description: A set of functions used for the following tasks.
     1. Simulate INAR(p) data with arbitrary innovation distributions (parametric family or probability mass function).
     2. Semiparametric estimation of INAR(p) model.
     3. Semiparametric INAR Boostrap.
@@ -29,7 +30,7 @@ Imports:
 	checkmate (>= 1.8.5),
 	stats
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.0
 URL: https://github.com/MFaymon/spINAR
 BugReports: https://github.com/MFaymon/spINAR/issues
 Suggests: 
@@ -38,6 +39,3 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
-
-
-
