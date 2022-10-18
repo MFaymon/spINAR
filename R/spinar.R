@@ -23,8 +23,7 @@ spinar <- function(x, p) {
   checkmate::assert_integerish(x, min.len = p+1)
   xmax <- max(x)
   if (max(x) == min(x)){
-    #parameters <- c(c(1, 0)[0:1 + (p==2)], rep(0, xmax), 1) # is this correct??
-    parameters <- c(1, 0[p==2], rep(0, xmax), 1) # this is better to read
+    parameters <- c(1, 0[p==2], 1, rep(0, xmax))
   }
   else {
   est <-

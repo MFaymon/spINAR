@@ -16,8 +16,8 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 The spINAR package:
 
-  + It provides an efficient semiparametric estimation of autoregressive parameters and the innovation distribution for the integer-valued autoregressive model of order $p$ (INAR($p$)) for $p \in \{1,2\}$.
-  + The estimation of the parameters are obtained by maximizing the conditional likelihood of the model.
+  + It provides an efficient semiparametric estimation of the autoregressive parameters and the innovation distribution for the integer-valued autoregressive model of order $p$ (INAR($p$)) for $p \in \{1,2\}$.
+  + The estimation of the parameters is conducted by maximizing the conditional likelihood of the model.
   
 ```{r setup}
 library(spINAR)
@@ -26,7 +26,7 @@ set.seed(1234)
 
 ## INAR(1)
 
-First, we create the function `pinar1` to generate INAR(1) data with poisson distributed innovations, where we take initialization $x_0 = 0$. The function `pinar1` take three arguments:
+First, we create the function `pinar1` to generate INAR(1) data with poisson distributed innovations, where we use $x_0 = 0$ as initialization. The function `pinar1` take three arguments:
 
 1. `n`: sample size.
 2. `alpha`: true INAR(1) coefficient.
@@ -51,44 +51,44 @@ n <- 1000
 alpha <- 0.5
 lambda <- 1
 data_p1 <- pinar1(n, alpha, lambda)
-str(data_p1)
-```
-```{r fig.align = 'center'}
-hist(data_p1, freq=TRUE, breaks=max(data_p1)+4, col='gray')
 ```
 
-The `spinar` function in the `spINAR` returns a vector jointly containing the following two entities:
+```{r fig.align = 'center'}
+barplot(table(data_p1))
+```
+
+The `spinar` function in the `spINAR` package returns a vector jointly containing the following two entities:
 
   + estimated autoregressive coefficients $\hat\alpha_1,\ldots, \hat\alpha_p$, where $\hat\alpha_i \in (0,1), \, \forall i \in \{1, \ldots, p\}$.
-  + estimated entries of the probability mass function of the innovation distribution denoted with $\hat g(0), \hat g(1), \ldots$ with $\hat g(i) \in [0,1] \, \forall i \in \{0,1, \ldots\}$ and $\sum_{i=1}^{\infty} \hat g(i) =1$.
+  + estimated entries of the probability mass function of the innovation distribution denoted with $\hat g(0), \hat g(1), \ldots$ with $\hat g(i) \in [0,1] \, \forall i \in \{0,1, \ldots\}$ and $\sum_i \hat g(i) =1$.
   
 ```{r}
-sim_p1 <- spinar(data_p1, 1)
-str(sim_p1)
+est_p1 <- spinar(data_p1, 1)
+str(est_p1)
 ```
 
-Here, we get $\hat \alpha_1 =$ `r round(sim_p1[1],4)` and $\hat g(0) =$ `r round(sim_p1[2],4)`, $\hat g(1) =$ `r round(sim_p1[3],4)`, $\hat g(2) =$ `r round(sim_p1[4],4)`, $\hat g(3) =$ `r round(sim_p1[5],4)`, , $\hat g(4) =$ `r round(sim_p1[6],4)`, $\hat g(5) =$ `r round(sim_p1[7],4)`, $\hat g(6) =$ `r round(sim_p1[8],4)`, $\hat g(7) =$ `r round(sim_p1[9],4)`.
+Here, we get (rounded to four decimal places) $\hat \alpha_1 =$ `r round(est_p1[1],4)` and $\hat g(0) =$ `r round(est_p1[2],4)`, $\hat g(1) =$ `r round(est_p1[3],4)`, $\hat g(2) =$ `r round(est_p1[4],4)`, $\hat g(3) =$ `r round(est_p1[5],4)`, , $\hat g(4) =$ `r round(est_p1[6],4)`, $\hat g(5) =$ `r round(est_p1[7],4)`, $\hat g(6) =$ `r round(est_p1[8],4)`, $\hat g(7) =$ `r round(est_p1[9],4)`and $\hat g(8) =$ `r round(est_p1[10],4)`.
 
-The squared $L_2$ distance between the `sim_p1` and the true distribution is given as follows. 
+The squared $L_2$ distance between the estimated and the true innovation distribution is given as follows. 
 ```{r}
-sum((sim_p1-c(alpha, dpois(0:(length(sim_p1)-2),lambda)))^2)
+sum((est_p1-c(alpha, dpois(0:(length(est_p1)-2),lambda)))^2)
 ```
 These results show that:
 
-1. The small resulting value for the squared $L_2$ distance `r round( sum((sim_p1-c(alpha, dpois(0:(length(sim_p1)-2),lambda)))^2) , 4)` indicates a good estimation performance.
+1. The small resulting value for the squared $L_2$ distance of approximately `r round( sum((est_p1-c(alpha, dpois(0:(length(est_p1)-2),lambda)))^2) , 4)` indicates a good estimation performance.
 
-2. The estimated values resulting from using the `spinar` function are:
+2. The estimated values resulting from using the `spinar` function are (rounded to four decimal places):
 
-  * $\hat\alpha_1 =$ `r round(sim_p1[1],4)`, which is close to the true value  $\alpha = 0.5$.
+  * $\hat\alpha_1 =$ `r round(est_p1[1],4)`, which is close to the true value  $\alpha_1 = 0.5$.
   
-  * The estimated entries of the probability mass function of the innovation distribution denoted by $\{g(i), i \in \{0,1, \ldots\}\}$, where $\hat g(0) =$ `r round(sim_p1[2],4)`, $\hat g(1) =$ `r round(sim_p1[3],4)`, 
-$\hat g(2) =$ `r round(sim_p1[4],4)`, 
-$\hat g(3) =$ `r round(sim_p1[5],4)`,
-$\hat g(4) =$ `r round(sim_p1[6],4)`, 
-$\hat g(5) =$ `r round(sim_p1[7],4)`,
-$\hat g(6) =$ `r round(sim_p1[9],4)`, 
-$\hat g(7) =$ `r round(sim_p1[10],4)`with $\sum_{i=0}^{7} \hat g(i) =$ 
-`r round(sum(sim_p1[-1]),4)`.
+  * The estimated entries of the probability mass function of the innovation distribution denoted by $\{g(i), i \in \{0,1, \ldots\}\}$, where $\hat g(0) =$ `r round(est_p1[2],4)`, $\hat g(1) =$ `r round(est_p1[3],4)`, 
+$\hat g(2) =$ `r round(est_p1[4],4)`, 
+$\hat g(3) =$ `r round(est_p1[5],4)`,
+$\hat g(4) =$ `r round(est_p1[6],4)`, 
+$\hat g(5) =$ `r round(est_p1[7],4)`,
+$\hat g(6) =$ `r round(est_p1[8],4)`, 
+$\hat g(7) =$ `r round(est_p1[9],4)`,
+$\hat g(8) =$ `r round(est_p1[10],4)`, with $\sum_{i=0}^{8} \hat g(i) =$ `r round(sum(est_p1[-1]),4)`.
 
 
 
@@ -120,39 +120,38 @@ data_p2 <- pinar2(n, alpha1, alpha2, lambda2)
 ```
 
 ```{r fig.align = 'center'}
-hist(data_p2, freq=TRUE, breaks=max(data_p2)+5, col='gray')
+barplot(table(data_p2))
 ```
 
 ```{r}
-sim_p2 <- spinar(data_p2, 2)
+est_p2 <- spinar(data_p2, 2)
 ```
 
 ```{r}
-sum((sim_p2-c(alpha1, alpha2, dpois(0:(length(sim_p2)-3),lambda2)))^2)
+sum((est_p2-c(alpha1, alpha2, dpois(0:(length(est_p2)-3),lambda2)))^2)
 ```
 
 These results show that:
 
-1. The small resulting value for the squared $L_2$ distance `r round( sum((sim_p2-c(alpha1, alpha2, dpois(0:(length(sim_p2)-3),lambda2)))^2) , 4)` indicates a good estimation performance.
+1. The small resulting value for the squared $L_2$ distance of approximately `r round( sum((est_p2-c(alpha1, alpha2, dpois(0:(length(est_p2)-3),lambda2)))^2) , 4)` indicates a good estimation performance.
 
-2. The estimated values resulting from using the `spinar` function are:
+2. The estimated values resulting from using the `spinar` function are (rounded to four decimal places):
 
-  * $\hat \alpha_1 =$ `r round(sim_p2[1],4)`, and $\hat \alpha_2 =$ `r round(sim_p2[2],4)` which are close to the true values  $\lambda_1 = 0.4$ and $\lambda_2 = 0.2$.
+  * $\hat \alpha_1 =$ `r round(est_p2[1],4)`, and $\hat \alpha_2 =$ `r round(est_p2[2],4)` which are close to the true values  $\alpha_1 = 0.4$ and $\alpha_2 = 0.2$.
   
   * The estimated entries of the probability mass function of the innovation distribution denoted by $\{g(i), i \in \{0,1, \ldots\}\}$, where
-$\hat g(0) =$ `r round(sim_p2[3],4)`,
-$\hat g(1) =$ `r round(sim_p2[4],4)`,
-$\hat g(2) =$ `r round(sim_p2[5],4)`,
-$\hat g(3) =$ `r round(sim_p2[6],4)`,
-$\hat g(4) =$ `r round(sim_p2[7],4)`,
-$\hat g(5) =$ `r round(sim_p2[8],4)`,
-$\hat g(6) =$ `r round(sim_p2[9],4)`, 
-$\hat g(7) =$ `r round(sim_p2[10],4)`,
-$\hat g(8) =$ `r round(sim_p2[11],4)`,
-$\hat g(9) =$ `r round(sim_p2[12],4)`,
-$\hat g(10) =$ `r round(sim_p2[13],4)`,
-$\hat g(11) =$ `r round(sim_p2[14],4)`
-with $\sum_{i=1}^{12} \pi_i =$`r round(sum(sim_p1[-(1:2)]),4)`.
+$\hat g(0) =$ `r round(est_p2[3],4)`,
+$\hat g(1) =$ `r round(est_p2[4],4)`,
+$\hat g(2) =$ `r round(est_p2[5],4)`,
+$\hat g(3) =$ `r round(est_p2[6],4)`,
+$\hat g(4) =$ `r round(est_p2[7],4)`,
+$\hat g(5) =$ `r round(est_p2[8],4)`,
+$\hat g(6) =$ `r round(est_p2[9],4)`, 
+$\hat g(7) =$ `r round(est_p2[10],4)`,
+$\hat g(8) =$ `r round(est_p2[11],4)`,
+$\hat g(9) =$ `r round(est_p2[12],4)`,
+$\hat g(10) =$ `r round(est_p2[13],4)`,
+$\hat g(11) =$ `r round(est_p2[14],4)` with $\sum_{i=0}^{11} \hat g(i) =$ `r round(sum(est_p2[-(1:2)]),4)`.
 
 
 
