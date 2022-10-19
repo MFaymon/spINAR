@@ -73,6 +73,21 @@ The squared $L_2$ distance between the estimated and the true innovation distrib
 ```{r}
 sum((est_p1-c(alpha, dpois(0:(length(est_p1)-2),lambda)))^2)
 ```
+
+The convergence to the true parameter $\alpha$ is presented in the following graph.
+```{r}
+alphaList_inar1 <- c()
+Yaxis_inar1 <- c(c(10, 25, 50), seq(50,n, 50))
+for (m in Yaxis_inar1){
+  alphaList_inar1 <- append(alphaList_inar1, spinar(pinar1(m, alpha, lambda), 1)[1])
+}
+```
+
+```{r}
+plot(Yaxis_inar1, alphaList_inar1, xlab="sample size", ylab="alpha", main = "Convergence of alpha INAR(1)")
+abline(h=0.5, col="blue")
+```
+
 These results show that:
 
 1. The small resulting value for the squared $L_2$ distance of approximately `r round( sum((est_p1-c(alpha, dpois(0:(length(est_p1)-2),lambda)))^2) , 4)` indicates a good estimation performance.
@@ -90,7 +105,7 @@ $\hat g(6) =$ `r round(est_p1[8],4)`,
 $\hat g(7) =$ `r round(est_p1[9],4)`,
 $\hat g(8) =$ `r round(est_p1[10],4)`, with $\sum_{i=0}^{8} \hat g(i) =$ `r round(sum(est_p1[-1]),4)`.
 
-
+3. About the convergence in parameter $\alpha$. We see that on average, the bigger the sample size, the better is the estimation.
 
 ## INAR(2)
 
@@ -130,6 +145,29 @@ est_p2 <- spinar(data_p2, 2)
 ```{r}
 sum((est_p2-c(alpha1, alpha2, dpois(0:(length(est_p2)-3),lambda2)))^2)
 ```
+The convergence to the true parameter $\alpha$ is presented in the following graph.
+```{r}
+alpha1List_inar2 <- c()
+alpha2List_inar2 <- c()
+Yaxis_inar2 <- c(c(10, 25, 50), seq(50, n, 50))
+for (m in Yaxis_inar2){
+  input_pinar2 <- pinar2(m, alpha1, alpha2, lambda2)
+  input_inar2 <- spinar(input_pinar2,2)
+  alpha1List_inar2 <- append(alpha1List_inar2, input_inar2[1])
+  alpha2List_inar2 <- append(alpha2List_inar2, input_inar2[2])
+}
+```
+
+```{r}
+par(mfrow=c(1,2)) 
+
+plot(Yaxis_inar2, alpha1List_inar2, xlab="sample size", ylab="alpha1")
+abline(h = alpha1, col = "blue")
+
+title("Convergence of alpha INAR(2)", line = 1, adj = 0.2)
+plot(Yaxis_inar2, alpha2List_inar2, xlab="sample size", ylab="alpha2")
+abline(h = alpha2, col = "blue")
+```
 
 These results show that:
 
@@ -153,5 +191,6 @@ $\hat g(9) =$ `r round(est_p2[12],4)`,
 $\hat g(10) =$ `r round(est_p2[13],4)`,
 $\hat g(11) =$ `r round(est_p2[14],4)` with $\sum_{i=0}^{11} \hat g(i) =$ `r round(sum(est_p2[-(1:2)]),4)`.
 
+3. About the convergence in parameter $\alpha$. We see that on average, the bigger the sample size the better is the estimation for $\alpha_1$ and $\alpha_2$.
 
 
