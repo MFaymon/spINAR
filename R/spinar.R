@@ -19,11 +19,11 @@
 
 spinar <- function(x, p) {
   # constraints for input
-  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1)
+  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   checkmate::assert_integerish(x, min.len = p+1)
   xmax <- max(x)
   if (max(x) == min(x)){
-    parameters <- c(1, 0[p==2], 1, rep(0, xmax))
+    parameters <- c(1, rep(0, p-1), 1, rep(0, xmax))
   }
   else {
   est <-
