@@ -32,7 +32,9 @@ spinar <- function(x, p) {
       f = llspinar[[p]],
       grad = NULL,
       ui = .constrmat(p, xmax),
-      ci = .constrvec(p, xmax),
+      # substracting the corresponding smallest value
+      # to be in the feasible region ui %*% theta - ci >= 0
+      ci = .constrvec(p, xmax) + min(0, - 1e-5 + .constrmat(p, xmax) %*% c(pmax(1e-5, acf(x, plot = FALSE)$acf[seq_len(p)+1]), rep(1 / (xmax + 1), xmax)) - .constrvec(p, xmax)),
       dat = x
     ))
   parameters <- est$par
