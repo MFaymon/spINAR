@@ -5,16 +5,16 @@
 
 ## INAR(1) 
 
-sp_inar1 <- function(n, alpha, pmf) {
+sp_inar1 <- function(n, alpha, pmf, prerun = 500) {
   if(sum(pmf) != 1){warning("Sum of pmf entries has been standardized to 1.")}
   pmf <- pmf/sum(pmf)
-  err <- sample(0:(length(pmf)-1), n, replace = TRUE, prob = pmf)
-  x <- numeric(n)
+  err <- sample(0:(length(pmf)-1), n + prerun, replace = TRUE, prob = pmf)
+  x <- numeric(n + prerun)
   x[1] <- err[1]
-  for (i in 2:n) {
+  for (i in 2:(n + prerun)) {
     x[i] <- rbinom(1, x[i - 1], alpha) + err[i]
   }
-  return(x)
+  return(x[-seq_len(prerun)])
 }
 
 # small examples
@@ -30,18 +30,18 @@ sp_inar1(n, alpha, c(0.1,0.5,0.2)) #warning
 
 # small exmaples
 
-sp_inar2 <- function(n, alpha1, alpha2, pmf) {
+sp_inar2 <- function(n, alpha1, alpha2, pmf, prerun = 500) {
   if(sum(pmf) != 1){warning("Sum of pmf entries has been standardized to 1.")}
   pmf <- pmf/sum(pmf)
-  err <- sample(0:(length(pmf)-1), n, replace = TRUE, prob = pmf)
-  x <- numeric(n)
+  err <- sample(0:(length(pmf)-1), n + prerun, replace = TRUE, prob = pmf)
+  x <- numeric(n + prerun)
   x[1] <- err[1]
   x[2] <- x[1] + err[2]
-  for (i in 3:n) {
+  for (i in 3:(n + prerun)) {
     x[i] <-
       rbinom(1, x[i - 1], alpha1) + rbinom(1, x[i - 2], alpha2) + err[i]
   }
-  return(x)
+  return(x[-seq_len(prerun)])
 }
 
 n <- 1000
