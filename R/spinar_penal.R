@@ -1,7 +1,19 @@
-spinar_penal <- function(x, p, penal1=0, penal2=0) { #default: no penalization at all
+#' Penalized (semiparametric) estimation of INAR(p) model.
+#'
+#' @param x : data
+#' @param p : parameter of the INAR(p)
+#' @param penal1 : default value penal1=0 meaning no penalization.
+#' @param penal2 : default value penal2=0 meaning no penalization.
+#'
+#' @return parameters
+#' @export
+#'
+#' @examples
+spinar_penal <- function(x, p, penal1=0, penal2=0) {
   # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   checkmate::assert_integerish(x, min.len = p+1)
+  checkmate::assert_numeric(penal1, len = 1)
   xmax <- max(x)
   if(p==1){
     theta <- c(max(acf(x, plot = FALSE)$acf[p+1], 1e-5), rep(1 / (xmax + 1), xmax))
