@@ -1,0 +1,68 @@
+---
+title: "vignette_spinal_penal"
+author: "Javiera"
+date: "10/28/2022"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Penalized (semiparametric) estimation of INAR(p) model.
+
+```{r, cache = TRUE}
+dat <- spINAR::spinar_sim(n = 100, p=1, alpha = 0.5, pmf = dpois(0:20,1))
+```
+
+```{r, cache=TRUE}
+set.seed(199)
+unpenal <- spINAR::spinar(dat,1)
+set.seed(199)
+penal00 <- spINAR::spinar_penal(dat,1,0,0)
+set.seed(199)
+penal10 <- spINAR::spinar_penal(dat,1,1,0)
+set.seed(199)
+penal01 <- spINAR::spinar_penal(dat,1,0,1)
+set.seed(199)
+penalhh <- spINAR::spinar_penal(dat,1,0.5,0.5)
+```
+
+```{r}
+par(mfrow=c(3,2))
+barplot(penal00[-1], main="no penalization", ylim=c(0,0.5))
+barplot(penal10[-1], main="only L1", ylim=c(0,0.5))
+barplot(penal01[-1], main="only L2", ylim=c(0,0.5))
+barplot(penalhh[-1], main="L1 and L2", ylim=c(0,0.5))
+barplot(dpois(0:6,1), main="truth", ylim=c(0,0.5))
+```
+
+```{r, cache =TRUE}
+dat <- spINAR::spinar_sim(n = 1000, p = 1, alpha = 0.5, pmf = dpois(0:20,1))
+```
+
+```{r, cache = TRUE}
+set.seed(199)
+unpenal <- spINAR::spinar(dat,1)
+set.seed(199)
+penal00 <- spINAR::spinar_penal(dat,1,0,0)
+set.seed(199)
+penal10 <- spINAR::spinar_penal(dat,1,1,0)
+set.seed(199)
+penal01 <- spINAR::spinar_penal(dat,1,0,1)
+set.seed(199)
+penalhh <- spINAR::spinar_penal(dat,1,0.5,0.5)
+```
+
+
+```{r}
+par(mfrow=c(3,2))
+barplot(penal00[-1], main="no penalization", ylim=c(0,0.5))
+barplot(penal10[-1], main="only L1", ylim=c(0,0.5))
+barplot(penal01[-1], main="only L2", ylim=c(0,0.5))
+barplot(penalhh[-1], main="L1 and L2", ylim=c(0,0.5))
+barplot(dpois(0:6,1), main="truth", ylim=c(0,0.5))
+```
+
