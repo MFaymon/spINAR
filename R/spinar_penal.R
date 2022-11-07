@@ -1,14 +1,24 @@
-#' Penalized (semiparametric) estimation of INAR(p) model.
+#' @title Penalized (semiparametric) estimation of INAR(p) model.
 #'
-#' @param x : data
-#' @param p : parameter of the INAR(p)
-#' @param penal1 : default value penal1=0 meaning no penalization.
-#' @param penal2 : default value penal2=0 meaning no penalization.
+#' @description
+#'
+#' @param x [\code{integer}]\cr
+#' vector of integer values corresponding to the data.
+#' @param p [\code{integer(1)}]\cr
+#' lag of the INAR(p) where \code{p in \{1,2\}}.
+#' @param penal1
+#' default value penal1=0 meaning no penalization.
+#' @param penal2
+#' default value penal2=0 meaning no penalization.
 #'
 #' @return parameters
 #' @export
 #'
 #' @examples
+#' ### data generated
+#' dat <- spinar_sim(n = 100, p=1, alpha = 0.5, pmf = dpois(0:20,1))
+#' ## penalized spinar
+#' spinar_penal(dat,1,0.5,0.5)
 spinar_penal <- function(x, p, penal1=0, penal2=0) {
   # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
@@ -46,52 +56,6 @@ spinar_penal <- function(x, p, penal1=0, penal2=0) {
   return(parameters)
 }
 
-# small running examples
 
-n <- 100
-alpha <- 0.5
-
-dat <- sp_inar1(n, alpha, dpois(0:20,1))
-
-set.seed(199)
-unpenal <- spinar(dat,1)
-set.seed(199)
-penal00 <- spinar_penal(dat,1,0,0)
-set.seed(199)
-penal10 <- spinar_penal(dat,1,1,0)
-set.seed(199)
-penal01 <- spinar_penal(dat,1,0,1)
-set.seed(199)
-penalhh <- spinar_penal(dat,1,0.5,0.5)
-
-par(mfrow=c(3,2))
-barplot(penal00[-1], main="no penalization", ylim=c(0,0.5))
-barplot(penal10[-1], main="only L1", ylim=c(0,0.5))
-barplot(penal01[-1], main="only L2", ylim=c(0,0.5))
-barplot(penalhh[-1], main="L1 and L2", ylim=c(0,0.5))
-barplot(dpois(0:6,1), main="truth", ylim=c(0,0.5))
-
-n <- 1000
-alpha <- 0.5
-
-dat <- sp_inar1(n, alpha, dpois(0:20,1))
-
-set.seed(199)
-unpenal <- spinar(dat,1)
-set.seed(199)
-penal00 <- spinar_penal(dat,1,0,0)
-set.seed(199)
-penal10 <- spinar_penal(dat,1,1,0)
-set.seed(199)
-penal01 <- spinar_penal(dat,1,0,1)
-set.seed(199)
-penalhh <- spinar_penal(dat,1,0.5,0.5)
-
-par(mfrow=c(3,2))
-barplot(penal00[-1], main="no penalization", ylim=c(0,0.5))
-barplot(penal10[-1], main="only L1", ylim=c(0,0.5))
-barplot(penal01[-1], main="only L2", ylim=c(0,0.5))
-barplot(penalhh[-1], main="L1 and L2", ylim=c(0,0.5))
-barplot(dpois(0:6,1), main="truth", ylim=c(0,0.5))
 
 

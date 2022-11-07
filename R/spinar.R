@@ -6,7 +6,7 @@
 #' @param x [\code{integer}]\cr
 #' vector of integer values corresponding to the data used for estimating the parameters via maximum likelihood.
 #' @param p [\code{integer(1)}]\cr
-#' Lag of the INAR(p) where \code{p in \{1,2\}}
+#' lag of the INAR(p) where \code{p in \{1,2\}}
 #'
 #' @return parameters [\code{numeric(p+max(x)+1)}]\cr
 #'
