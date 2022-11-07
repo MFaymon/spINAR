@@ -41,6 +41,8 @@ spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
   }
   # case p = 2
   else {
+    alpha1 <- alpha[1]
+    alpha2 <- alpha[2]
     x[2] <- x[1] + err[2]
     for (i in 3:(n + prerun)) {
       x[i] <-
