@@ -23,8 +23,6 @@ llspinar <- list(
     alpha2 <- par[2]
     pmf <- par[-(1:2)]
     pmf <- c(1 - sum(pmf), pmf)
-    
-    #Conditional likelihood:
     value <- 0
     for (t in c(3:T)) {
       cp <- 0

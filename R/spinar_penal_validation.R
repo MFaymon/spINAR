@@ -1,31 +1,51 @@
-#' @title Validation Penalized (semiparametric) estimation of INAR(p) model.
+#' @title Validation of the Penalization Parameters of the Penalized Semiparametric Estimation of INAR(p) Model
 #'
 #' @description
+#' Performs a validation of one or both penalization parameters of the penalized semiparametric estimation of INAR(p) models,
+#' \code{p in {1,2}}. If no validation is wanted, the function coincides to the spinar_penal function of this package. 
 #'
 #' @param x
-#' vector of integer values corresponding to the data used for the `spinar_penal`.
+#' vector of integer values corresponding to the data
 #' @param p
-#' lag of the INAR(p) where \code{p in \{1,2\}}.
+#' order of the INAR model, where \code{p in \{1,2\}}
 #' @param validation
-#' TRUE or FALSE depending on whether validation is wanted.
+#' TRUE or FALSE depending on whether validation is wanted
 #' @param penal1
-#' penalization parameter for L1 penalization. It will be ignored if validation = TRUE and over = both, for validation = TRUE and over = L1 only one will be ignored; are mandatory if validation = FALSE.
+#' penalization parameter for L1 penalization
+#' It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L1.
+#' It is mandatory if validation = FALSE.
 #' @param penal2
-#' penalization parameter for L2 penalization. It will be ignored if validation = TRUE and over = both, for validation = TRUE and over = L2 only one will be ignored; are mandatory if validation = FALSE.
+#' penalization parameter for L2 penalization
+#' It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L2.
+#' It is mandatory if validation = FALSE.
 #' @param over
-#' mandatory if validation = TRUE, otherwise it will be ignored, answers whether validation for penal1 (L1) or penal2 (L2) or both (both) is wanted (error if over is not one of these three).
+#' answers whether validation for penal1 (L1) or penal2 (L2) or both (both) is wanted (error if over is not one of these three)
+#' mandatory if validation = TRUE, otherwise it will be ignored
 #' @param folds
-#' number of folds for cross validation.
+#' number of folds for cross validation
 #' @param init1
-#' initial values for penal1 in validation. Default value is init1 = 1.
+#' initial value for penal1 in validation. Default value is init1 = 1
+#' Will be ignored if validation = FALSE or over = L2
 #' @param init2
-#' initial values for penal2 in validation. Default value is init2 = 1.
-#'
-#' @return parameters
+#' initial value for penal2 in validation. Default value is init2 = 1
+#' ill be ignored if validation = FALSE or over = L1
+#' @return estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
+#' where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
+#' and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution, 
+#' where \code{pmf[i]} denotes the probability of observing value i
+#' Validated penalization parameter(s).
 #' @export
 #'
 #' @examples
-spinar_penal_wrapper <- function(x, p, validation, penal1, penal2, over, folds = 10, init1 = 1, init2 = 1){
+#' ### data generation
+#' dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
+#' ## penalized semiparametric estimation with validation over both penalization parameters
+#' spinar_penal_val(dat, 1, validation=TRUE, over="both")
+#' ### data generation
+#' dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
+#' ## penalized semiparametric estimation with validation over L1 penalization parameter
+#' spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
+spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10, init1 = 1, init2 = 1){
   # also allow for window?: length of window around penal values -> ???
   # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
   # documentation that unpenalized estimation is performed for validation = FALSE and no values set for penal1 and

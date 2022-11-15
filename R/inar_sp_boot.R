@@ -1,24 +1,26 @@
-#' @title Semiparametric Integer Autoregressive Boostrap model.
+#' @title Semiparametric Integer Autoregressive Bootstrap Procedure
 #'
 #' @description
 #'
 #' @param x [\code{integer}]\cr
-#' vector of integer values corresponding to the data used for estimate the parameter using `spinar_est` function.
+#' vector of integer values corresponding to the data
 #' @param p [\code{integer(1)}]\cr
-#' lag of the INAR(p) where \code{p in \{1,2\}}
+#' order of the INAR model, where \code{p in \{1,2\}}
 #' @param B [\code{integer(1)}]\cr
+#' number of bootstrap repetitions
 #'
-#' @return parameters
+#' @return bootstrap estimated parameters (INAR coefficients and pmf)
 #' @export
 #'
 #' @examples
 #' ### simulating data of INAR(1)
 #' dat <- spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
-#' ## Spinar bootstrap
-#' spinar_boot(dat, 1, 10)
+#' ### semiparametric INAR bootstrap
+#' spinar_boot(dat, 1, 100)
 #' ### simulating data of INAR(2)
 #' dat <- spinar_sim(n=500, p = 2, alpha = c(0.3, 0.2), pmf = dpois(0:10,1.5))
-#' spinar_boot(dat, 2, 10)
+#' ### semiparametric INAR bootstrap
+#' spinar_boot(dat, 2, 100)
 spinar_boot <- function(x, p, B){ #later: add arguments about which estimation the user wants to perform
   parameters <- spinar_est(x, p)
   parameters_star <- list()
