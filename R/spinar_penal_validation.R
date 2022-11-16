@@ -2,11 +2,11 @@
 #'
 #' @description
 #' Performs a validation of one or both penalization parameters of the penalized semiparametric estimation of INAR(p) models,
-#' \code{p in {1,2}}. If no validation is wanted, the function coincides to the spinar_penal function of this package. 
+#' \code{p in {1,2}}. If no validation is wanted, the function coincides to the spinar_penal function of this package.
 #'
-#' @param x
+#' @param x [\code{integer}]\cr
 #' vector of integer values corresponding to the data
-#' @param p
+#' @param p [\code{integer(1)}]\cr
 #' order of the INAR model, where \code{p in \{1,2\}}
 #' @param validation
 #' TRUE or FALSE depending on whether validation is wanted
@@ -31,7 +31,7 @@
 #' ill be ignored if validation = FALSE or over = L1
 #' @return estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
 #' where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
-#' and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution, 
+#' and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
 #' where \code{pmf[i]} denotes the probability of observing value i
 #' Validated penalization parameter(s).
 #' @export

@@ -1,8 +1,18 @@
-# parametric estimation of INAR models
-# for now only moment-based
-
+#' Parametric estimation of INAR models
+#' @description for now only moment-based
+#' @param x [\code{integer}]\cr
+#' vector of integer values corresponding to the data
+#' @param p [\code{integer(1)}]\cr
+#' order of the INAR model, where \code{p in \{1,2\}}
+#' @param type
+#' @param distr
+#'
+#' @return
+#' @export
+#'
+#' @examples
 spinar_est_param <- function(x, p, type, distr){
-  # to do: 
+  # to do:
   # ensure that p is either 1 or 2, ifnot issue warning
   # ensure that data is only integer, ifnot warning
   # ensure that type is either mom or ml
@@ -10,14 +20,14 @@ spinar_est_param <- function(x, p, type, distr){
   # in documentation: parameters of poi: lambda
   # in documentation: parameters of geo: prob
   # in documentation: parameters of nb: r, prob
-  
+
   if(type=="mom"){
     # ensure that the following 4 values are inbetween 0 and 1
     eacf1 <-acf(x, plot=FALSE)$acf[2]
     eacf2 <- acf(x, plot=FALSE)$acf[3]
     ealpha2 <- (eacf2-eacf1^2)/(1-eacf1^2)
     ealpha1 <- (1-ealpha2)*eacf1
-  
+
     if(p==1 && distr=="poi"){
       alpha1_hat <- eacf1
       lambda <- mean(x)*(1-alpha1_hat)
@@ -43,14 +53,14 @@ spinar_est_param <- function(x, p, type, distr){
     if(p==1 && distr=="nb"){
       alpha1_hat <- eacf1
       prob <- mean(x)/(var(x)*(1+alpha1_hat)-alpha1_hat*mean(x))
-      r <- round((mean(x)*prob*(1-alpha1_hat))/(1-prob)) 
+      r <- round((mean(x)*prob*(1-alpha1_hat))/(1-prob))
       param <- c("alpha1"=alpha1_hat, "r"=r, "prob"=prob)
     }
     if(p==2 && distr=="nb"){
       alpha1_hat <- ealpha1
       alpha2_hat <- ealpha2
       prob <- mean(x)/(var(x)*(1+alpha1_hat+alpha2_hat)-(alpha1_hat +alpha2_hat)*mean(x))
-      r <- round((mean(x)*prob*(1-alpha1_hat-alpha2_hat))/(1-prob)) 
+      r <- round((mean(x)*prob*(1-alpha1_hat-alpha2_hat))/(1-prob))
       param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "r"=r, "prob"=prob)
     }
   }
