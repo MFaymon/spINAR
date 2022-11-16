@@ -2,30 +2,34 @@
 % Please edit documentation in R/spinar_penal.R
 \name{spinar_penal}
 \alias{spinar_penal}
-\title{Penalized (semiparametric) estimation of INAR(p) model.}
+\title{Penalized Semiparametric Estimation of INAR(p) Model.}
 \usage{
 spinar_penal(x, p, penal1 = 0, penal2 = 0)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
-vector of integer values corresponding to the data.}
+vector of integer values corresponding to the data}
 
 \item{p}{[\code{integer(1)}]\cr
-lag of the INAR(p) where \code{p in \{1,2\}}.}
+order of the INAR model, where \code{p in \{1,2\}}}
 
-\item{penal1}{default value penal1=0 meaning no penalization.}
+\item{penal1}{L1 penalization parameter (default value zero meaning no L1 penalization)}
 
-\item{penal2}{default value penal2=0 meaning no penalization.}
+\item{penal2}{L2 penalization parameter (default value zero meaning no L2 penalization)}
 }
 \value{
-parameters
+estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
+where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
+and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution, 
+where \code{pmf[i]} denotes the probability of observing value i
 }
 \description{
-
+Performs a penalized semiparametric estimation of the autoregressive parameters and the innovation distribution for INAR models of order \code{p},
+\code{p in {1,2}}, the estimation is conducted by maximizing the penalized conditional likelihood of the model.
 }
 \examples{
-### data generated
-dat <- spinar_sim(n = 100, p=1, alpha = 0.5, pmf = dpois(0:20,1))
-## penalized spinar
-spinar_penal(dat,1,0.5,0.5)
+### data generation
+dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
+## penalized semiparametric estimation
+spinar_penal(dat, 1, 0.2, 0.4)
 }
