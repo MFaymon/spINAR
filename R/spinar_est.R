@@ -46,7 +46,7 @@ spinar_est <- function(x, p) {
     parameters <- c(1, rep(0, p-1), 1, rep(0, xmax))
   }
   else {
-    est <-suppressWarnings(constrOptim(
+    est <- suppressWarnings(constrOptim(
       theta = theta,
       f = llspinar[[p]],
       grad = NULL,
