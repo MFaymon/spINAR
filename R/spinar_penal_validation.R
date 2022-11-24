@@ -68,7 +68,7 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
     parameters <- spinar_penal(x, p)
   } else{
     # separate the data in in and out of sample data
-    n <- length(x)
+    n <- length(x) # issue error message if n/folds < 2 if not: not enough observations for validation
     folds <- 10
 
     ins <- vector(mode = "list", folds)
