@@ -23,25 +23,32 @@ vector of integer values corresponding to the data}
 \item{p}{[\code{integer(1)}]\cr
 order of the INAR model, where \code{p in \{1,2\}}}
 
-\item{validation}{TRUE or FALSE depending on whether validation is wanted}
+\item{validation}{[\code{logical(1)}]\cr
+TRUE or FALSE depending on whether validation is wanted}
 
-\item{penal1}{penalization parameter for L1 penalization
+\item{penal1}{[\code{integer(1)}]\cr
+penalization parameter for L1 penalization
 It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L1.
 It is mandatory if validation = FALSE.}
 
-\item{penal2}{penalization parameter for L2 penalization
+\item{penal2}{[\code{integer(1)}]\cr
+penalization parameter for L2 penalization
 It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L2.
 It is mandatory if validation = FALSE.}
 
-\item{over}{answers whether validation for penal1 (L1) or penal2 (L2) or both (both) is wanted (error if over is not one of these three)
+\item{over}{[\code{string(1)}]\cr
+answers whether validation for penal1 (L1) or penal2 (L2) or both (both) is wanted (error if over is not one of these three)
 mandatory if validation = TRUE, otherwise it will be ignored}
 
-\item{folds}{number of folds for cross validation}
+\item{folds}{[\code{integer(1)}]\cr
+number of folds for cross validation}
 
-\item{init1}{initial value for penal1 in validation. Default value is init1 = 1
+\item{init1}{[\code{integer(1)}]\cr
+initial value for penal1 in validation. Default value is init1 = 1
 Will be ignored if validation = FALSE or over = L2}
 
-\item{init2}{initial value for penal2 in validation. Default value is init2 = 1
+\item{init2}{[\code{integer(1)}]\cr
+initial value for penal2 in validation. Default value is init2 = 1
 ill be ignored if validation = FALSE or over = L1}
 }
 \value{
@@ -57,11 +64,12 @@ Performs a validation of one or both penalization parameters of the penalized se
 }
 \examples{
 ### data generation
-dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
-## penalized semiparametric estimation with validation over both penalization parameters
-spinar_penal_val(dat, 1, validation=TRUE, over="both")
-### data generation
-dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
+# do not run
+# dat <- spinar_sim(1000, 1, 0.5, dpois(0:20,1))
+### penalized semiparametric estimation with validation over both penalization parameters
+# spinar_penal_val(dat, 1, validation=TRUE, over="both")
+#### data generation
+# dat <- spinar_sim(1000, 1, 0.5, dpois(0:20,1))
 ## penalized semiparametric estimation with validation over L1 penalization parameter
-spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
+# spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
 }
