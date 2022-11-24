@@ -2,7 +2,6 @@
 
 export(spinar_boot)
 export(spinar_est)
-export(spinar_est_param)
 export(spinar_penal)
 export(spinar_penal_val)
 export(spinar_sim)
