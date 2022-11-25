@@ -29,11 +29,12 @@
 #' @param init2 [\code{integer(1)}]\cr
 #' initial value for penal2 in validation. Default value is init2 = 1
 #' ill be ignored if validation = FALSE or over = L1
+#'
 #' @return estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
 #' where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
 #' and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
 #' where \code{pmf[i]} denotes the probability of observing value i
-#' Validated penalization parameter(s).
+#'
 #' @export
 #'
 #' @examples
@@ -46,13 +47,15 @@
 #' # dat <- spinar_sim(1000, 1, 0.5, dpois(0:20,1))
 #' ## penalized semiparametric estimation with validation over L1 penalization parameter
 #' # spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
+
+
+
 spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10, init1 = 1, init2 = 1){
   # also allow for window?: length of window around penal values -> ???
   # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
   # documentation that unpenalized estimation is performed for validation = FALSE and no values set for penal1 and
   # penal2 (default = 0) or if the user set them explicitly = 0.
-
-  #maybe keep the function for unpenalized estimation, makes it easier for the user
+  # maybe keep the function for unpenalized estimation, makes it easier for the user
 
   # cite our paper to explain the penalization and the validation (Algorithm 1)? Or explain it shortly in the documentation
   # (and additionally cite the paper?)?
@@ -65,9 +68,11 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
   checkmate::assert_integerish(penal1, min.len = 1, max.len = 1)
   checkmate::assert_integerish(penal2, min.len = 1, max.len = 1,)
   checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both"))) # additionally ensure that over is either 'L1', 'L2' or 'both'
-  checkmate::assert_integerish(folds, lower = ceiling((length(x)/2)), min.len = 1, max.len = 1) # : n/folds (n divided by folds) has to be higher than 2
+  # issue error message if n/folds < 2 if not: not enough observations for validation
+  checkmate::assert_integerish(folds, lower = ceiling((length(x)/2)), min.len = 1, max.len = 1)
   checkmate::assert_integerish(init1, lower = 0, min.len = 1, max.len = 1) # Q: init1 > 0?
   checkmate::assert_integerish(init2, lower = 0, min.len = 1, max.len = 1) # Q: init1 > 0?
+
   if(validation == FALSE){
     # if validation = FALSE, the user has to input values for penal1 and penal2
     # issue a warning if no values for pena1 and penal2 are set -> function takes default values (both zero)
@@ -109,10 +114,8 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
     # if validation = TRUE, input values for penal1 and penal2 will be ignored for over = both and partial for over = L1 or L2 resp.
     # issue a warning about this
     if(over == "L1"){
-      # P : add checkmate inside the if-condition
       # only validation for penal1, the value for penal2 has to be input by the user
       # warning: if not then treated as zero
-      # P: checkmate not all missing values
       if(!missing(penal1)){stop("if over = L1, no value for penal1 allowed")}
       if(missing(penal2)){warning("value for penal2 is missing and is treated as zero")}
       if(missing(penal2)){penal2 <- 0}

@@ -142,6 +142,7 @@ spinar_est_param <- function(x, p, type, distr){
       alpha2_hat <- ealpha2
       prob <- 1/(mean(x)*(1-(alpha1_hat+alpha2_hat))+1)
       param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "prob"=prob)
+      checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
     }
     if(p==1 && distr=="nb"){
       alpha1_hat <- eacf1
@@ -155,10 +156,8 @@ spinar_est_param <- function(x, p, type, distr){
       prob <- mean(x)/(var(x)*(1+alpha1_hat+alpha2_hat)-(alpha1_hat +alpha2_hat)*mean(x))
       r <- round((mean(x)*prob*(1-alpha1_hat-alpha2_hat))/(1-prob))
       param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "r"=r, "prob"=prob)
-    }
-    #warning if alpha_1 + alpha_2 > 1?
+      }
   }
-
   if(type=="ml"){
     if(distr=="poi"){
       if(p==1){
@@ -220,7 +219,10 @@ spinar_est_param <- function(x, p, type, distr){
              param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "r"=round(parameters[3]), "prob"=parameters[4]))
     }
   }
-
+  # warning alpha1 + alpha 2> 1
+  if (p==2){
+    checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
+  }
   return(param)
 }
 
