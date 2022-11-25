@@ -4,24 +4,118 @@
 #' vector of integer values corresponding to the data
 #' @param p [\code{integer(1)}]\cr
 #' order of the INAR model, where \code{p in \{1,2\}}
-#' @param type
-#' @param distr
-#'
-#' @return
+#' @param type [\code{string(1)}]\cr
+#' type of estimation in \code{\{"mom", "ml"\}}
+#' 'mom': moment estimation
+#' 'ml' : maximum likelihood estimation
+#' @param distr [\code{string(1)}]\cr
+#' parametric family of distribution in  \code{\{'poi', 'geo', 'nb'\}}
+#' \code{'poi'}: Poisson distribution with parameter \code{lambda}
+#' \code{'geo'}: Geometric distribution with parameter \code{prob}
+#' \code{'nb'}: Negative binomial distribution with parameters \code{r} and \code{prob}
+#' @return (alpha, parameters)
+#' #' where parameters depends on the distribution
+#' parameters of poi, geo and nb are lambda, prob and (r, prob) respectively.
 #' @export
-#'
 #' @examples
+#' ## Examples
+#' # do not run
+#' # geominar1 <- function(n, alpha, pr){
+#' #   err <- rgeom(n, pr)
+#' #   x <- numeric(n)
+#' #   #initialization x_0 = 0
+#' #   x[1] <- err[1]
+#' #   for(i in 2:n){
+#' #     x[i] <- rbinom(1, x[i-1], alpha) + err[i]
+#' #   }
+#' #   return(x)
+#' # }
+#' # geominar2 <- function(n, alpha1, alpha2, pr){
+#' #   err <- rgeom(n, pr)
+#' #   x <- numeric(n)
+#' #   #initialization x_0 = 0
+#' #   x[1] <- err[1]
+#' #   x[2] <- x[1] + err[2]
+#' #   for(i in 3:n){
+#' #     x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
+#' #   }
+#' #   return(x)
+#' # }
+#' # nbinar1 <- function(n, alpha, nsize, pi){
+#' #   err <- rnbinom(n, nsize, pi)
+#' #   x <- numeric(n)
+#' #   #initialize x_0 = 0
+#' #   x[1] <- err[1]
+#' #   for(i in 2:n){
+#' #     x[i] <- rbinom(1, x[i-1], alpha) + err[i]
+#' #   }
+#' #   return(x)
+#' # }
+#' # nbinar2 <- function(n, alpha1, alpha2, nsize, pi){
+#' #   err <- rnbinom(n, nsize, pi)
+#' #   x <- numeric(n)
+#' #   #initialize x_0 = 0
+#' #   x[1] <- err[1]
+#' #   x[2] <- x[1] + err[2]
+#' #   for(i in 3:n){
+#' #     x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
+#' #   }
+#' #   return(x)
+#' # }
+#' # pinar1 <- function(n, alpha, lambda){
+#' #   err <- rpois(n, lambda)
+#' #   x <- numeric(n)
+#' #   #initialization x_0 = 0
+#' #   x[1] <- err[1]
+#' #   for(i in 2:n){
+#' #     x[i] <- rbinom(1, x[i-1], alpha) + err[i]
+#' #   }
+#' #   return(x)
+#' # }
+#' # pinar2 <- function(n, alpha1, alpha2, lambda){
+#' #   err <- rpois(n, lambda)
+#' #   x <- numeric(n)
+#' #   #initialization
+#' #   x[1] <- err[1]
+#' #   x[2] <- x[1] + err[2]
+#' #   for(i in 3:n){
+#' #     x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
+#' #   }
+#' #   return(x)
+#' # }
+#' dat1 <- pinar1(1000,0.3, 1.4)
+#' # dat2 <- pinar2(1000,0.3, 0.5, 0.8)
+#' # dat3 <- geominar1(1000,0.3, 0.5)
+#' # dat4 <- geominar2(1000, 0.3, 0.15, 0.5)
+#' # dat5 <- nbinar1(1000, 0.4, 5, 0.33)
+#' # dat6 <- nbinar2(1000, 0.3, 0.5, 5, 0.16) #extremely high running time -> exclude?
+#' # spinar_est_param(dat1,1,"mom","poi")
+#' # spinar_est_param(dat1,1,"ml","poi")
+#' # spinar_est_param(dat2,2,"mom","poi")
+#' # spinar_est_param(dat2,2,"ml","poi")
+#' # spinar_est_param(dat3,1,"mom","geo")
+#' # spinar_est_param(dat3,1,"ml","geo")
+#' # spinar_est_param(dat4,2,"mom","geo")
+#' # spinar_est_param(dat4,2,"ml","geo")
+#' # spinar_est_param(dat5,1,"mom","nb")
+#' # spinar_est_param(dat5,1,"ml","nb")
+#' # spinar_est_param(dat6,2,"mom","nb")
+#' # spinar_est_param(dat6,2,"ml","nb")
+# J: This is a good way to write these examples in the description?
+
 
 spinar_est_param <- function(x, p, type, distr){
   # to do:
   # ensure that p is either 1 or 2, ifnot issue warning
+  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   # ensure that data is only integer, ifnot warning
+  checkmate::assert_integerish(x, min.len = p+1, lower = 0)
   # ensure that type is either mom or ml
+  checkmate::assert(checkmate::checkChoice(type, c("mom", "ml")))
   # ensure that distr is either poi, geo or nb
-  # in documentation: parameters of poi: lambda
-  # in documentation: parameters of geo: prob
-  # in documentation: parameters of nb: r, prob
-  # !issue warning in output if the sum of the alphas is higher than 1!
+  checkmate::assert(checkmate::checkChoice(distr, c("poi", "geo", "nb")))
+  #if(!(distr %in% c('poi', 'geo', 'nb'))){warning("distr is either 'poi', 'geo' or 'nb'")}
+  # ensure that the following 4 values are inbetween 0 and 1
   
   # ensure that the following 4 values are inbetween 0 and 1
   eacf1 <- max(acf(x, plot=FALSE)$acf[2], 1e-16)
@@ -167,104 +261,11 @@ spinar_est_param <- function(x, p, type, distr){
       }
     }
   }
-  
-  return(param) #warning if alpha_1 + alpha_2 > 1
-}
-
-
-
-## Examples
-
-geominar1 <- function(n, alpha, pr){
-  err <- rgeom(n, pr)
-  x <- numeric(n)
-  #initialization x_0 = 0
-  x[1] <- err[1]
-  for(i in 2:n){
-    x[i] <- rbinom(1, x[i-1], alpha) + err[i]
+   #warning if alpha_1 + alpha_2 > 1
+  if (p==2){
+    checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
   }
-  return(x)
+  return(param) 
 }
-
-geominar2 <- function(n, alpha1, alpha2, pr){
-  err <- rgeom(n, pr)
-  x <- numeric(n)
-  #initialization x_0 = 0
-  x[1] <- err[1]
-  x[2] <- x[1] + err[2]
-  for(i in 3:n){
-    x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
-  }
-  return(x)
-}
-
-nbinar1 <- function(n, alpha, nsize, pi){
-  err <- rnbinom(n, nsize, pi)
-  x <- numeric(n)
-  #initialize x_0 = 0
-  x[1] <- err[1]
-  for(i in 2:n){
-    x[i] <- rbinom(1, x[i-1], alpha) + err[i]
-  }
-  return(x)
-}
-
-nbinar2 <- function(n, alpha1, alpha2, nsize, pi){
-  err <- rnbinom(n, nsize, pi)
-  x <- numeric(n)
-  #initialize x_0 = 0
-  x[1] <- err[1]
-  x[2] <- x[1] + err[2]
-  for(i in 3:n){
-    x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
-  }
-  return(x)
-}
-
-pinar1 <- function(n, alpha, lambda){
-  err <- rpois(n, lambda)
-  x <- numeric(n)
-  #initialization x_0 = 0
-  x[1] <- err[1]
-  for(i in 2:n){
-    x[i] <- rbinom(1, x[i-1], alpha) + err[i]
-  }
-  return(x)
-}
-
-pinar2 <- function(n, alpha1, alpha2, lambda){
-  err <- rpois(n, lambda)
-  x <- numeric(n)
-  #initialization
-  x[1] <- err[1]
-  x[2] <- x[1] + err[2]
-  for(i in 3:n){
-    x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
-  }
-  return(x)
-}
-
-
-dat1 <- pinar1(1000,0.3, 1.4)
-dat2 <- pinar2(1000,0.3, 0.5, 0.8)
-dat3 <- geominar1(1000,0.3, 0.5)
-dat4 <- geominar2(1000, 0.3, 0.15, 0.5)
-dat5 <- nbinar1(1000, 0.4, 5, 0.33)
-dat6 <- nbinar2(1000, 0.3, 0.5, 5, 0.16) #extremely high running time -> exclude?
-
-spinar_est_param(dat1,1,"mom","poi")
-spinar_est_param(dat1,1,"ml","poi")
-spinar_est_param(dat2,2,"mom","poi")
-spinar_est_param(dat2,2,"ml","poi")
-spinar_est_param(dat3,1,"mom","geo")
-spinar_est_param(dat3,1,"ml","geo")
-spinar_est_param(dat4,2,"mom","geo")
-spinar_est_param(dat4,2,"ml","geo")
-spinar_est_param(dat5,1,"mom","nb")
-spinar_est_param(dat5,1,"ml","nb")
-spinar_est_param(dat6,2,"mom","nb")
-spinar_est_param(dat6,2,"ml","nb")
-
-
 
 
