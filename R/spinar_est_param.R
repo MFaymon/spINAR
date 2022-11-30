@@ -116,8 +116,6 @@ spinar_est_param <- function(x, p, type, distr){
   checkmate::assert(checkmate::checkChoice(distr, c("poi", "geo", "nb")))
   #if(!(distr %in% c('poi', 'geo', 'nb'))){warning("distr is either 'poi', 'geo' or 'nb'")}
   # ensure that the following 4 values are inbetween 0 and 1
-
-  # ensure that the following 4 values are inbetween 0 and 1
   eacf1 <- max(acf(x, plot=FALSE)$acf[2], 1e-16)
   eacf2 <- max(acf(x, plot=FALSE)$acf[3], 1e-16)
   ealpha2 <- max((eacf2-eacf1^2)/(1-eacf1^2), 1e-16)
@@ -126,7 +124,7 @@ spinar_est_param <- function(x, p, type, distr){
   if(type=="mom"){
     if(p==1 && distr=="poi"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "lambda"=0)
+      param <- c("alpha1"=1, "lambda"=0)   
       } else{
         alpha1_hat <- eacf1
         lambda <- max(mean(x)*(1-alpha1_hat),0)
@@ -135,7 +133,7 @@ spinar_est_param <- function(x, p, type, distr){
     }
     if(p==2 && distr=="poi"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "alpha2"=0, "lambda"=0)
+        param <- c("alpha1"=1, "alpha2"=0, "lambda"=0)   
       } else{
         alpha1_hat <- ealpha1
         alpha2_hat <- ealpha2
@@ -145,7 +143,7 @@ spinar_est_param <- function(x, p, type, distr){
     }
     if(p==1 && distr=="geo"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "prob"=1)
+        param <- c("alpha1"=1, "prob"=1)   
       } else{
         alpha1_hat <- eacf1
         prob <- max(min(1/(mean(x)*(1-alpha1_hat)+1),0.99),0)
@@ -154,7 +152,7 @@ spinar_est_param <- function(x, p, type, distr){
     }
     if(p==2 && distr=="geo"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "alpha2"=0, "prob"=1)
+        param <- c("alpha1"=1, "alpha2"=0, "prob"=1)   
       } else{
         alpha1_hat <- ealpha1
         alpha2_hat <- ealpha2
@@ -164,7 +162,7 @@ spinar_est_param <- function(x, p, type, distr){
     }
     if(p==1 && distr=="nb"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "r" = 1, "prob"=1)
+        param <- c("alpha1"=1, "r" = 1, "prob"=1)   
       } else{
         alpha1_hat <- eacf1
         prob <- max(min(mean(x)/(var(x)*(1+alpha1_hat)-alpha1_hat*mean(x)),0.99),0)
@@ -174,7 +172,7 @@ spinar_est_param <- function(x, p, type, distr){
     }
     if(p==2 && distr=="nb"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "alpha2"=0, "r" = 1, "prob"=1)
+        param <- c("alpha1"=1, "alpha2"=0, "r" = 1, "prob"=1)   
       } else{
         alpha1_hat <- ealpha1
         alpha2_hat <- ealpha2
@@ -206,7 +204,7 @@ spinar_est_param <- function(x, p, type, distr){
           dat = x
         ))
         parameters <- est$par
-        ifelse(p==1, param <- c("alpha1"=parameters[1], "lambda"=parameters[2]),
+        ifelse(p==1, param <- c("alpha1"=parameters[1], "lambda"=parameters[2]), 
                param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "lambda"=parameters[3]))
       }
     }
@@ -230,7 +228,7 @@ spinar_est_param <- function(x, p, type, distr){
           dat = x
         ))
         parameters <- est$par
-        ifelse(p==1, param <- c("alpha1"=parameters[1], "prob"=parameters[2]),
+        ifelse(p==1, param <- c("alpha1"=parameters[1], "prob"=parameters[2]), 
                param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "prob"=parameters[3]))
       }
     }
@@ -261,9 +259,9 @@ spinar_est_param <- function(x, p, type, distr){
       }
     }
   }
-  #warning if alpha_1 + alpha_2 > 1
+   #warning if alpha_1 + alpha_2 > 1
   if (p==2){
     checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
   }
-  return(param)
+  return(param) 
 }
