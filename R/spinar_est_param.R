@@ -267,5 +267,3 @@ spinar_est_param <- function(x, p, type, distr){
   }
   return(param)
 }
-
-
