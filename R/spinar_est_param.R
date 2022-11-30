@@ -116,17 +116,15 @@ spinar_est_param <- function(x, p, type, distr){
   checkmate::assert(checkmate::checkChoice(distr, c("poi", "geo", "nb")))
   #if(!(distr %in% c('poi', 'geo', 'nb'))){warning("distr is either 'poi', 'geo' or 'nb'")}
   # ensure that the following 4 values are inbetween 0 and 1
-  
-  # ensure that the following 4 values are inbetween 0 and 1
   eacf1 <- max(acf(x, plot=FALSE)$acf[2], 1e-16)
   eacf2 <- max(acf(x, plot=FALSE)$acf[3], 1e-16)
   ealpha2 <- max((eacf2-eacf1^2)/(1-eacf1^2), 1e-16)
   ealpha1 <- max((1-ealpha2)*eacf1, 1e-16)
-  
+
   if(type=="mom"){
     if(p==1 && distr=="poi"){
       if(max(x)==min(x)){
-        param <- c("alpha1"=1, "lambda"=0)   
+      param <- c("alpha1"=1, "lambda"=0)   
       } else{
         alpha1_hat <- eacf1
         lambda <- max(mean(x)*(1-alpha1_hat),0)
@@ -184,7 +182,7 @@ spinar_est_param <- function(x, p, type, distr){
       }
     }
   }
-  
+
   if(type=="ml"){
     if(distr=="poi"){
       if (max(x) == min(x)){
@@ -267,5 +265,3 @@ spinar_est_param <- function(x, p, type, distr){
   }
   return(param) 
 }
-
-
