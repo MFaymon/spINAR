@@ -26,59 +26,12 @@ For installation of the development version use [devtools](https://cran.r-projec
 devtools::install_github("MFaymon/spINAR")
 ```
 
+## Structure
+
+![](cheat_sheet_spINAR.pdf)
+
 ## Examples
 
-``` r
-<<<<<<< HEAD
-library(spINAR)
-dat <- c(2,3,1,1,1,1,1,1,3)
-p <- 1
-spinar(dat, p)
-=======
-# Install library
-library(package1)
-```
+### Example 1: Parametric estimation of INAR models
 
-### Example 1
-
-In this example, we simulate INAR(1) data with poisson distributed innovations.
-
-``` r
-n <- 500 # sample size
-m <- 100 # additional observations to ensure stationarity
-alpha <- 0.5 # true INAR(1) coefficient
-lambda <- 1 # true parameter of the poisson innovation distribution
-
-pinar1 <- function(n, alpha, lambda){
-  err <- rpois(n, lambda)
-  x <- numeric(n)
-  #initialization x_0 = 0
-  x[1] <- err[1]
-  for(i in 2:n){
-    x[i] <- rbinom(1, x[i-1], alpha) + err[i]
-  }
-  return(x)
-}
-
-sim <- pinar1(n+m, alpha, lambda)
-sim <- sim[-(1:m)] # remove first m observations
-```
-
-Now, we estime the parameters:
-
-``` r
-params_est <- package1::spinar(sim,1)
-alpha_est <- params_est[1] # estimation of INAR(1) coefficient alpha1
-pmf_est <- params_est[-1]) # estimation of pmf/innovation distribution (pmf0, pmf1, ...)
-```
-### Example 2
-
-This is a basic example which shows you how to solve a common problem for INAR(2)
-
-``` r
-params_est <- package1::spinar(c(3,2,1,1,1,2,2,3),2)
-alpha_est <- params_est[1:2] # estimation of INAR(2) coefficient (alpha1, alpha2)
-pmf_est <- params_est[-(1:2)] # estimation of pmf/innovation distribution (pmf0, pmf1, pmf2, pmf3)
->>>>>>> 9732c7e929a6b3c084d4bf88938fd8081ef423b8
-```
 
