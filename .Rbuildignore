@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
+<<<<<<< HEAD
 ignore
 LICENSE
 CODE_OF_CONDUCT.md
@@ -8,3 +9,5 @@ paper
 ^appveyor\.yml$
 ^\.github$
 todo.txt
+=======
+>>>>>>> 9732c7e929a6b3c084d4bf88938fd8081ef423b8

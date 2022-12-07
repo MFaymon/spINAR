@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ignore folder
 ignore
 
@@ -50,3 +51,9 @@ unnamed-chunk-*.pdf
 src/*.o
 src/*.so
 src/*.dll
+=======
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+>>>>>>> 9732c7e929a6b3c084d4bf88938fd8081ef423b8

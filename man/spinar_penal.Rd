@@ -20,7 +20,7 @@ order of the INAR model, where \code{p in \{1,2\}}}
 \value{
 estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
 where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
-and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution, 
+and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
 where \code{pmf[i]} denotes the probability of observing value i
 }
 \description{
@@ -29,7 +29,7 @@ Performs a penalized semiparametric estimation of the autoregressive parameters 
 }
 \examples{
 ### data generation
-dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
+# dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
 ## penalized semiparametric estimation
-spinar_penal(dat, 1, 0.2, 0.4)
+# spinar_penal(dat, 1, 0.2, 0.4)
 }

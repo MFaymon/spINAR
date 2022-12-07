@@ -103,7 +103,6 @@
 #' # spinar_est_param(dat6,2,"ml","nb")
 # J: This is a good way to write these examples in the description?
 
-
 spinar_est_param <- function(x, p, type, distr){
   # to do:
   # ensure that p is either 1 or 2, ifnot issue warning
@@ -158,6 +157,7 @@ spinar_est_param <- function(x, p, type, distr){
         alpha2_hat <- ealpha2
         prob <- max(min(1/(mean(x)*(1-(alpha1_hat+alpha2_hat))+1),0.99),0)
         param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "prob"=prob)
+        checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
       }
     }
     if(p==1 && distr=="nb"){
@@ -182,7 +182,6 @@ spinar_est_param <- function(x, p, type, distr){
       }
     }
   }
-
   if(type=="ml"){
     if(distr=="poi"){
       if (max(x) == min(x)){
@@ -265,3 +264,4 @@ spinar_est_param <- function(x, p, type, distr){
   }
   return(param) 
 }
+
