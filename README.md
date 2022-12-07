@@ -28,7 +28,7 @@ devtools::install_github("MFaymon/spINAR")
 
 ## Structure
 
-![](cheat_sheet_spINAR.pdf)
+![](https://github.com/MFaymon/spINAR/blob/main/cheat_sheet_spINAR.png)
 
 ## Examples
 
