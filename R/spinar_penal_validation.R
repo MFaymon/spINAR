@@ -48,8 +48,6 @@
 #' ## penalized semiparametric estimation with validation over L1 penalization parameter
 #' # spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
 
-
-
 spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10, init1 = 1, init2 = 1){
   # also allow for window?: length of window around penal values -> ???
   # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
@@ -80,7 +78,7 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
     parameters <- spinar_penal(x, p)
   } else{
     # separate the data in in and out of sample data
-    n <- length(x)
+    n <- length(x) # issue error message if n/folds < 2 if not: not enough observations for validation
     folds <- 10
 
     ins <- vector(mode = "list", folds)

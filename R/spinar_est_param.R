@@ -101,7 +101,7 @@
 #' # spinar_est_param(dat5,1,"ml","nb")
 #' # spinar_est_param(dat6,2,"mom","nb")
 #' # spinar_est_param(dat6,2,"ml","nb")
-# J: This is a good way to write the examples in the description?
+# J: This is a good way to write these examples in the description?
 
 spinar_est_param <- function(x, p, type, distr){
   # to do:
@@ -122,116 +122,146 @@ spinar_est_param <- function(x, p, type, distr){
 
   if(type=="mom"){
     if(p==1 && distr=="poi"){
-      alpha1_hat <- eacf1
-      lambda <- mean(x)*(1-alpha1_hat)
-      param <- c("alpha1"=alpha1_hat, "lambda"=lambda)
+      if(max(x)==min(x)){
+      param <- c("alpha1"=1, "lambda"=0)   
+      } else{
+        alpha1_hat <- eacf1
+        lambda <- max(mean(x)*(1-alpha1_hat),0)
+        param <- c("alpha1"=alpha1_hat, "lambda"=lambda)
+      }
     }
     if(p==2 && distr=="poi"){
-      alpha1_hat <- ealpha1
-      alpha2_hat <- ealpha2
-      lambda <- mean(x)*(1-alpha1_hat-alpha2_hat)
-      param <- c("alpha1"=alpha1_hat,"alpha2"=alpha2_hat, "lambda"=lambda)
+      if(max(x)==min(x)){
+        param <- c("alpha1"=1, "alpha2"=0, "lambda"=0)   
+      } else{
+        alpha1_hat <- ealpha1
+        alpha2_hat <- ealpha2
+        lambda <- max(mean(x)*(1-alpha1_hat-alpha2_hat),0)
+        param <- c("alpha1"=alpha1_hat,"alpha2"=alpha2_hat, "lambda"=lambda)
+      }
     }
     if(p==1 && distr=="geo"){
-      alpha1_hat <- eacf1
-      prob <- 1/(mean(x)*(1-alpha1_hat)+1)
-      param <- c("alpha1"=alpha1_hat, "prob"=prob)
+      if(max(x)==min(x)){
+        param <- c("alpha1"=1, "prob"=1)   
+      } else{
+        alpha1_hat <- eacf1
+        prob <- max(min(1/(mean(x)*(1-alpha1_hat)+1),0.99),0)
+        param <- c("alpha1"=alpha1_hat, "prob"=prob)
+      }
     }
     if(p==2 && distr=="geo"){
-      alpha1_hat <- ealpha1
-      alpha2_hat <- ealpha2
-      prob <- 1/(mean(x)*(1-(alpha1_hat+alpha2_hat))+1)
-      param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "prob"=prob)
-      checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
+      if(max(x)==min(x)){
+        param <- c("alpha1"=1, "alpha2"=0, "prob"=1)   
+      } else{
+        alpha1_hat <- ealpha1
+        alpha2_hat <- ealpha2
+        prob <- max(min(1/(mean(x)*(1-(alpha1_hat+alpha2_hat))+1),0.99),0)
+        param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "prob"=prob)
+        checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
+      }
     }
     if(p==1 && distr=="nb"){
-      alpha1_hat <- eacf1
-      prob <- mean(x)/(var(x)*(1+alpha1_hat)-alpha1_hat*mean(x))
-      r <- round((mean(x)*prob*(1-alpha1_hat))/(1-prob))
-      param <- c("alpha1"=alpha1_hat, "r"=r, "prob"=prob)
+      if(max(x)==min(x)){
+        param <- c("alpha1"=1, "r" = 1, "prob"=1)   
+      } else{
+        alpha1_hat <- eacf1
+        prob <- max(min(mean(x)/(var(x)*(1+alpha1_hat)-alpha1_hat*mean(x)),0.99),0)
+        r <- round((mean(x)*prob*(1-alpha1_hat))/(1-prob))
+        param <- c("alpha1"=alpha1_hat, "r"=r, "prob"=prob)
+      }
     }
     if(p==2 && distr=="nb"){
-      alpha1_hat <- ealpha1
-      alpha2_hat <- ealpha2
-      prob <- mean(x)/(var(x)*(1+alpha1_hat+alpha2_hat)-(alpha1_hat +alpha2_hat)*mean(x))
-      r <- round((mean(x)*prob*(1-alpha1_hat-alpha2_hat))/(1-prob))
-      param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "r"=r, "prob"=prob)
+      if(max(x)==min(x)){
+        param <- c("alpha1"=1, "alpha2"=0, "r" = 1, "prob"=1)   
+      } else{
+        alpha1_hat <- ealpha1
+        alpha2_hat <- ealpha2
+        prob <- max(min(mean(x)/(var(x)*(1+alpha1_hat+alpha2_hat)-(alpha1_hat +alpha2_hat)*mean(x)),0.99),0)
+        r <- round((mean(x)*prob*(1-alpha1_hat-alpha2_hat))/(1-prob))
+        param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "r"=r, "prob"=prob)
       }
+    }
   }
   if(type=="ml"){
     if(distr=="poi"){
-      if(p==1){
-        theta <- c(max(eacf1, 1e-5), mean(x)*(1-eacf1))
+      if (max(x) == min(x)){
+        ifelse(p==1, param <- c("alpha1"=1, "lambda"=0), param <- c("alpha1"=1, "alpha2"=0, "lambda"=0))
       }
-      if(p==2){
-        theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), mean(x)*(1-ealpha1-ealpha2))
+      else {
+        if(p==1){
+          theta <- c(max(eacf1, 1e-5), max(mean(x)*(1-eacf1),0))
+        }
+        if(p==2){
+          theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), max(mean(x)*(1-ealpha1-ealpha2),0))
+        }
+        est <- suppressWarnings(constrOptim(
+          theta = theta,
+          f = llpinar_poi[[p]],
+          grad = NULL,
+          ui = .constrmat_poi(p),
+          ci = .constrvec_poi(p),
+          dat = x
+        ))
+        parameters <- est$par
+        ifelse(p==1, param <- c("alpha1"=parameters[1], "lambda"=parameters[2]), 
+               param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "lambda"=parameters[3]))
       }
-      est <- suppressWarnings(constrOptim(
-        theta = theta,
-        f = llpinar_poi[[p]],
-        grad = NULL,
-        ui = .constrmat_poi(p),
-        ci = .constrvec_poi(p),
-        dat = x
-      ))
-      parameters <- est$par
-      ifelse(p==1, param <- c("alpha1"=parameters[1], "lambda"=parameters[2]),
-             param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "lambda"=parameters[3]))
     }
     if(distr=="geo"){
-      if(p==1){
-        theta <- c(max(eacf1, 1e-5), 1/(mean(x)*(1-eacf1)+1))
+      if (max(x) == min(x)){
+        ifelse(p==1, param <- c("alpha1"=1, "prob"=1), param <- c("alpha1"=1, "alpha2"=0, "prob"=1))
       }
-      if(p==2){
-        theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), 1/(mean(x)*(1-(ealpha1+ealpha2))+1))
+      else {
+        if(p==1){
+          theta <- c(max(eacf1, 1e-5), max(min(1/(mean(x)*(1-eacf1)+1),0.99),0))
+        }
+        if(p==2){
+          theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), max(min(1/(mean(x)*(1-(ealpha1+ealpha2))+1),0.99),0))
+        }
+        est <- suppressWarnings(constrOptim(
+          theta = theta,
+          f = llpinar_geo[[p]],
+          grad = NULL,
+          ui = .constrmat_geo(p),
+          ci = .constrvec_geo(p),
+          dat = x
+        ))
+        parameters <- est$par
+        ifelse(p==1, param <- c("alpha1"=parameters[1], "prob"=parameters[2]), 
+               param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "prob"=parameters[3]))
       }
-      est <- suppressWarnings(constrOptim(
-        theta = theta,
-        f = llpinar_geo[[p]],
-        grad = NULL,
-        ui = .constrmat_geo(p),
-        ci = .constrvec_geo(p),
-        dat = x
-      ))
-      parameters <- est$par
-      ifelse(p==1, param <- c("alpha1"=parameters[1], "prob"=parameters[2]),
-             param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "prob"=parameters[3]))
     }
     if(distr=="nb"){
-      if(p==1){
-        prob <- mean(x)/(var(x)*(1+eacf1)-eacf1*mean(x))
-        theta <- c(max(eacf1, 1e-5), round((mean(x)*prob*(1-eacf1))/(1-prob)), prob)
+      if (max(x) == min(x)){
+        ifelse(p==1, param <- c("alpha1"=1, "r"=1, "prob"=1), param <- c("alpha1"=1, "alpha2"=0, "r"=1, "prob"=1))
       }
-      if(p==2){
-        prob <- mean(x)/(var(x)*(1+ealpha1+ealpha2)-(ealpha1+ealpha2)*mean(x))
-        theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), round((mean(x)*prob*(1-ealpha1-ealpha2))/(1-prob)), prob)
+      else {
+        if(p==1){
+          prob <- max(min(mean(x)/(var(x)*(1+eacf1)-eacf1*mean(x)),0.99),0)
+          theta <- c(max(eacf1, 1e-5), round((mean(x)*prob*(1-eacf1))/(1-prob)), prob)
+        }
+        if(p==2){
+          prob <- max(min(mean(x)/(var(x)*(1+ealpha1+ealpha2)-(ealpha1+ealpha2)*mean(x)),0.99),0)
+          theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), round((mean(x)*prob*(1-ealpha1-ealpha2))/(1-prob)), prob)
+        }
+        est <- suppressWarnings(constrOptim(
+          theta = theta,
+          f = llpinar_nb[[p]],
+          grad = NULL,
+          ui = .constrmat_nb(p),
+          ci = .constrvec_nb(p),
+          dat = x
+        ))
+        parameters <- est$par
+        ifelse(p==1, param <- c("alpha1"=parameters[1], "r"=round(parameters[2]), "prob"=parameters[3]),
+               param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "r"=round(parameters[3]), "prob"=parameters[4]))
       }
-      est <- suppressWarnings(constrOptim(
-        theta = theta,
-        f = llpinar_nb[[p]],
-        grad = NULL,
-        ui = .constrmat_nb(p),
-        ci = .constrvec_nb(p),
-        dat = x
-      ))
-      parameters <- est$par
-      ifelse(p==1, param <- c("alpha1"=parameters[1], "r"=round(parameters[2]), "prob"=parameters[3]),
-             param <- c("alpha1"=parameters[1], "alpha2"=parameters[2], "r"=round(parameters[3]), "prob"=parameters[4]))
     }
   }
-  # warning alpha1 + alpha 2> 1
+   #warning if alpha_1 + alpha_2 > 1
   if (p==2){
     checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
   }
-  return(param)
+  return(param) 
 }
-
-
-
-
-
-
-
-
-
 
