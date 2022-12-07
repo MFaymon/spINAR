@@ -56,7 +56,6 @@ estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
 where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
 and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
 where \code{pmf[i]} denotes the probability of observing value i
-Validated penalization parameter(s).
 }
 \description{
 Performs a validation of one or both penalization parameters of the penalized semiparametric estimation of INAR(p) models,

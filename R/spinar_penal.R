@@ -15,20 +15,21 @@
 #'
 #' @return estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
 #' where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
-#' and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution, 
+#' and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
 #' where \code{pmf[i]} denotes the probability of observing value i
 #' @export
 #'
 #' @examples
 #' ### data generation
-#' dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
+#' # dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
 #' ## penalized semiparametric estimation
-#' spinar_penal(dat, 1, 0.2, 0.4)
+#' # spinar_penal(dat, 1, 0.2, 0.4)
 spinar_penal <- function(x, p, penal1=0, penal2=0) {
   # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
-  checkmate::assert_integerish(x, min.len = p+1)
+  checkmate::assert_integerish(x, lower =0, min.len = p+1)
   checkmate::assert_numeric(penal1, len = 1)
+  checkmate::assert_numeric(penal2, len = 1)
   xmax <- max(x)
   if(p==1){
     theta <- c(max(acf(x, plot = FALSE)$acf[p+1], 1e-5), rep(1 / (xmax + 1), xmax))

@@ -24,11 +24,11 @@ bootstrap estimated parameters (INAR coefficients and pmf)
 }
 \examples{
 ### simulating data of INAR(1)
-dat <- spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
+# dat <- spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
 ### semiparametric INAR bootstrap
-spinar_boot(dat, 1, 100)
+# spinar_boot(dat, 1, 100)
 ### simulating data of INAR(2)
-dat <- spinar_sim(n=500, p = 2, alpha = c(0.3, 0.2), pmf = dpois(0:10,1.5))
+# dat <- spinar_sim(n=500, p = 2, alpha = c(0.3, 0.2), pmf = dpois(0:10,1.5))
 ### semiparametric INAR bootstrap
-spinar_boot(dat, 2, 100)
+# spinar_boot(dat, 2, 100)
 }
