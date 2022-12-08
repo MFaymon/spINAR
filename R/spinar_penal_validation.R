@@ -62,12 +62,11 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   checkmate::assert_integerish(x, lower = 0, min.len = p+1)
   checkmate::assert_logical(validation) #if(!is.logical(validation)){stop("'validation' has to be logical")} #translate to checkmate
-  # P: could we have missing values?
-  checkmate::assert_integerish(penal1, min.len = 1, max.len = 1)
-  checkmate::assert_integerish(penal2, min.len = 1, max.len = 1,)
+  # checkmate::assert_integerish(penal1, min.len = 1, max.len = 1) # check this where we cannot have missing values
+  # checkmate::assert_integerish(penal2, min.len = 1, max.len = 1,)
   checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both"))) # additionally ensure that over is either 'L1', 'L2' or 'both'
   # issue error message if n/folds < 2 if not: not enough observations for validation
-  checkmate::assert_integerish(folds, lower = ceiling((length(x)/2)), min.len = 1, max.len = 1)
+  checkmate::assert_integerish(folds, upper = ceiling((length(x)/2)), min.len = 1, max.len = 1)
   checkmate::assert_integerish(init1, lower = 0, min.len = 1, max.len = 1) # Q: init1 > 0?
   checkmate::assert_integerish(init2, lower = 0, min.len = 1, max.len = 1) # Q: init1 > 0?
 
