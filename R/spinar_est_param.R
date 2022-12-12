@@ -157,7 +157,7 @@ spinar_est_param <- function(x, p, type, distr){
         alpha2_hat <- ealpha2
         prob <- max(min(1/(mean(x)*(1-(alpha1_hat+alpha2_hat))+1),0.99),0)
         param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "prob"=prob)
-        checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
+        checkmate::assert_numeric(param[['alpha1']], upper = 1-param[['alpha2']])
       }
     }
     if(p==1 && distr=="nb"){
@@ -260,7 +260,7 @@ spinar_est_param <- function(x, p, type, distr){
   }
    #warning if alpha_1 + alpha_2 > 1
   if (p==2){
-    checkmate::assert_integerish(param[['alpha1']], max = 1-param[['alpha2']])
+    checkmate::assert_numeric(param[['alpha1']], upper = 1-param[['alpha2']])
   }
   return(param) 
 }
