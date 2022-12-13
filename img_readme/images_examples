@@ -1,1 +1,59 @@
+# Example 1: Semiparametric Estimation of INAR Models
 
+library(ggplot2)
+library(scales)
+
+alpha_list <- c()
+pmf_list <- c()
+N <- seq(from = 50, to = 1000, by = 50)
+M <- 100
+for (n in N) {
+  i = 1
+  alpha_sum = 0
+  pmf_join = c()
+  pmf_mean <- c()
+  print(n)
+  while (i <= M) {
+    data <- pinar1(n, 0.5, 0.8)
+    params_est <- spINAR::spinar_est(x = data, p = 1)
+    alpha_sum = alpha_sum + params_est[1]
+    pmf <- params_est[-1][1:8]
+    pmf[is.na(pmf)] <- 0
+    pmf_join <- append(pmf_join, pmf)
+    i = i + 1
+  }
+  alpha_mean = alpha_sum / M
+  alpha_list <- append(alpha_list, alpha_mean)
+  aux <- as.data.frame(split(pmf_join,
+                             cut(seq_along(pmf_join),
+                                 M,
+                                 labels = FALSE)))
+  for (s in seq(1, 8)) {
+    pmf_mean = append(pmf_mean, sum(aux[s, 1:M]) / M)
+  }
+  pmf_list <- append(pmf_list, pmf_mean)
+}
+
+
+df <- data.frame(alpha_list, N)
+p <- ggplot(df, aes(N, alpha_list))
+p + geom_point() + geom_line() + geom_hline(yintercept=0.5, linetype="dashed", color = "red") + xlab("Sample size n") + ylab("alpha") + 
+  ggtitle("Convergence of alpha with poisson innovations")+ theme_minimal()  + 
+  theme(legend.position="top", plot.title = element_text(hjust = 0.5), axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))+
+  scale_x_continuous(name ="sample size", breaks = seq(50, 1000, 50))
+dev.copy(jpeg,filename="spinar_est_alpha.jpg", width = 400, height = 300)
+dev.off()
+
+
+df <- data.frame(pmf_list, factor(rep(seq(50, 1000, 50), each = 8))
+                 , rep(c(0, seq(1:7)), 20))
+colnames(df) <- c('pmf_list', 'N', 'discrete_x')
+ggplot(df, aes(x=discrete_x, y=pmf_list, color = N)) +
+  geom_line() +
+  ggtitle("Convergence of pmf with poisson innovations")+   theme_minimal()  + 
+  theme(legend.position="top", plot.title = element_text(hjust = 0.5))  +
+  scale_y_continuous(name ="probability mass function value", breaks = c(0,0.1, 0.2, 0.3, 0.4, 0.5))+
+  scale_x_continuous(name ="discrete values",breaks = c(0,1,2,3,4,5,6,7), labels = c("pmf0","pmf1","pmf2", "pmf3", "pmf4", "pmf5", "pmf6", "pmf7"))+
+  scale_colour_grey() 
+dev.copy(png,filename="spinar_est_pmf.jpg", width = 400, height = 300)
+dev.off()
