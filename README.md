@@ -91,38 +91,6 @@ pmf_est <- params_est[-1]
 
 Simulating 100 iterations for each sample size of poisson innovations with alpha 0.5 and lambda 0.8 we got the following average values for alpha and the probability mass function. 
 
-```r
-alpha_list <- c()
-pmf_list <- c()
-N <- seq(from = 50, to = 1000, by = 50)
-M <- 100
-for (n in N) {
-  i = 1
-  alpha_sum = 0
-  pmf_join = c()
-  pmf_mean <- c()
-  print(n)
-  while (i <= M) {
-    data <- pinar1(n, 0.5, 0.8)
-    params_est <- spINAR::spinar_est(x = data, p = 1)
-    alpha_sum = alpha_sum + params_est[1]
-    pmf <- params_est[-1][1:8]
-    pmf[is.na(pmf)] <- 0
-    pmf_join <- append(pmf_join, pmf)
-    i = i + 1
-  }
-  alpha_mean = alpha_sum / M
-  alpha_list <- append(alpha_list, alpha_mean)
-  aux <- as.data.frame(split(pmf_join,
-                             cut(seq_along(pmf_join),
-                                 M,
-                                 labels = FALSE)))
-  for (s in seq(1, 8)) {
-    pmf_mean = append(pmf_mean, sum(aux[s, 1:M]) / M)
-  }
-  pmf_list <- append(pmf_list, pmf_mean)
-}
-```
 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_alpha.jpg) 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_pmf.jpg)
