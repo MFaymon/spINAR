@@ -75,7 +75,7 @@ pinar2 <- function(n, alpha1, alpha2, lambda) {
 sim2 <- pinar2(n, alpha1, alpha2, lambda)[-(1:m)]
 ```
 
-### Example 1: Parametric estimation of INAR models
+### Example 1: Semiparametric Estimation of INAR Models
 
 In this example, we simulate INAR(1) data with poisson distributed innovations.
 
@@ -127,4 +127,4 @@ for (n in N) {
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_alpha.jpg) 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_pmf.jpg)
 
-
+### Example 2: Parametric estimation of INAR models 
