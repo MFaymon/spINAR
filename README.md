@@ -96,3 +96,17 @@ Simulating 100 iterations for each sample size of poisson innovations with alpha
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_pmf.jpg)
 
 ### Example 2: Parametric estimation of INAR models 
+
+In this example, we observe a convergence to the asymptotic probability mass function (pmf) by increasing the sample size (n) and the number of iterations (k) in the `spinar_sim` function.
+
+```r
+SimSpinar <- function(n,prerun, k){
+  sim <- replicate(k, spINAR::spinar_sim(n, p=1, alpha=0.8, pmf=dpois(0:20, lambda), prerun))
+  simprobs <- table(sim)/(k*n)
+  return(simprobs = simprobs)
+}
+
+asymptotic <- SimSpinar(n=100000, prerun = 5000, k = 1000)
+```
+
+![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_sim_example_convergence.png)
