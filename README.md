@@ -32,14 +32,11 @@ devtools::install_github("MFaymon/spINAR")
 
 ## Examples
 
-### Dataset poisson innovations with p = 1
+### Example 1: Semiparametric Estimation of INAR Models
+
+In this example, we simulate INAR(1) data with poisson distributed innovations.
 
 ```r
-n <- 500 # sample size
-m <- 100 # additional observations to ensure stationarity
-alpha <- 0.5 # true INAR(1) coefficient
-lambda <- 0.8 # true parameter of the poisson innovation distribution
-
 pinar1 <- function(n, alpha, lambda) {
   err <- rpois(n, lambda)
   x <- numeric(n)
@@ -49,51 +46,20 @@ pinar1 <- function(n, alpha, lambda) {
   }
   return(x)
 }
-sim1 <- pinar1(n+m, alpha, lambda)[-(1:m)] # remove first m observations to have stationarity
-```
 
-### Dataset poisson innovations with p = 2
-
-```r
-n <- 500 
-m <- 100
-alpha1 <- 0.3
-alpha2 <- 0.5
-lambda <- 0.8
-
-pinar2 <- function(n, alpha1, alpha2, lambda) {
-  err <- rpois(n, lambda)
-  x <- numeric(n)
-  x[1] <- err[1]
-  x[2] <- x[1] + err[2]
-  for (i in 3:n) {
-    x[i] <-
-      rbinom(1, x[i - 1], alpha1) + rbinom(1, x[i - 2], alpha2) + err[i]
+SpinarEst <- function(n, k){
+  sim <- replicate(k, spINAR::spinar_est(x= pinar1(n, alpha=0.8, lambda= 0.8), p=1))
+  sum = 0
+  for (i in c(1:k)){
+    sum = sum + sim[[i]][[1]]
   }
-  return(x)
+  return(sum/k)
 }
-sim2 <- pinar2(n, alpha1, alpha2, lambda)[-(1:m)]
 ```
 
-### Example 1: Semiparametric Estimation of INAR Models
+Simulating 100 iterations for each sample size of poisson innovations with alpha 0.8 and lambda 0.8 we got the following average values for alpha.
 
-In this example, we simulate INAR(1) data with poisson distributed innovations.
-
-```r
-params_est <- spINAR::spinar_est(x= sim1, p=1)
-
-# estimation of INAR(1) coefficient alpha1
-alpha_est <- params_est[1]  # close to alpha = 0.5
-
-# estimation of pmf/innovation distribution (pmf0, pmf1, ...)
-pmf_est <- params_est[-1] 
-```
-
-Simulating 100 iterations for each sample size of poisson innovations with alpha 0.5 and lambda 0.8 we got the following average values for alpha and the probability mass function. 
-
-
-![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_alpha.jpg) 
-![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_pmf.jpg)
+![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_example_convergence_alpha.png) 
 
 ### Example 2: Parametric estimation of INAR models 
 
@@ -110,3 +76,15 @@ asymptotic <- SimSpinar(n=100000, prerun = 5000, k = 1000)
 ```
 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_sim_example_convergence.png)
+
+### Example 3: Semiparametric INAR Boostrap
+
+```r
+dat <- spINAR::spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
+x1 <- spINAR::spinar_boot(x = dat, p = 1, B = 100)
+y1 <- spINAR::spinar_boot(x = dat, p = 1, B = 250)
+z1 <- spINAR::spinar_boot(x = dat, p = 1, B = 500)
+w1 <- spINAR::spinar_boot(x = dat, p = 1, B = 750)
+```
+
+![](https://github.com/MFaymon/spINAR/blob/main/img_readme/pmf_convergence_boostrap.png)
