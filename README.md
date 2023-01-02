@@ -88,3 +88,33 @@ w1 <- spINAR::spinar_boot(x = dat, p = 1, B = 750)
 ```
 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/pmf_convergence_boostrap.png)
+
+### Example 4: Fully parametric estimation of INAR(p) model
+
+In this example, we generate data with geometric distribution over 500 iterations comparing the Maximum Likelihood and Method of Moments for different values of the sample size.
+
+```r
+geominar1 <- function(n, alpha, pr) {
+  err <- rgeom(n, pr)
+  x <- numeric(n)
+  x[1] <- err[1]
+  for (i in 2:n) {
+    x[i] <- rbinom(1, x[i - 1], alpha) + err[i]
+  }
+  return(x)
+}
+
+SpinarEstParam <- function(n, k, method){
+  sim <- replicate(k, spINAR::spinar_est_param(x = geominar1(n,0.3, 0.5), p=1, type = method, distr = "geo"))
+  alpha1 = 0
+  prob = 0
+  for (i in c(1:k)){
+    alpha1 = alpha1 + sim[,i][[1]]
+    prob = prob + sim[,i][[2]]
+  }
+  return(list(alpha1/k, prob/k))
+}
+```
+
+![](https://github.com/MFaymon/spINAR/blob/main/img_readme/example_spinar_est_param_geom.png)
+
