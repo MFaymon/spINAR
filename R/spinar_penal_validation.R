@@ -9,26 +9,24 @@
 #' @param p [\code{integer(1)}]\cr
 #' order of the INAR model, where \code{p in \{1,2\}}
 #' @param validation [\code{logical(1)}]\cr
-#' TRUE or FALSE depending on whether validation is wanted
-#' @param penal1 [\code{integer(1)}]\cr
-#' penalization parameter for L1 penalization
-#' It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L1.
-#' It is mandatory if validation = FALSE.
-#' @param penal2 [\code{integer(1)}]\cr
+#' `TRUE` or `FALSE` depending on whether validation is wanted
+#' @param penal1 [\code{numeric(1)}]\cr
+#' penalization parameter for `L1` penalization
+#' It will be ignored if validation = `TRUE` and over = `both`. Also, `penal1` will be ignored if validation = `TRUE` and over = `L1`.
+#' It is mandatory if validation = `FALSE`.
+#' @param penal2 [\code{numeric(1)}]\cr
 #' penalization parameter for L2 penalization
-#' It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L2.
-#' It is mandatory if validation = FALSE.
+#' It will be ignored if validation = `TRUE` and over = `both`. Also `penal2` will be ignored if validation = `TRUE` and over = `L2`.
+#' It is mandatory if validation = `FALSE`.
 #' @param over [\code{string(1)}]\cr
-#' answers whether validation for penal1 (L1) or penal2 (L2) or both (both) is wanted (error if over is not one of these three)
-#' mandatory if validation = TRUE, otherwise it will be ignored
+#' can take answers whether validation for penal1 (`L1`) or penal2 (`L2`) or both (`both`) is wanted.
+#' It is mandatory if validation = `TRUE`, otherwise it will be ignored.
 #' @param folds [\code{integer(1)}]\cr
 #' number of folds for cross validation
-#' @param init1 [\code{integer(1)}]\cr
-#' initial value for penal1 in validation. Default value is init1 = 1
-#' Will be ignored if validation = FALSE or over = L2
-#' @param init2 [\code{integer(1)}]\cr
+#' @param init1 [\code{numeric(1)}]\cr
+#' initial value for penal1 in validation. Default value is init1 = 1.
+#' @param init2 [\code{numeric(1)}]\cr
 #' initial value for penal2 in validation. Default value is init2 = 1
-#' ill be ignored if validation = FALSE or over = L1
 #'
 #' @return estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
 #' where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
@@ -48,7 +46,7 @@
 #' ## penalized semiparametric estimation with validation over L1 penalization parameter
 #' # spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
 
-spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10, init1 = 1, init2 = 1){
+spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, folds = 10, init1 = 1, init2 = 1){
   # also allow for window?: length of window around penal values -> ???
   # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
   # documentation that unpenalized estimation is performed for validation = FALSE and no values set for penal1 and
@@ -58,24 +56,26 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
   # cite our paper to explain the penalization and the validation (Algorithm 1)? Or explain it shortly in the documentation
   # (and additionally cite the paper?)?
 
-  # constraints for input (more to follow)
-  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
+  checkmate::assert_integerish(p, lower = 1, len = 1, upper = 2)
   checkmate::assert_integerish(x, lower = 0, min.len = p+1)
-  checkmate::assert_logical(validation) #if(!is.logical(validation)){stop("'validation' has to be logical")} #translate to checkmate
-  # checkmate::assert_integerish(penal1, min.len = 1, max.len = 1) # check this where we cannot have missing values
-  # checkmate::assert_integerish(penal2, min.len = 1, max.len = 1,)
-  checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both"))) # additionally ensure that over is either 'L1', 'L2' or 'both'
-  # issue error message if n/folds < 2 if not: not enough observations for validation
-  checkmate::assert_integerish(folds, upper = ceiling((length(x)/2)), min.len = 1, max.len = 1)
-  checkmate::assert_integerish(init1, lower = 0, min.len = 1, max.len = 1) # Q: init1 > 0?
-  checkmate::assert_integerish(init2, lower = 0, min.len = 1, max.len = 1) # Q: init1 > 0?
+  checkmate::assert_numeric(penal1, len = 1)
+  checkmate::assert_numeric(penal2, len = 1)
 
   if(validation == FALSE){
     # if validation = FALSE, the user has to input values for penal1 and penal2
     # issue a warning if no values for pena1 and penal2 are set -> function takes default values (both zero)
-    if(missing(penal1) || missing(penal2)){warning("values for penal1 or penal2 are missing, they are therefore treated as zero")}
+    #if(missing(penal1) || missing(penal2)){warning("values for penal1 or penal2 are missing, they are therefore treated as zero")}
+    if(is.na(penal1) || is.na(penal2)){warning("values for penal1 or penal2 are missing, they are therefore treated as zero")}
     parameters <- spinar_penal(x, p)
   } else{
+
+    checkmate::assert_logical(validation) #if(!is.logical(validation)){stop("'validation' has to be logical")} #translate to checkmate
+    checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both", NA))) # additionally ensure that over is either 'L1', 'L2' or 'both'
+    checkmate::assert_integerish(folds, upper = ceiling((length(x)/2)), len = 1) # issue error message if n/folds < 2 if not: not enough observations for validation
+    checkmate::assert_numeric(init1, len = 1)
+    checkmate::assert_numeric(init2, len = 1)
+
+
     # separate the data in in and out of sample data
     n <- length(x) # issue error message if n/folds < 2 if not: not enough observations for validation
     folds <- 10
@@ -113,9 +113,12 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
     if(over == "L1"){
       # only validation for penal1, the value for penal2 has to be input by the user
       # warning: if not then treated as zero
-      if(!missing(penal1)){stop("if over = L1, no value for penal1 allowed")}
-      if(missing(penal2)){warning("value for penal2 is missing and is treated as zero")}
-      if(missing(penal2)){penal2 <- 0}
+      #if(!missing(penal1)){stop("if over = L1, no value for penal1 allowed")}
+      if(!is.na(penal1)){stop("if over = L1, no value for penal1 allowed")}
+      #if(missing(penal2)){warning("value for penal2 is missing and is treated as zero")}
+      if(is.na(penal2)){warning("value for penal2 is missing and is treated as zero")}
+      #if(missing(penal2)){penal2 <- 0}
+      if(is.na(penal2)){penal2 <- 0}
       penal_val <- init1
 
       loglik <- matrix(NA, folds, 5) # 5 is length of lambda grid
@@ -186,9 +189,12 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
     if(over == "L2"){
       # only validation for penal2, the value for penal1 has to be input by the user
       # warning: if not then treated as zero
-      if(!missing(penal2)){stop("if over = L2, no value for penal2 allowed")}
-      if(missing(penal1)){warning("value for penal1 is missing and is treated as zero")}
-      if(missing(penal1)){penal1 <- 0}
+      #if(!missing(penal2)){stop("if over = L2, no value for penal2 allowed")}
+      #if(missing(penal1)){warning("value for penal1 is missing and is treated as zero")}
+      #if(missing(penal1)){penal1 <- 0}
+      if(!is.na(penal2)){stop("if over = L2, no value for penal2 allowed")}
+      if(is.na(penal1)){warning("value for penal1 is missing and is treated as zero")}
+      if(is.na(penal1)){penal1 <- 0}
       penal_val <- init2
 
       loglik <- matrix(NA, folds, 5) # 5 is length of lambda grid
@@ -257,7 +263,8 @@ spinar_penal_val <- function(x, p, validation, penal1, penal2, over, folds = 10,
 
     }
     if(over == "both"){
-      if(!missing(penal1) || !missing(penal2)){warning("if over = both, input values for penal1 and penal2 are ignored")}
+      #if(!missing(penal1) || !missing(penal2)){warning("if over = both, input values for penal1 and penal2 are ignored")}
+      if(!is.na(penal1) || !is.na(penal2)){warning("if over = both, input values for penal1 and penal2 are ignored")}
       # validation for both penal1 and penal2
 
       penal_val1 <- init1
