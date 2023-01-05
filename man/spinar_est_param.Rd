@@ -26,7 +26,7 @@ parametric family of distribution in  \code{\{'poi', 'geo', 'nb'\}}
 }
 \value{
 (alpha, parameters)
-#' where parameters depends on the distribution
+where parameters depends on the distribution
 parameters of poi, geo and nb are lambda, prob and (r, prob) respectively.
 }
 \description{

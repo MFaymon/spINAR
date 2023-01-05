@@ -8,9 +8,9 @@ spinar_penal_val(
   x,
   p,
   validation,
-  penal1,
-  penal2,
-  over,
+  penal1 = NA,
+  penal2 = NA,
+  over = NA,
   folds = 10,
   init1 = 1,
   init2 = 1
@@ -24,32 +24,30 @@ vector of integer values corresponding to the data}
 order of the INAR model, where \code{p in \{1,2\}}}
 
 \item{validation}{[\code{logical(1)}]\cr
-TRUE or FALSE depending on whether validation is wanted}
+`TRUE` or `FALSE` depending on whether validation is wanted}
 
-\item{penal1}{[\code{integer(1)}]\cr
-penalization parameter for L1 penalization
-It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L1.
-It is mandatory if validation = FALSE.}
+\item{penal1}{[\code{numeric(1)}]\cr
+penalization parameter for `L1` penalization
+It will be ignored if validation = `TRUE` and over = `both`. Also, `penal1` will be ignored if validation = `TRUE` and over = `L1`.
+It is mandatory if validation = `FALSE`.}
 
-\item{penal2}{[\code{integer(1)}]\cr
+\item{penal2}{[\code{numeric(1)}]\cr
 penalization parameter for L2 penalization
-It will be ignored if validation = TRUE and over = both and if validation = TRUE and over = L2.
-It is mandatory if validation = FALSE.}
+It will be ignored if validation = `TRUE` and over = `both`. Also `penal2` will be ignored if validation = `TRUE` and over = `L2`.
+It is mandatory if validation = `FALSE`.}
 
 \item{over}{[\code{string(1)}]\cr
-answers whether validation for penal1 (L1) or penal2 (L2) or both (both) is wanted (error if over is not one of these three)
-mandatory if validation = TRUE, otherwise it will be ignored}
+can take answers whether validation for penal1 (`L1`) or penal2 (`L2`) or both (`both`) is wanted.
+It is mandatory if validation = `TRUE`, otherwise it will be ignored.}
 
 \item{folds}{[\code{integer(1)}]\cr
 number of folds for cross validation}
 
-\item{init1}{[\code{integer(1)}]\cr
-initial value for penal1 in validation. Default value is init1 = 1
-Will be ignored if validation = FALSE or over = L2}
+\item{init1}{[\code{numeric(1)}]\cr
+initial value for penal1 in validation. Default value is init1 = 1.}
 
-\item{init2}{[\code{integer(1)}]\cr
-initial value for penal2 in validation. Default value is init2 = 1
-ill be ignored if validation = FALSE or over = L1}
+\item{init2}{[\code{numeric(1)}]\cr
+initial value for penal2 in validation. Default value is init2 = 1}
 }
 \value{
 estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
