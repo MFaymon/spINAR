@@ -4,17 +4,9 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of spINAR is to:
+Simulate, estimate and bootstrap integer autoregressive (INAR) models.
 
-  1) Simulate INAR(p) data with arbitrary innovation distributions (parametric family or probability mass function).
-
-  2) Semiparametric estimation of INAR(p) model.
-
-  3) Semiparametric INAR Boostrap.
-
-  4) Fully parametric estimation of INAR(p) model.
-
-  5) Penalized (semiparametric) estimation of INAR(p) model.
+The package provides flexible simulation of INAR data using a general pmf to define the innovations' distribution. It allows for semiparametric and parametric estimation of INAR models and includes a small sample refinement for the semiparametric setting. Additionally, it provides different procedures to appropriately bootstrap INAR data.
   
 
 
