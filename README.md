@@ -1,14 +1,9 @@
-
 # spINAR
-
-<!-- badges: start -->
-<!-- badges: end -->
+[![R build status](https://github.com/JonasRieger/ldaPrototype/workflows/R-CMD-check/badge.svg)](https://github.com/JonasRieger/ldaPrototype/actions)
 
 Simulate, estimate and bootstrap integer autoregressive (INAR) models.
 
 The package provides flexible simulation of INAR data using a general pmf to define the innovations' distribution. It allows for semiparametric and parametric estimation of INAR models and includes a small sample refinement for the semiparametric setting. Additionally, it provides different procedures to appropriately bootstrap INAR data.
-  
-
 
 ## Installation
 
@@ -19,11 +14,9 @@ devtools::install_github("MFaymon/spINAR")
 ```
 
 ## Structure
-
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/cheat_sheet_spINAR.png)
 
 ## Examples
-
 ### Example 1: Semiparametric Estimation of INAR Models
 
 In this example, we simulate INAR(1) data with poisson distributed innovations.
@@ -53,8 +46,7 @@ Simulating 100 iterations for each sample size of poisson innovations with alpha
 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_example_convergence_alpha.png) 
 
-### Example 2: Parametric estimation of INAR models 
-
+### Example 2: Parametric estimation of INAR models
 In this example, we observe a convergence to the asymptotic probability mass function (pmf) by increasing the sample size (n) and the number of iterations (k) in the `spinar_sim` function.
 
 ```r
@@ -70,7 +62,6 @@ asymptotic <- SimSpinar(n=100000, prerun = 5000, k = 1000)
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_sim_example_convergence.png)
 
 ### Example 3: Semiparametric INAR Boostrap
-
 ```r
 dat <- spINAR::spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
 x1 <- spINAR::spinar_boot(x = dat, p = 1, B = 100)
@@ -82,7 +73,6 @@ w1 <- spINAR::spinar_boot(x = dat, p = 1, B = 750)
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/pmf_convergence_boostrap.png)
 
 ### Example 4: Fully parametric estimation of INAR(p) model
-
 In this example, we generate data with geometric distribution over 500 iterations comparing the Maximum Likelihood and Method of Moments for different values of the sample size.
 
 ```r
@@ -109,4 +99,3 @@ SpinarEstParam <- function(n, k, method){
 ```
 
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/example_spinar_est_param_geom.png)
-
