@@ -58,7 +58,7 @@ spinar_penal(dat1, 1, penal1 = 0, penal2 = 0.1)
 Finally, we bootstrap INAR(1) data on the first data set. We perform a semiparametric and a parametric INAR bootstrap. 
 
 ```r
-boot_sp <- spinar_boot(dat1, 1, 500, setting="sp")
-boot_p <- spinar_boot(dat1, 1, 500, setting = "p", type = "mom", distr = "poi")
+spinar_boot(dat1, 1, 500, setting="sp")
+spinar_boot(dat1, 1, 500, setting = "p", type = "mom", distr = "poi")
 ```
 
