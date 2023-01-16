@@ -16,86 +16,49 @@ devtools::install_github("MFaymon/spINAR")
 ## Structure
 ![](https://github.com/MFaymon/spINAR/blob/main/img_readme/cheat_sheet_spINAR.png)
 
-## Examples
-### Example 1: Semiparametric Estimation of INAR Models
+## Example
 
-In this example, we simulate INAR(1) data with poisson distributed innovations.
+library(spINAR)
 
-```r
-pinar1 <- function(n, alpha, lambda) {
-  err <- rpois(n, lambda)
-  x <- numeric(n)
-  x[1] <- err[1]
-  for (i in 2:n) {
-    x[i] <- rbinom(1, x[i - 1], alpha) + err[i]
-  }
-  return(x)
-}
-
-SpinarEst <- function(n, k){
-  sim <- replicate(k, spINAR::spinar_est(x= pinar1(n, alpha=0.8, lambda= 0.8), p=1))
-  sum = 0
-  for (i in c(1:k)){
-    sum = sum + sim[[i]][[1]]
-  }
-  return(sum/k)
-}
-```
-
-Simulating 100 iterations for each sample size of poisson innovations with alpha 0.8 and lambda 0.8 we got the following average values for alpha.
-
-![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_est_example_convergence_alpha.png) 
-
-### Example 2: Parametric estimation of INAR models
-In this example, we observe a convergence to the asymptotic probability mass function (pmf) by increasing the sample size (n) and the number of iterations (k) in the `spinar_sim` function.
+We simulate two datasets. The first consists of n = 100 observations resulting from an INAR(1) model with coefficient alpha = 0.5 and Poi(1) distributed innovations. The second consists of n = 100 observations from an INAR(2) model with coefficients alpha_1 = 0.3, alpha_2 = 0.2 and a pmf equal to (0.3, 0.3, 0.2, 0.1, 0.1).
 
 ```r
-SimSpinar <- function(n,prerun, k){
-  sim <- replicate(k, spINAR::spinar_sim(n, p=1, alpha=0.8, pmf=dpois(0:20, lambda), prerun))
-  simprobs <- table(sim)/(k*n)
-  return(simprobs = simprobs)
-}
+set.seed(1234)
 
-asymptotic <- SimSpinar(n=100000, prerun = 5000, k = 1000)
+dat1 <- spinar_sim(100, 1, alpha = 0.5, pmf = dpois(0:20,1))
+dat2 <- spinar_sim(100, 2, alpha = c(0.3, 0.2), pmf= c(0.3, 0.3, 0.2, 0.1, 0.1))
 ```
 
-![](https://github.com/MFaymon/spINAR/blob/main/img_readme/spinar_sim_example_convergence.png)
-
-### Example 3: Semiparametric INAR Boostrap
-```r
-dat <- spINAR::spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
-x1 <- spINAR::spinar_boot(x = dat, p = 1, B = 100)
-y1 <- spINAR::spinar_boot(x = dat, p = 1, B = 250)
-z1 <- spINAR::spinar_boot(x = dat, p = 1, B = 500)
-w1 <- spINAR::spinar_boot(x = dat, p = 1, B = 750)
-```
-
-![](https://github.com/MFaymon/spINAR/blob/main/img_readme/pmf_convergence_boostrap.png)
-
-### Example 4: Fully parametric estimation of INAR(p) model
-In this example, we generate data with geometric distribution over 500 iterations comparing the Maximum Likelihood and Method of Moments for different values of the sample size.
+We estimate an INAR(1) model on the first dataset:
 
 ```r
-geominar1 <- function(n, alpha, pr) {
-  err <- rgeom(n, pr)
-  x <- numeric(n)
-  x[1] <- err[1]
-  for (i in 2:n) {
-    x[i] <- rbinom(1, x[i - 1], alpha) + err[i]
-  }
-  return(x)
-}
+#semiparametrically
+spinar_est(dat1, 1)
 
-SpinarEstParam <- function(n, k, method){
-  sim <- replicate(k, spINAR::spinar_est_param(x = geominar1(n,0.3, 0.5), p=1, type = method, distr = "geo"))
-  alpha1 = 0
-  prob = 0
-  for (i in c(1:k)){
-    alpha1 = alpha1 + sim[,i][[1]]
-    prob = prob + sim[,i][[2]]
-  }
-  return(list(alpha1/k, prob/k))
-}
+#parametrically (moment estimation, true Poisson assumption)
+spinar_est_param(dat1, 1, "mom", "poi")
 ```
 
-![](https://github.com/MFaymon/spINAR/blob/main/img_readme/example_spinar_est_param_geom.png)
+We estimate an INAR(2) model on the second dataset:
+
+```r
+#semiparametrically
+spinar_est(dat2, 2)
+```
+
+For small samples, it can be beneficial to apply a penalized version of the semiparametric estimation. For illustration, we restrict ourselves to the first 50 observations of the first dataset and apply semiparametric, parametric and penalized semiparametric estimation. We chose a small L2 penalization as this showed to be most beneficial in the simulation study in Faymonville et al. (2022) (see references). Alternatively, one could also use the spinar_penal_val function which validates the two penalization parameters.
+
+```r
+dat1_50 <- dat1[1:50]
+spinar_est(dat1_50, 1)
+spinar_est_param(dat1_50, 1, "mom", "poi")
+spinar_penal(dat1, 1, penal1 = 0, penal2 = 0.1)
+```
+
+Finally, we bootstrap INAR(1) data on the first data set. We perform a semiparametric and a parametric INAR bootstrap. 
+
+```r
+boot_sp <- spinar_boot(dat1, 1, 500, setting="sp")
+boot_p <- spinar_boot(dat1, 1, 500, setting = "p", type = "mom", distr = "poi")
+```
+
