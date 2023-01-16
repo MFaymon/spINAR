@@ -1,5 +1,5 @@
 # spINAR
-[![R build status](https://github.com/JonasRieger/ldaPrototype/workflows/R-CMD-check/badge.svg)](https://github.com/JonasRieger/ldaPrototype/actions)
+[![R build status](https://github.com/MFaymon/spINAR/workflows/R-CMD-check/badge.svg)](https://github.com/MFaymon/spINAR/actions)
 
 Simulate, estimate and bootstrap integer autoregressive (INAR) models.
 
