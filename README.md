@@ -29,7 +29,7 @@ dat1 <- spinar_sim(100, 1, alpha = 0.5, pmf = dpois(0:20,1))
 dat2 <- spinar_sim(100, 2, alpha = c(0.3, 0.2), pmf= c(0.3, 0.3, 0.2, 0.1, 0.1))
 ```
 
-We estimate an INAR(1) model on the first dataset:
+We estimate an INAR(1) model on the first dataset.
 
 ```r
 #semiparametrically
@@ -39,7 +39,7 @@ spinar_est(dat1, 1)
 spinar_est_param(dat1, 1, "mom", "poi")
 ```
 
-We estimate an INAR(2) model on the second dataset:
+We estimate an INAR(2) model on the second dataset.
 
 ```r
 #semiparametrically
@@ -55,7 +55,7 @@ spinar_est_param(dat1_50, 1, "mom", "poi")
 spinar_penal(dat1, 1, penal1 = 0, penal2 = 0.1)
 ```
 
-Finally, we bootstrap INAR(1) data on the first data set. We perform a semiparametric and a parametric INAR bootstrap. 
+Finally, we bootstrap INAR(1) data on the first data set. We perform a semiparametric and a parametric INAR bootstrap (moment estimation, true Poisson assumption). 
 
 ```r
 spinar_boot(dat1, 1, 500, setting="sp")
