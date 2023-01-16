@@ -44,9 +44,9 @@ spinar_boot <- function(x, p, B, setting, type=NA, distr=NA, M=100){
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   checkmate::assert_integerish(B, lower = 1, min.len = 1, max.len = 1)
   checkmate::assert_integerish(x, lower = 0, min.len = p+1)
-  checkmate::assert(checkmate::checkChoice(setting, c("sp", "p")))
-  checkmate::assert(checkmate::checkChoice(type, c("mom", "ml", NA)))
-  checkmate::assert(checkmate::checkChoice(distr, c("poi", "geo", "nb", NA)))
+  checkmate::assert_choice(setting, c("sp", "p"))
+  checkmate::assert_choice(type, c("mom", "ml", NA))
+  checkmate::assert_choice(distr, c("poi", "geo", "nb", NA))
   checkmate::assert_integerish(M, lower = 0, min.len = 1, max.len=1)
   
   if(setting=="sp"){
@@ -112,7 +112,3 @@ spinar_boot <- function(x, p, B, setting, type=NA, distr=NA, M=100){
     return(parameters_star)
   }
 }
-
-
-
-
