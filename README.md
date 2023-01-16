@@ -11,13 +11,9 @@ Please cite the JOSS (XXX link DOI) paper using the BibTeX entry (XXX BibTeX ent
 
 ## References (related to the methodology)
 
-(XXX itemize environmant)
-
-Faymonville, M., Jentsch, C., Weiß, C.H. und Aleksandrov, B. (2022). Semiparametric Estimation of INAR Models using Roughness Penalization. Statistical Methods & Applications. (XXX link DOI)
-
-Jentsch, C. and Weiß, C. (2017), “Bootstrapping INAR Models”. Bernoulli 25(3), pp. 2359-2408. (XXX link DOI)
-
-Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of auto-regression parameters and inovation distributions for semiparametric integer-valued AR(p) models”. Journal of the Royal Statistical Society. Series B 71(2), pp. 467-485. (XXX link DOI)
+* Faymonville, M., Jentsch, C., Weiß, C.H. und Aleksandrov, B. (2022). Semiparametric Estimation of INAR Models using Roughness Penalization. Statistical Methods & Applications. [DOI](https://doi.org/10.1007/s10260-022-00655-0)
+* Jentsch, C. and Weiß, C. (2017), “Bootstrapping INAR Models”. Bernoulli 25(3), pp. 2359-2408. (XXX link DOI)
+* Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of auto-regression parameters and inovation distributions for semiparametric integer-valued AR(p) models”. Journal of the Royal Statistical Society. Series B 71(2), pp. 467-485. (XXX link DOI)
 
 ## Installation
 
