@@ -27,9 +27,9 @@
 spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
   checkmate::assert_integerish(p, lower = 1, upper = 2)
   checkmate::assert_numeric(alpha, lower = 0, upper = 1, len = p)
-  checkmate::assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1) # is this true?
-  checkmate::assert_integerish(n, lower = 0) # lower value?
-  checkmate::assert_integerish(prerun, min = 0)  # include a max(n)?
+  checkmate::assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1)
+  checkmate::assert_integerish(n, lower = 0)
+  checkmate::assert_integerish(prerun, min = 0)
   if (round(sum(pmf), 6) != 1) {
     warning("Sum of pmf entries has been standardized to 1.")
   }
@@ -41,13 +41,11 @@ spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
            prob = pmf)
   x <- numeric(n + prerun)
   x[1] <- err[1]
-  # case p = 1
   if (p == 1) {
     for (i in 2:(n + prerun)) {
       x[i] <- rbinom(1, x[i - 1], alpha) + err[i]
     }
   }
-  # case p = 2
   else {
     alpha1 <- alpha[1]
     alpha2 <- alpha[2]

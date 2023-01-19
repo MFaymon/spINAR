@@ -19,7 +19,7 @@
 #' \eqn{L_2} penalization parameter.
 #' It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both", "L_2"\}}}. It is mandatory if \code{validation = FALSE}.
 #' @param over [\code{string(1)}]\cr
-#' validation over \code{"both"} penalization parameters or only over \code{"\eqn{L_1}"} or \code{"\eqn{L_2}"}.
+#' validation over \code{"both"} penalization parameters or only over \code{\eqn{"L_1"}} or \code{\eqn{"L_2"}}.
 #' It is mandatory if \code{validation = TRUE}, otherwise it will be ignored.
 #' @param folds [\code{integer(1)}]\cr
 #' number of folds for (cross) validation.
@@ -45,7 +45,7 @@
 #' spinar_penal_val(x = dat1, p = 1, validation = TRUE, over = "both")}
 #'
 #' @export spinar_penal_val
-spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, folds = 10, init1 = 1, init2 = 1){
+spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = NA, folds = 10, init1 = 1, init2 = 1){
   # also allow for window?: length of window around penal values -> ???
   # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
   # documentation that unpenalized estimation is performed for validation = FALSE and no values set for penal1 and
@@ -70,7 +70,7 @@ spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, fo
 
     checkmate::assert_logical(validation) #if(!is.logical(validation)){stop("'validation' has to be logical")} #translate to checkmate
     checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both", NA))) # additionally ensure that over is either 'L1', 'L2' or 'both'
-    checkmate::assert_integerish(folds, upper = ceiling((length(x)/2)), len = 1) # issue error message if n/folds < 2 if not: not enough observations for validation
+    checkmate::assert_integerish(folds, upper = ceiling((length(x)/(p+1))), len = 1) # issue error message if n/folds < 2 if not: not enough observations for validation
     checkmate::assert_numeric(init1, len = 1)
     checkmate::assert_numeric(init2, len = 1)
 
@@ -80,7 +80,7 @@ spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, fo
     folds <- 10
 
     ins <- vector(mode = "list", folds)
-    outs <- vector(mode="list", folds)
+    outs <- vector(mode = "list", folds)
 
     if(n%%folds==0){ #if rest of division is zero
       for(d in 1:folds){
@@ -137,7 +137,7 @@ spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, fo
 
             value <- 0
 
-            if(p ==1){
+            if(p == 1){
               for(t in 2:length(data_out)){ #compute log-likelihood
                 cp <- sum(dbinom(0:min(data_out[t],data_out[t-1]), data_out[t-1], alpha) * pmf[data_out[t]+1-(0:min(data_out[t],data_out[t-1]))])
                 nb <- penal * sum(abs(pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])) + penal2 * sum((pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])^2)

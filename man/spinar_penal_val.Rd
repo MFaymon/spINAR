@@ -35,7 +35,7 @@ It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both",
 It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both", "L_2"\}}}. It is mandatory if \code{validation = FALSE}.}
 
 \item{over}{[\code{string(1)}]\cr
-validation over \code{"both"} penalization parameters or only over \code{"\eqn{L_1}"} or \code{"\eqn{L_2}"}.
+validation over \code{"both"} penalization parameters or only over \code{\eqn{"L_1"}} or \code{\eqn{"L_2"}}.
 It is mandatory if \code{validation = TRUE}, otherwise it will be ignored.}
 
 \item{folds}{[\code{integer(1)}]\cr

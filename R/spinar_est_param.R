@@ -33,17 +33,10 @@
 #'
 #' @export spinar_est_param
 spinar_est_param <- function(x, p, type, distr){
-  # to do:
-  # ensure that p is either 1 or 2, ifnot issue warning
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
-  # ensure that data is only integer, ifnot warning
   checkmate::assert_integerish(x, min.len = p+1, lower = 0)
-  # ensure that type is either mom or ml
   checkmate::assert(checkmate::checkChoice(type, c("mom", "ml")))
-  # ensure that distr is either poi, geo or nb
   checkmate::assert(checkmate::checkChoice(distr, c("poi", "geo", "nb")))
-  #if(!(distr %in% c('poi', 'geo', 'nb'))){warning("distr is either 'poi', 'geo' or 'nb'")}
-  # ensure that the following 4 values are inbetween 0 and 1
   eacf1 <- max(acf(x, plot=FALSE)$acf[2], 1e-16)
   eacf2 <- max(acf(x, plot=FALSE)$acf[3], 1e-16)
   ealpha2 <- max((eacf2-eacf1^2)/(1-eacf1^2), 1e-16)
@@ -86,7 +79,6 @@ spinar_est_param <- function(x, p, type, distr){
         alpha2_hat <- ealpha2
         prob <- max(min(1/(mean(x)*(1-(alpha1_hat+alpha2_hat))+1),0.99),0)
         param <- c("alpha1"=alpha1_hat, "alpha2"=alpha2_hat, "prob"=prob)
-        checkmate::assert_numeric(param[['alpha1']], upper = 1-param[['alpha2']])
       }
     }
     if(p==1 && distr=="nb"){
@@ -187,7 +179,6 @@ spinar_est_param <- function(x, p, type, distr){
       }
     }
   }
-  #warning if alpha_1 + alpha_2 > 1
   if (p==2){
     checkmate::assert_numeric(param[['alpha1']], upper = 1-param[['alpha2']])
   }
