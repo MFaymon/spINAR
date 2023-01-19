@@ -4,13 +4,13 @@ test_that("input", {
   expect_error(spinar_penal(x=c(1), p=2, penal1=0, penal2=0),  "Assertion on 'x' failed: Must have length >= 3, but has length 1.")
   expect_error(spinar_penal(x=c(0), p=2, penal1=0, penal2= 0),  "Assertion on 'x' failed: Must have length >= 3, but has length 1.")
   expect_error(spinar_penal(x=c(2, 1), p=2, penal1=0, penal2=0),  "Assertion on 'x' failed: Must have length >= 3, but has length 2.")
-  expect_error(spinar_penal(x=c(0.5, 0.3), p= 2, penal1=0, penal2=0),  "Assertion on 'x' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
-  expect_error(spinar_penal(x=c(0.5, 0.3, 0.8, 0.2), p=2, penal1=0, penal2=0),  "Assertion on 'x' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
+  expect_error(spinar_penal(x=c(0.5, 0.3), p= 2, penal1=0, penal2=0),  "Assertion on 'x' failed: Must be of type 'integerish'")
+  expect_error(spinar_penal(x=c(0.5, 0.3, 0.8, 0.2), p=2, penal1=0, penal2=0),  "Assertion on 'x' failed: Must be of type 'integerish'")
   expect_error(spinar_penal(x=c(-5, 3, 8, 2), p=2, penal1=0, penal2=0), "Assertion on 'x' failed: Element 1 is not >= 0.")
   ######################## p ########################
   expect_error(spinar_penal(x=c(rpois(10, 0.5)), p=3, penal1=0, penal2=1),  "Assertion on 'p' failed: Element 1 is not <= 2.")
   expect_error(spinar_penal(x=c(rpois(10, 0.5)), p="1", penal1=0, penal2=1),  "Assertion on 'p' failed: Must be of type 'integerish', not 'character'.")
-  expect_error(spinar_penal(x=c(rpois(20, 0.2)), p=0.5, penal1=0, penal2=1),  "Assertion on 'p' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
+  expect_error(spinar_penal(x=c(rpois(20, 0.2)), p=0.5, penal1=0, penal2=1),  "Assertion on 'p' failed: Must be of type 'integerish'")
   ######################## penal1 ########################
   expect_error(spinar_penal(x=c(rpois(15, 0.4)), p=1, penal1="1", penal2=1), "Assertion on 'penal1' failed: Must be of type 'numeric', not 'character'.")
   expect_error(spinar_penal(x=c(rpois(15, 0.3)), p=1, penal1=c(1, 2), penal2=1), "Assertion on 'penal1' failed: Must have length 1, but has length 2.")

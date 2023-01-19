@@ -38,10 +38,11 @@ test_that("output", {
   expect_equal(sum(spinar_est(x=c(2, 9, 9, 9, 9, 1), p=2)[3:12]), 1)
   expect_equal(sum(spinar_est(x=c(2, 9, 9, 9, 0, 1), p=2)[3:12]), 1)
   # alpha range
-  expect_true(spinar_est(x=c(2, 8, 9, 9, 0, 1), p=2)[1] < 1)
-  expect_true(spinar_est(x=c(2, 8, 9, 9, 0, 1), p=2)[1] > 0)
-  expect_true(spinar_est(x=c(2, 8, 9, 9, 0, 1), p=2)[2] < 1)
-  expect_true(spinar_est(x=c(2, 8, 9, 9, 0, 1), p=2)[1] > 0)
+  tmp = spinar_est(x=c(2, 8, 9, 9, 0, 1), p=2)
+  expect_true(tmp[1] < 1)
+  expect_true(tmp[1] > 0)
+  expect_true(tmp[2] < 1)
+  expect_true(tmp[2] > 0)
 })
 
 
