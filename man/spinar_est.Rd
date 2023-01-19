@@ -32,4 +32,5 @@ dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = c(0.25, 0.2, 0.15,
 spinar_est(x = dat1, p = 1)
 # semiparametric estimation of INAR(2) model
 spinar_est(x = dat2, p = 2)}
+
 }

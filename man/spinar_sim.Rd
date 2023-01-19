@@ -36,4 +36,5 @@ spinar_sim(n = 100, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
 
 # generate 100 obervations of an INAR(2) model with alpha_1 = 0.2, alpha_2 = 0.3 and Poi(1)-innovations
 spinar_sim(n = 100, p = 2, alpha = c(0.2, 0.3), pmf = dpois(0:20,1))
+
 }

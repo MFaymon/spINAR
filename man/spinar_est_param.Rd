@@ -42,4 +42,5 @@ spinar_est_param(x = dat1, p = 1, type = "mom", distr = "poi")
 spinar_est_param(x = dat2, p = 2, type = "mom", distr = "geo")
 # maximum likelihood-based parametric estimation of NB-INAR(1) model
 spinar_est_param(x = dat3, p = 1, type = "ml", distr = "nb")
+
 }

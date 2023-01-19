@@ -32,4 +32,5 @@ dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1)
 
 # penalized semiparametric estimation
 spinar_penal(x = dat1, p = 1, penal1 = 0, penal2 = 0.1)
+
 }

@@ -44,7 +44,7 @@
 #' # penalized semiparametric estimation with validation over both L1 and L2
 #' spinar_penal_val(x = dat1, p = 1, validation = TRUE, over = "both")}
 #'
-#' @export spinar_penar_val
+#' @export spinar_penal_val
 spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, folds = 10, init1 = 1, init2 = 1){
   # also allow for window?: length of window around penal values -> ???
   # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
