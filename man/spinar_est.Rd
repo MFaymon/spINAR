@@ -2,34 +2,34 @@
 % Please edit documentation in R/spinar_est.R
 \name{spinar_est}
 \alias{spinar_est}
-\title{Semiparametric Estimation of INAR Models}
+\title{Semiparametric estimation of INAR models}
 \usage{
 spinar_est(x, p)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
-vector of integer values corresponding to the data}
+vector with integer observations.}
 
 \item{p}{[\code{integer(1)}]\cr
-order of the INAR model, where \code{p in \{1,2\}}}
+order of the INAR model, where \eqn{\code{p} \in \{1,2\}}.}
 }
 \value{
-estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
-where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
-and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
-where \code{pmf[i]} denotes the probability of observing value i
+Vector containing the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
+of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+an innovation being equal to \eqn{i}.
 }
 \description{
-Performs a semiparametric estimation of the autoregressive parameters and the innovation distribution for INAR models of order \code{p},
- \code{p in {1,2}}, the estimation is conducted by maximizing the conditional likelihood of the model.
+Semiparametric estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
+\eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the conditional likelihood of the model.
 }
 \examples{
-## Parameter estimation for p = 1 and x as a vector of values.
-dat <- spinar_sim(100, 1, 0.5, dpois(0:10,1))
-spinar_est(dat, 1)
-### returns (alpha_1, pmf[0], pmf[1],...)
-## Parameter estimation for p = 2 and data generated from a poisson distribution with parameter 0.8.
-dat <- spinar_sim(100, 2, 0.2, 0.3, dpois(0:10,1))
-spinar_est(dat, 2)
-### returns (alpha_1, alpha_2, pmf[0], pmf[1], ...)
+# generate data
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = c(0.25, 0.2, 0.15, 0.1, 0.1, 0.1, 0.1))
+
+\dontrun{
+# semiparametric estimation of INAR(1) model
+spinar_est(x = dat1, p = 1)
+# semiparametric estimation of INAR(2) model
+spinar_est(x = dat2, p = 2)}
 }

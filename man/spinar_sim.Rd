@@ -2,38 +2,38 @@
 % Please edit documentation in R/spinar_sim.R
 \name{spinar_sim}
 \alias{spinar_sim}
-\title{Simulation of (semi)parametric integer autoregressive models}
+\title{Simulation of (semi)parametric integer autoregressive (INAR) models}
 \usage{
 spinar_sim(n, p, alpha, pmf, prerun = 500)
 }
 \arguments{
-\item{n}{[\code{integer}(1)]\cr
-total of values generated for the INAR(p).}
+\item{n}{[\code{integer(1)}]\cr
+number of observations.}
 
-\item{p}{[\code{integer}(1)]\cr
-lag of the INAR(p) where \code{p in \{1,2\}}.}
+\item{p}{[\code{integer(1)}]\cr
+lag of the INAR(\code{p}) model, where \code{p} \eqn{\in \{1,2\}}.}
 
 \item{alpha}{[\code{integer(p)}]\cr
-alpha_1,...,alpha_p}
+vector of INAR coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p}.}
 
 \item{pmf}{[\code{numeric}]\cr
-probability mass function pmf0,..., pmfk where pmfi represent the pmf for the value i.}
+vector of probability mass function \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+an innovation being equal to \eqn{i}.}
 
 \item{prerun}{[\code{integer(1)}]\cr
-default parameter equal 500, the function `spinar_sim` uses `n + prerun` observations and then cut the first prerun observations.}
+number of observations which are generated additionally and then omitted (to ensure stationarity).}
 }
 \value{
-sim  [\code{integer(n)}]\cr
-vector with n simulations for the INAR(p) generated.
+Vector with \eqn{n} INAR(\code{p}) observations.
 }
 \description{
-Function to generate INAR(p), where p in {1,2} and we allow for general pmf's which can be generated parametrically or "manually" (semiparametric)
+Generating INAR(p) observations, where \code{p} \eqn{\in \{1,2\}}. It allows for general pmfs
+which can be generated parametrically or "manually" (semiparametrically).
 }
 \examples{
-spinar_sim(1000, 1, 0.5, dpois(0:20,1), prerun = 500)
-spinar_sim(1000, 1, 0.5, c(0.1,0.5,0.4), prerun = 500)
-spinar_sim(1000, 1, 0.5, c(0.1,0.5,0.2), prerun = 500)
-spinar_sim(1000, 2, c(0.2, 0.3), dpois(0:20,1), prerun = 500)
-spinar_sim(1000, 2, c(0.2, 0.3), c(0.1,0.5,0.4), prerun = 500)
-spinar_sim(1000, 2, c(0.2, 0.3), c(0.1,0.5,0.2), prerun = 500)
+# generate (semiparametrically) 100 INAR(1) observations with alpha_1 = 0.5 and a manually set pmf
+spinar_sim(n = 100, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+
+# generate 100 obervations of an INAR(2) model with alpha_1 = 0.2, alpha_2 = 0.3 and Poi(1)-innovations
+spinar_sim(n = 100, p = 2, alpha = c(0.2, 0.3), pmf = dpois(0:20,1))
 }

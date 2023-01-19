@@ -1,28 +1,27 @@
-#' @title Simulation of (semi)parametric integer autoregressive models
+#' @title Simulation of (semi)parametric integer autoregressive (INAR) models
 #'
-#' @description Function to generate INAR(p), where p in {1,2} and we allow for general pmf's which can be generated parametrically or "manually" (semiparametric)
+#' @description Generating INAR(p) observations, where \code{p} \eqn{\in \{1,2\}}. It allows for general pmfs
+#' which can be generated parametrically or "manually" (semiparametrically).
 #'
-#' @param n [\code{integer}(1)]\cr
-#' total of values generated for the INAR(p).
-#' @param p [\code{integer}(1)]\cr
-#' lag of the INAR(p) where \code{p in \{1,2\}}.
+#' @param n [\code{integer(1)}]\cr
+#' number of observations.
+#' @param p [\code{integer(1)}]\cr
+#' lag of the INAR(\code{p}) model, where \code{p} \eqn{\in \{1,2\}}.
 #' @param alpha [\code{integer(p)}]\cr
-#' alpha_1,...,alpha_p
+#' vector of INAR coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p}.
 #' @param pmf [\code{numeric}]\cr
-#' probability mass function pmf0,..., pmfk where pmfi represent the pmf for the value i.
-#' @param prerun  [\code{integer(1)}]\cr
-#' default parameter equal 500, the function `spinar_sim` uses `n + prerun` observations and then cut the first prerun observations.
+#' vector of probability mass function \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+#' an innovation being equal to \eqn{i}.
+#' @param prerun [\code{integer(1)}]\cr
+#' number of observations which are generated additionally and then omitted (to ensure stationarity).
 #'
-#' @return sim  [\code{integer(n)}]\cr
-#' vector with n simulations for the INAR(p) generated.
-#' @export
+#' @return Vector with \eqn{n} INAR(\code{p}) observations.
 #'
-#' @examples spinar_sim(1000, 1, 0.5, dpois(0:20,1), prerun = 500)
-#' @examples spinar_sim(1000, 1, 0.5, c(0.1,0.5,0.4), prerun = 500)
-#' @examples spinar_sim(1000, 1, 0.5, c(0.1,0.5,0.2), prerun = 500)
-#' @examples spinar_sim(1000, 2, c(0.2, 0.3), dpois(0:20,1), prerun = 500)
-#' @examples spinar_sim(1000, 2, c(0.2, 0.3), c(0.1,0.5,0.4), prerun = 500)
-#' @examples spinar_sim(1000, 2, c(0.2, 0.3), c(0.1,0.5,0.2), prerun = 500)
+#' @examples # generate (semiparametrically) 100 INAR(1) observations with alpha_1 = 0.5 and a manually set pmf
+#' spinar_sim(n = 100, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+#'
+#' @examples # generate 100 obervations of an INAR(2) model with alpha_1 = 0.2, alpha_2 = 0.3 and Poi(1)-innovations
+#' spinar_sim(n = 100, p = 2, alpha = c(0.2, 0.3), pmf = dpois(0:20,1))
 
 
 spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
@@ -31,7 +30,7 @@ spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
   checkmate::assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1) # is this true?
   checkmate::assert_integerish(n, lower = 0) # lower value?
   checkmate::assert_integerish(prerun, min = 0)  # include a max(n)?
-  if (sum(pmf) != 1) {
+  if (round(sum(pmf), 6) != 1) {
     warning("Sum of pmf entries has been standardized to 1.")
   }
   pmf <- pmf / sum(pmf)

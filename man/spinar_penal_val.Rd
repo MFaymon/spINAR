@@ -2,7 +2,7 @@
 % Please edit documentation in R/spinar_penal_validation.R
 \name{spinar_penal_val}
 \alias{spinar_penal_val}
-\title{Validation of the Penalization Parameters of the Penalized Semiparametric Estimation of INAR(p) Model}
+\title{Validated penalized semiparametric estimation of INAR models}
 \usage{
 spinar_penal_val(
   x,
@@ -18,30 +18,28 @@ spinar_penal_val(
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
-vector of integer values corresponding to the data}
+vector with integer observations.}
 
 \item{p}{[\code{integer(1)}]\cr
-order of the INAR model, where \code{p in \{1,2\}}}
+order of the INAR model, where \eqn{\code{p} \in \{1,2\}}.}
 
 \item{validation}{[\code{logical(1)}]\cr
-`TRUE` or `FALSE` depending on whether validation is wanted}
+indicates whether validation is wanted.}
 
 \item{penal1}{[\code{numeric(1)}]\cr
-penalization parameter for `L1` penalization
-It will be ignored if validation = `TRUE` and over = `both`. Also, `penal1` will be ignored if validation = `TRUE` and over = `L1`.
-It is mandatory if validation = `FALSE`.}
+\eqn{L_1} penalization parameter.
+It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both", "L_1"\}}}. It is mandatory if \code{validation = FALSE}.}
 
 \item{penal2}{[\code{numeric(1)}]\cr
-penalization parameter for L2 penalization
-It will be ignored if validation = `TRUE` and over = `both`. Also `penal2` will be ignored if validation = `TRUE` and over = `L2`.
-It is mandatory if validation = `FALSE`.}
+\eqn{L_2} penalization parameter.
+It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both", "L_2"\}}}. It is mandatory if \code{validation = FALSE}.}
 
 \item{over}{[\code{string(1)}]\cr
-can take answers whether validation for penal1 (`L1`) or penal2 (`L2`) or both (`both`) is wanted.
-It is mandatory if validation = `TRUE`, otherwise it will be ignored.}
+validation over \code{"both"} penalization parameters or only over \code{"\eqn{L_1}"} or \code{"\eqn{L_2}"}.
+It is mandatory if \code{validation = TRUE}, otherwise it will be ignored.}
 
 \item{folds}{[\code{integer(1)}]\cr
-number of folds for cross validation}
+number of folds for (cross) validation.}
 
 \item{init1}{[\code{numeric(1)}]\cr
 initial value for penal1 in validation. Default value is init1 = 1.}
@@ -50,23 +48,25 @@ initial value for penal1 in validation. Default value is init1 = 1.}
 initial value for penal2 in validation. Default value is init2 = 1}
 }
 \value{
-estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
-where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
-and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
-where \code{pmf[i]} denotes the probability of observing value i
+For \code{validation=FALSE}, the function returns a vector containing the penalized estimated coefficients
+\eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+an innovation being equal to \eqn{i}. For \code{validation=TRUE}, the function returns a named list, where the first entry contains
+the penalized estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+an innovation being equal to \eqn{i}. The second (and if \code{over = both} also the third entry) contain(s) the validated penalization paramter(s).
 }
 \description{
-Performs a validation of one or both penalization parameters of the penalized semiparametric estimation of INAR(p) models,
-\code{p in {1,2}}. If no validation is wanted, the function coincides to the spinar_penal function of this package.
+Semiparametric penalized estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
+\eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the penalized conditional likelihood of the model.
+Included is a possible validation of one or both penalization parameters. If no validation is wanted, the function coincides
+to the spinar_penal function of this package.
 }
 \examples{
-### data generation
-# do not run
-# dat <- spinar_sim(1000, 1, 0.5, dpois(0:20,1))
-### penalized semiparametric estimation with validation over both penalization parameters
-# spinar_penal_val(dat, 1, validation=TRUE, over="both")
-#### data generation
-# dat <- spinar_sim(1000, 1, 0.5, dpois(0:20,1))
-## penalized semiparametric estimation with validation over L1 penalization parameter
-# spinar_penal_val(dat, 1, validation=TRUE, penal2 = 0.1, over="L1")
+# generate data
+dat1 <- spinar_sim(n = 50, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+
+\dontrun{
+# penalized semiparametric estimation with validation over L1
+spinar_penal_val(x = dat1, p = 1, validation = TRUE, penal2 = 0.1, over = "L1")
+# penalized semiparametric estimation with validation over both L1 and L2
+spinar_penal_val(x = dat1, p = 1, validation = TRUE, over = "both")}
 }

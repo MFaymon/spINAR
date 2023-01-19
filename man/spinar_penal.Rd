@@ -2,34 +2,34 @@
 % Please edit documentation in R/spinar_penal.R
 \name{spinar_penal}
 \alias{spinar_penal}
-\title{Penalized Semiparametric Estimation of INAR(p) Model.}
+\title{Penalized semiparametric estimation of INAR models}
 \usage{
 spinar_penal(x, p, penal1 = 0, penal2 = 0)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
-vector of integer values corresponding to the data}
+vector with integer observations.}
 
 \item{p}{[\code{integer(1)}]\cr
-order of the INAR model, where \code{p in \{1,2\}}}
+order of the INAR model, where \eqn{\code{p} \in \{1,2\}}.}
 
-\item{penal1}{L1 penalization parameter (default value zero meaning no L1 penalization)}
+\item{penal1}{\eqn{L_1} penalization parameter (default value zero results in no \eqn{L_1} penalization)}
 
-\item{penal2}{L2 penalization parameter (default value zero meaning no L2 penalization)}
+\item{penal2}{\eqn{L_2} penalization parameter (default value zero results in  no \eqn{L_2} penalization)}
 }
 \value{
-estimated parameters \code{(alpha_1, ..., alpha_p, pmf[0], pmf[1], ...)},
-where \code{(alpha_1, ..., alpha_p)} are the estimated autoregressive coefficients
-and \code{(pmf[0], pmf[1], ...)} are the estimated entries of the probability mass function of the innovation distribution,
-where \code{pmf[i]} denotes the probability of observing value i
+Vector containing the penalized estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized
+estimated entries of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+an innovation being equal to \eqn{i}.
 }
 \description{
-Performs a penalized semiparametric estimation of the autoregressive parameters and the innovation distribution for INAR models of order \code{p},
-\code{p in {1,2}}, the estimation is conducted by maximizing the penalized conditional likelihood of the model.
+Semiparametric penalized estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
+\eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the penalized conditional likelihood of the model.
 }
 \examples{
-### data generation
-# dat <- spinar_sim(100, 1, 0.5, dpois(0:20,1))
-## penalized semiparametric estimation
-# spinar_penal(dat, 1, 0.2, 0.4)
+# generate data
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+
+# penalized semiparametric estimation
+spinar_penal(x = dat1, p = 1, penal1 = 0, penal2 = 0.1)
 }

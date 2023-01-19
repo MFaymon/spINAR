@@ -8,112 +8,38 @@ spinar_est_param(x, p, type, distr)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
-vector of integer values corresponding to the data}
+vector with integer observations.}
 
 \item{p}{[\code{integer(1)}]\cr
-order of the INAR model, where \code{p in \{1,2\}}}
+order of the INAR model, where \eqn{\code{p} \in \{1,2\}}.}
 
 \item{type}{[\code{string(1)}]\cr
-type of estimation in \code{\{"mom", "ml"\}}
-'mom': moment estimation
-'ml' : maximum likelihood estimation}
+type of estimation \eqn{\in \code{\{"mom", "ml"\}}}, where \code{"mom"} performs moment-based estimation and
+\code{"ml"} maximum likelihood-based estimation.}
 
 \item{distr}{[\code{string(1)}]\cr
-parametric family of distribution in  \code{\{'poi', 'geo', 'nb'\}}
-\code{'poi'}: Poisson distribution with parameter \code{lambda}
-\code{'geo'}: Geometric distribution with parameter \code{prob}
-\code{'nb'}: Negative binomial distribution with parameters \code{r} and \code{prob}}
+parametric family of innovation distribution \eqn{\in  \code{\{'poi', 'geo', 'nb'\}}}, where \code{"poi"} denotes
+Poi(\code{lambda}), \code{"geo"} Geo(\code{prob}) and \code{"nb"} NB(\code{r}, \code{prob}) distributions.}
 }
 \value{
-(alpha, parameters)
-where parameters depends on the distribution
-parameters of poi, geo and nb are lambda, prob and (r, prob) respectively.
+Named vector containing the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s)
+of the innovation distribution.
 }
 \description{
-for now only moment-based
+Parametric estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
+\eqn{\code{p} \in \{1,2\}}, with Poisson, geometrically or negative binomially distributed innovations. The estimation can either be
+moment- or maximum likelihood-based.
 }
 \examples{
-## Examples
-# do not run
-# geominar1 <- function(n, alpha, pr){
-#   err <- rgeom(n, pr)
-#   x <- numeric(n)
-#   #initialization x_0 = 0
-#   x[1] <- err[1]
-#   for(i in 2:n){
-#     x[i] <- rbinom(1, x[i-1], alpha) + err[i]
-#   }
-#   return(x)
-# }
-# geominar2 <- function(n, alpha1, alpha2, pr){
-#   err <- rgeom(n, pr)
-#   x <- numeric(n)
-#   #initialization x_0 = 0
-#   x[1] <- err[1]
-#   x[2] <- x[1] + err[2]
-#   for(i in 3:n){
-#     x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
-#   }
-#   return(x)
-# }
-# nbinar1 <- function(n, alpha, nsize, pi){
-#   err <- rnbinom(n, nsize, pi)
-#   x <- numeric(n)
-#   #initialize x_0 = 0
-#   x[1] <- err[1]
-#   for(i in 2:n){
-#     x[i] <- rbinom(1, x[i-1], alpha) + err[i]
-#   }
-#   return(x)
-# }
-# nbinar2 <- function(n, alpha1, alpha2, nsize, pi){
-#   err <- rnbinom(n, nsize, pi)
-#   x <- numeric(n)
-#   #initialize x_0 = 0
-#   x[1] <- err[1]
-#   x[2] <- x[1] + err[2]
-#   for(i in 3:n){
-#     x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
-#   }
-#   return(x)
-# }
-# pinar1 <- function(n, alpha, lambda){
-#   err <- rpois(n, lambda)
-#   x <- numeric(n)
-#   #initialization x_0 = 0
-#   x[1] <- err[1]
-#   for(i in 2:n){
-#     x[i] <- rbinom(1, x[i-1], alpha) + err[i]
-#   }
-#   return(x)
-# }
-# pinar2 <- function(n, alpha1, alpha2, lambda){
-#   err <- rpois(n, lambda)
-#   x <- numeric(n)
-#   #initialization
-#   x[1] <- err[1]
-#   x[2] <- x[1] + err[2]
-#   for(i in 3:n){
-#     x[i] <- rbinom(1, x[i-1], alpha1) + rbinom(1, x[i-2], alpha2) + err[i]
-#   }
-#   return(x)
-# }
-dat1 <- pinar1(1000,0.3, 1.4)
-# dat2 <- pinar2(1000,0.3, 0.5, 0.8)
-# dat3 <- geominar1(1000,0.3, 0.5)
-# dat4 <- geominar2(1000, 0.3, 0.15, 0.5)
-# dat5 <- nbinar1(1000, 0.4, 5, 0.33)
-# dat6 <- nbinar2(1000, 0.3, 0.5, 5, 0.16) #extremely high running time -> exclude?
-# spinar_est_param(dat1,1,"mom","poi")
-# spinar_est_param(dat1,1,"ml","poi")
-# spinar_est_param(dat2,2,"mom","poi")
-# spinar_est_param(dat2,2,"ml","poi")
-# spinar_est_param(dat3,1,"mom","geo")
-# spinar_est_param(dat3,1,"ml","geo")
-# spinar_est_param(dat4,2,"mom","geo")
-# spinar_est_param(dat4,2,"ml","geo")
-# spinar_est_param(dat5,1,"mom","nb")
-# spinar_est_param(dat5,1,"ml","nb")
-# spinar_est_param(dat6,2,"mom","nb")
-# spinar_est_param(dat6,2,"ml","nb")
+# generate data
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = dpois(0:20, 1)) # Poi-INAR(1) data
+dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = dgeom(0:60, 0.5)) # Geo-INAR(2) data
+dat3 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = dnbinom(0:40, 2, 2/3)) # NB-INAR(1) data
+
+# moment-based parametric estimation of Poi-INAR(1) model
+spinar_est_param(x = dat1, p = 1, type = "mom", distr = "poi")
+# moment-based parametric estimation of Geo-INAR(2) model
+spinar_est_param(x = dat2, p = 2, type = "mom", distr = "geo")
+# maximum likelihood-based parametric estimation of NB-INAR(1) model
+spinar_est_param(x = dat3, p = 1, type = "ml", distr = "nb")
 }

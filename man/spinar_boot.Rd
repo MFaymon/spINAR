@@ -2,55 +2,54 @@
 % Please edit documentation in R/spinar_boot.R
 \name{spinar_boot}
 \alias{spinar_boot}
-\title{Integer Autoregressive Bootstrap Procedure}
+\title{(Semi)parametric INAR bootstrap procedure}
 \usage{
 spinar_boot(x, p, B, setting, type = NA, distr = NA, M = 100)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
-vector of integer values corresponding to the data}
+vector with integer observations.}
 
 \item{p}{[\code{integer(1)}]\cr
-order of the INAR model, where \code{p in \{1,2\}}}
+order of the INAR model, where \eqn{\code{p} \in \{1,2\}}.}
 
 \item{B}{[\code{integer(1)}]\cr
-number of bootstrap repetitions}
+number of bootstrap repetitions.}
 
 \item{setting}{[\code{string(1)}]\cr
-setting of estimation in \code{\{"sp", "p"\}}
-'sp': semiparametric setting
-'p' : parametric setting}
+estimation setting \eqn{\in \code{\{"sp", "p"\}}}, where \code{"sp"} defines a semiparametric setting and
+\code{"p"} a parametric setting.}
 
 \item{type}{[\code{string(1)}]\cr
-type of estimation in \code{\{"mom", "ml"\}}
-'mom': moment estimation
-'ml' : maximum likelihood estimation}
+type of estimation \eqn{\in \code{\{"mom", "ml"\}}}, where \code{"mom"} performs moment-based estimation and
+\code{"ml"} maximum likelihood-based estimation.}
 
 \item{distr}{[\code{string(1)}]\cr
-parametric family of distribution in  \code{\{'poi', 'geo', 'nb'\}}
-\code{'poi'}: Poisson distribution with parameter \code{lambda}
-\code{'geo'}: Geometric distribution with parameter \code{prob}
-\code{'nb'}: Negative binomial distribution with parameters \code{r} and \code{prob}}
+parametric family of innovation distribution \eqn{\in  \code{\{"poi", "geo", "nb"\}}}, where \code{"poi"} denotes
+Poi(\code{lambda}), \code{"geo"} Geo(\code{prob}) and \code{"nb"} NB(\code{r}, \code{prob}) distributions.}
 
 \item{M}{[\code{integer(1)}]\cr
-upper limit for innovations}
+upper limit for the innovations.}
 }
 \value{
-bootstrap estimated parameters (INAR coefficients and pmf (or estimated innovation parameters))
+(Named) List of length \code{B} containing the bootstrap estimated parameters. In the semiparametric case,
+each list entry contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
+of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+an innovation being equal to \eqn{i}. In the parametric case, each list entry contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s)
+of the innovation distribution.
 }
 \description{
-
+INAR bootstrap procedures for the semiparametric and the parametric INAR setting, where the latter allows for
+moment- and maximum likelihood-based estimation and Poisson, geometrically and negative binomially distributed innovations.
 }
 \examples{
-### simulating data of INAR(1)
-# dat <- spinar_sim(n=1000, p = 1, alpha = 0.3, pmf = dpois(0:10,1.5))
-### semiparametric INAR bootstrap
-# spinar_boot(dat, 1, 100)
-### simulating data of INAR(2)
-# dat <- spinar_sim(n=500, p = 2, alpha = c(0.3, 0.2), pmf = dpois(0:10,1.5))
-### semiparametric INAR bootstrap
-# spinar_boot(x=dat, p=2, B=100, setting="sp")
-### parametric Poisson INAR bootstrap
-spinar_boot(x=dat, p=2, B=100, setting="p", type="mom", distr="poi")
+# generate data
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = dgeom(0:60, 0.5))
 
+\dontrun{
+# semiparametric INAR(1) bootstrap
+spinar_boot(x = dat1, p  = 1, B = 50, setting = "sp")
+# parametric Geo-INAR(2) bootstrap using moment-based estimation
+spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom", distr = "geo")}
 }
