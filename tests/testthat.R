@@ -9,4 +9,6 @@
 library(testthat)
 library(spINAR)
 
+RNGversion("3.6.0")
+
 test_check("spINAR")

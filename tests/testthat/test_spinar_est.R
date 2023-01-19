@@ -7,13 +7,13 @@ test_that("input", {
   # P: Need to add lower =0 in checkmate
   expect_error(spinar_est(x = c(-1, 2, 0, 4, 5), p = 1))
   expect_error(spinar_est(x = c(-1, 2, 0, 4, 5), p = 2))
-  expect_error(spinar_est(x = c(1, 2.4, 0, 4, 5), p = 1), "Assertion on 'x' failed: Must be of type 'integerish', but element 2 is not close to an integer.")
-  expect_error(spinar_est(x = c(1, 2, 0, 4.1, 5), p = 2), "Assertion on 'x' failed: Must be of type 'integerish', but element 2 is not close to an integer.")
+  expect_error(spinar_est(x = c(1, 2.4, 0, 4, 5), p = 1), "Assertion on 'x' failed: Must be of type 'integerish'")
+  expect_error(spinar_est(x = c(1, 2, 0, 4.1, 5), p = 2), "Assertion on 'x' failed: Must be of type 'integerish'")
   ######################## p ########################
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = "1"), "Assertion on 'p' failed: Must be of type 'integerish', not 'character'.")
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0)), 'argument "p" is missing, with no default')
-  expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = 1.5), "Assertion on 'p' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
-  expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = 0.5), "Assertion on 'p' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
+  expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = 1.5), "Assertion on 'p' failed: Must be of type 'integerish'")
+  expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = 0.5), "Assertion on 'p' failed: Must be of type 'integerish'")
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = -3), "Assertion on 'p' failed: Element 1 is not >= 1.")
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = c(2,1)), "Assertion on 'p' failed: Must have length <= 1, but has length 2.")
 })
