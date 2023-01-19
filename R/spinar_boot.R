@@ -37,8 +37,8 @@
 #' spinar_boot(x = dat1, p  = 1, B = 50, setting = "sp")
 #' # parametric Geo-INAR(2) bootstrap using moment-based estimation
 #' spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom", distr = "geo")}
-
-
+#'
+#' @export spinar_boot
 spinar_boot <- function(x, p, B, setting, type=NA, distr=NA, M=100){
   # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)

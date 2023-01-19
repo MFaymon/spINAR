@@ -23,7 +23,8 @@
 #'
 #' # penalized semiparametric estimation
 #' spinar_penal(x = dat1, p = 1, penal1 = 0, penal2 = 0.1)
-
+#'
+#' @export spinar_penal
 spinar_penal <- function(x, p, penal1 = 0, penal2 = 0) {
   # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)

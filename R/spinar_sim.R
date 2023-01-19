@@ -22,8 +22,8 @@
 #'
 #' @examples # generate 100 obervations of an INAR(2) model with alpha_1 = 0.2, alpha_2 = 0.3 and Poi(1)-innovations
 #' spinar_sim(n = 100, p = 2, alpha = c(0.2, 0.3), pmf = dpois(0:20,1))
-
-
+#'
+#' @export spinar_sim
 spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
   checkmate::assert_integerish(p, lower = 1, upper = 2)
   checkmate::assert_numeric(alpha, lower = 0, upper = 1, len = p)

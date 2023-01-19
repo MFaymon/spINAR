@@ -23,7 +23,8 @@
 #' spinar_est(x = dat1, p = 1)
 #' # semiparametric estimation of INAR(2) model
 #' spinar_est(x = dat2, p = 2)}
-
+#'
+#' @export spinar_est
 spinar_est <- function(x, p) {
   # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)

@@ -30,7 +30,8 @@
 #' spinar_est_param(x = dat2, p = 2, type = "mom", distr = "geo")
 #' # maximum likelihood-based parametric estimation of NB-INAR(1) model
 #' spinar_est_param(x = dat3, p = 1, type = "ml", distr = "nb")
-
+#'
+#' @export spinar_est_param
 spinar_est_param <- function(x, p, type, distr){
   # to do:
   # ensure that p is either 1 or 2, ifnot issue warning
