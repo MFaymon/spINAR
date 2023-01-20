@@ -2,7 +2,8 @@
 #'
 #' @description
 #' Semiparametric penalized estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
-#' \eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the penalized conditional likelihood of the model.
+#' \eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the penalized conditional likelihood of the model. If both
+#' penalization parameters are set to zero, the function coincides to the spinar_est function of this package.
 #'
 #' @param x [\code{integer}]\cr
 #' vector with integer observations.
@@ -26,7 +27,6 @@
 #'
 #' @export spinar_penal
 spinar_penal <- function(x, p, penal1 = 0, penal2 = 0) {
-  # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   checkmate::assert_integerish(x, lower = 0, min.len = p+1)
   checkmate::assert_numeric(penal1, len = 1)

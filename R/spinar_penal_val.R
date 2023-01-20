@@ -46,48 +46,35 @@
 #'
 #' @export spinar_penal_val
 spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = NA, folds = 10, init1 = 1, init2 = 1){
-  # also allow for window?: length of window around penal values -> ???
-  # if we only want to have one function for (semiparametric) estimation (penalized and unpenalized), we should write in the
-  # documentation that unpenalized estimation is performed for validation = FALSE and no values set for penal1 and
-  # penal2 (default = 0) or if the user set them explicitly = 0.
-  # maybe keep the function for unpenalized estimation, makes it easier for the user
-
-  # cite our paper to explain the penalization and the validation (Algorithm 1)? Or explain it shortly in the documentation
-  # (and additionally cite the paper?)?
-
   checkmate::assert_integerish(p, lower = 1, len = 1, upper = 2)
   checkmate::assert_integerish(x, lower = 0, min.len = p+1)
   checkmate::assert_numeric(penal1, len = 1)
   checkmate::assert_numeric(penal2, len = 1)
 
   if(validation == FALSE){
-    # if validation = FALSE, the user has to input values for penal1 and penal2
-    # issue a warning if no values for pena1 and penal2 are set -> function takes default values (both zero)
-    #if(missing(penal1) || missing(penal2)){warning("values for penal1 or penal2 are missing, they are therefore treated as zero")}
     if(is.na(penal1) || is.na(penal2)){warning("values for penal1 or penal2 are missing, they are therefore treated as zero")}
-    parameters <- spinar_penal(x, p)
+    if(is.na(penal1)){penal1 <- 0}
+    if(is.na(penal2)){penal2 <- 0}
+    parameters <- spinar_penal(x, p, penal1, penal2)
   } else{
-
-    checkmate::assert_logical(validation) #if(!is.logical(validation)){stop("'validation' has to be logical")} #translate to checkmate
-    checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both", NA))) # additionally ensure that over is either 'L1', 'L2' or 'both'
-    checkmate::assert_integerish(folds, upper = ceiling((length(x)/(p+1))), len = 1) # issue error message if n/folds < 2 if not: not enough observations for validation
+    checkmate::assert_logical(validation)
+    checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both", NA)))
+    checkmate::assert_integerish(folds, upper = ceiling((length(x)/(p+1))), len = 1)
     checkmate::assert_numeric(init1, len = 1)
     checkmate::assert_numeric(init2, len = 1)
 
-
-    # separate the data in in and out of sample data
-    n <- length(x) # issue error message if n/folds < 2 if not: not enough observations for validation
+    n <- length(x)
     folds <- 10
 
     ins <- vector(mode = "list", folds)
     outs <- vector(mode = "list", folds)
 
-    if(n%%folds==0){ #if rest of division is zero
+    if(n%%folds==0){
       for(d in 1:folds){
-        ins[[d]] <- x[-((1+(d-1)*(n/folds)):((n/folds)+(d-1)*(n/folds)))] #in sample data
-        outs[[d]] <- x[(1+(d-1)*(n/folds)):((n/folds)+(d-1)*(n/folds))] #out of sample data
+        ins[[d]] <- x[-((1+(d-1)*(n/folds)):((n/folds)+(d-1)*(n/folds)))]
+        outs[[d]] <- x[(1+(d-1)*(n/folds)):((n/folds)+(d-1)*(n/folds))]
       }
-    } else{ #if rest of division is unequal zer0
+    } else{
       lngth <- rep(n %/% folds, folds)
       for(i in 1:(n %% folds)){
         lngth[i] <- lngth[i] + 1
@@ -99,31 +86,22 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         index[[i]] <- sum(lngth[1:(i-1)],1):sum(lngth[1:i])
       }
 
-      # out ist das Kuerzere
-
       for(d in 1:folds){
-        ins[[d]] <- x[-index[[d]]] #in sample data
-        outs[[d]] <- x[index[[d]]] #out of sample data
+        ins[[d]] <- x[-index[[d]]]
+        outs[[d]] <- x[index[[d]]]
       }
     }
 
-    # if validation = TRUE, input values for penal1 and penal2 will be ignored for over = both and partial for over = L1 or L2 resp.
-    # issue a warning about this
     if(over == "L1"){
-      # only validation for penal1, the value for penal2 has to be input by the user
-      # warning: if not then treated as zero
-      #if(!missing(penal1)){stop("if over = L1, no value for penal1 allowed")}
       if(!is.na(penal1)){stop("if over = L1, no value for penal1 allowed")}
-      #if(missing(penal2)){warning("value for penal2 is missing and is treated as zero")}
       if(is.na(penal2)){warning("value for penal2 is missing and is treated as zero")}
-      #if(missing(penal2)){penal2 <- 0}
       if(is.na(penal2)){penal2 <- 0}
       penal_val <- init1
 
-      loglik <- matrix(NA, folds, 5) # 5 is length of lambda grid
+      loglik <- matrix(NA, folds, 5)
 
       repeat{
-        penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1) # lambda grid
+        penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1)
 
         for(f in 1:folds){
           data_in <- ins[[f]]
@@ -138,7 +116,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
             value <- 0
 
             if(p == 1){
-              for(t in 2:length(data_out)){ #compute log-likelihood
+              for(t in 2:length(data_out)){
                 cp <- sum(dbinom(0:min(data_out[t],data_out[t-1]), data_out[t-1], alpha) * pmf[data_out[t]+1-(0:min(data_out[t],data_out[t-1]))])
                 nb <- penal * sum(abs(pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])) + penal2 * sum((pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])^2)
                 value <- value-(log(cp)-nb)
@@ -148,7 +126,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
             if(p ==2){
               alpha1 <- alpha[1]
               alpha2 <- alpha[2]
-              for (t in 3:length(data_out)){ #compute log-likelihood
+              for (t in 3:length(data_out)){
                 cp <- 0
                 for (i1 in c(0:min(data_out[t], data_out[t - 1]))) {
                   cp <- cp + dbinom(i1, data_out[t - 1], alpha1) * sum(dbinom((0:min(data_out[t] - i1, data_out[t - 2])), data_out[t - 2], alpha2)
@@ -186,20 +164,15 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
     }
     if(over == "L2"){
-      # only validation for penal2, the value for penal1 has to be input by the user
-      # warning: if not then treated as zero
-      #if(!missing(penal2)){stop("if over = L2, no value for penal2 allowed")}
-      #if(missing(penal1)){warning("value for penal1 is missing and is treated as zero")}
-      #if(missing(penal1)){penal1 <- 0}
       if(!is.na(penal2)){stop("if over = L2, no value for penal2 allowed")}
       if(is.na(penal1)){warning("value for penal1 is missing and is treated as zero")}
       if(is.na(penal1)){penal1 <- 0}
       penal_val <- init2
 
-      loglik <- matrix(NA, folds, 5) # 5 is length of lambda grid
+      loglik <- matrix(NA, folds, 5)
 
       repeat{
-        penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1) # lambda grid
+        penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1)
 
         for(f in 1:folds){
           data_in <- ins[[f]]
@@ -214,7 +187,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
             value <- 0
 
             if(p ==1){
-              for(t in 2:length(data_out)){ #compute log-likelihood
+              for(t in 2:length(data_out)){
                 cp <- sum(dbinom(0:min(data_out[t],data_out[t-1]), data_out[t-1], alpha) * pmf[data_out[t]+1-(0:min(data_out[t],data_out[t-1]))])
                 nb <- penal1 * sum(abs(pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])) + penal * sum((pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])^2)
                 value <- value-(log(cp)-nb)
@@ -224,7 +197,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
             if(p ==2){
               alpha1 <- alpha[1]
               alpha2 <- alpha[2]
-              for (t in 3:length(data_out)){ #compute log-likelihood
+              for (t in 3:length(data_out)){
                 cp <- 0
                 for (i1 in c(0:min(data_out[t], data_out[t - 1]))) {
                   cp <- cp + dbinom(i1, data_out[t - 1], alpha1) * sum(dbinom((0:min(data_out[t] - i1, data_out[t - 2])), data_out[t - 2], alpha2)
@@ -262,18 +235,16 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
     }
     if(over == "both"){
-      #if(!missing(penal1) || !missing(penal2)){warning("if over = both, input values for penal1 and penal2 are ignored")}
       if(!is.na(penal1) || !is.na(penal2)){warning("if over = both, input values for penal1 and penal2 are ignored")}
-      # validation for both penal1 and penal2
 
       penal_val1 <- init1
       penal_val2 <- init2
 
-      loglik <- matrix(NA, folds, 9) # 9 is length of combined lambda grid (3 for each)
+      loglik <- matrix(NA, folds, 9)
 
       repeat{
-        penal_vals1 <- c(penal_val1-0.05, penal_val1, penal_val1+0.05) # lambda grid
-        penal_vals2 <- c(penal_val2-0.05, penal_val2, penal_val2+0.05) # lambda grid
+        penal_vals1 <- c(penal_val1-0.05, penal_val1, penal_val1+0.05)
+        penal_vals2 <- c(penal_val2-0.05, penal_val2, penal_val2+0.05)
         grid <- expand.grid(penal_vals1, penal_vals2)
 
         for(f in 1:folds){
@@ -290,7 +261,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
             value <- 0
 
             if(p ==1){
-              for(t in 2:length(data_out)){ #compute log-likelihood
+              for(t in 2:length(data_out)){
                 cp <- sum(dbinom(0:min(data_out[t],data_out[t-1]), data_out[t-1], alpha) * pmf[data_out[t]+1-(0:min(data_out[t],data_out[t-1]))])
                 nb <- penal1 * sum(abs(pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])) + penal2 * sum((pmf[2:length(pmf)]-pmf[0:(length(pmf)-1)])^2)
                 value <- value-(log(cp)-nb)
@@ -300,7 +271,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
             if(p ==2){
               alpha1 <- alpha[1]
               alpha2 <- alpha[2]
-              for (t in 3:length(data_out)){ #compute log-likelihood
+              for (t in 3:length(data_out)){
                 cp <- 0
                 for (i1 in c(0:min(data_out[t], data_out[t - 1]))) {
                   cp <- cp + dbinom(i1, data_out[t - 1], alpha1) * sum(dbinom((0:min(data_out[t] - i1, data_out[t - 2])), data_out[t - 2], alpha2)

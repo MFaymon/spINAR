@@ -14,7 +14,7 @@ A set of functions used for the following tasks.
 5. Semiparametric INAR Boostrap.
 }
 \references{
-REFERENCES? arXiv paper?
+REFERENCES? arXiv paper? ...
 }
 \seealso{
 Useful links:

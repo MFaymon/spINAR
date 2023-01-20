@@ -40,7 +40,6 @@
 #'
 #' @export spinar_boot
 spinar_boot <- function(x, p, B, setting, type=NA, distr=NA, M=100){
-  # constraints for input
   checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
   checkmate::assert_integerish(B, lower = 1, min.len = 1, max.len = 1)
   checkmate::assert_integerish(x, lower = 0, min.len = p+1)
