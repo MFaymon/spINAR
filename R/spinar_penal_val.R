@@ -66,7 +66,6 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
     checkmate::assert_numeric(init2, len = 1)
 
     n <- length(x)
-    folds <- 10
 
     ins <- vector(mode = "list", folds)
     outs <- vector(mode = "list", folds)
