@@ -31,10 +31,12 @@ Generating INAR(p) observations, where \code{p} \eqn{\in \{1,2\}}. It allows for
 which can be generated parametrically or "manually" (semiparametrically).
 }
 \examples{
-# generate (semiparametrically) 100 INAR(1) observations with alpha_1 = 0.5 and a manually set pmf
+# generate (semiparametrically) 100 INAR(1) observations with
+# alpha_1 = 0.5 and a manually set pmf
 spinar_sim(n = 100, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
 
-# generate 100 obervations of an INAR(2) model with alpha_1 = 0.2, alpha_2 = 0.3 and Poi(1)-innovations
+# generate 100 obervations of an INAR(2) model with
+# alpha_1 = 0.2, alpha_2 = 0.3 and Poi(1)-innovations
 spinar_sim(n = 100, p = 2, alpha = c(0.2, 0.3), pmf = dpois(0:20,1))
 
 }

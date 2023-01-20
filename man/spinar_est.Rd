@@ -25,7 +25,8 @@ Semiparametric estimation of the autoregressive parameters and the innovation di
 \examples{
 # generate data
 dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
-dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = c(0.25, 0.2, 0.15, 0.1, 0.1, 0.1, 0.1))
+dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
+                   pmf = c(0.25, 0.2, 0.15, 0.1, 0.1, 0.1, 0.1))
 
 \dontrun{
 # semiparametric estimation of INAR(1) model
