@@ -17,17 +17,20 @@ lag of the INAR(\code{p}) model, where \code{p} \eqn{\in \{1,2\}}.}
 vector of INAR coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p}.}
 
 \item{pmf}{[\code{numeric}]\cr
-vector of probability mass function \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
-an innovation being equal to \eqn{i}.}
+vector of probability mass function
+\eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i}
+represents the probability of an innovation being equal to \eqn{i}.}
 
 \item{prerun}{[\code{integer(1)}]\cr
-number of observations which are generated additionally and then omitted (to ensure stationarity).}
+number of observations which are generated additionally and then omitted
+(to ensure stationarity).}
 }
 \value{
 Vector with \eqn{n} INAR(\code{p}) observations.
 }
 \description{
-Generating INAR(p) observations, where \code{p} \eqn{\in \{1,2\}}. It allows for general pmfs
+Generating INAR(p) observations,
+where \code{p} \eqn{\in \{1,2\}}. It allows for general pmfs
 which can be generated parametrically or "manually" (semiparametrically).
 }
 \examples{
