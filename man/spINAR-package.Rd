@@ -15,9 +15,8 @@ setting) and different procedures to appropriately bootstrap INAR data.
 Faymonville, M., Jentsch, C., Weiß, C.H. und Aleksandrov, B. (2022).
 Semiparametric Estimation of INAR Models using Roughness Penalization.
 Statistical Methods & Applications.
-[DOI](https://doi.org/10.1007/s10260-022-00655-0)
 
-Jentsch, C. and Weiß, C. (2017), “Bootstrapping INAR Models”.
+Jentsch, C. and Weiß, C. H. (2017), “Bootstrapping INAR Models”.
 Bernoulli 25(3), pp. 2359-2408.
 
 Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of

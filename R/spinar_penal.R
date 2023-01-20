@@ -20,7 +20,8 @@
 #'
 #' @examples
 #' # generate data
-#' dat1 <- spinar_sim(n = 50, p = 1, alpha = 0.5, pmf = c(0.3, 0.25, 0.2, 0.15, 0.1))
+#' dat1 <- spinar_sim(n = 50, p = 1, alpha = 0.5,
+#'                    pmf = c(0.3, 0.25, 0.2, 0.15, 0.1))
 #'
 #' # penalized semiparametric estimation
 #' spinar_penal(x = dat1, p = 1, penal1 = 0, penal2 = 0.1)

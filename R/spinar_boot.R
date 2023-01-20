@@ -29,14 +29,17 @@
 #'
 #' @examples
 #' # generate data
-#' dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
-#' dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = dgeom(0:60, 0.5))
+#' dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5,
+#'                    pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+#' dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
+#'                    pmf = dgeom(0:60, 0.5))
 #'
 #' \dontrun{
 #' # semiparametric INAR(1) bootstrap
 #' spinar_boot(x = dat1, p  = 1, B = 50, setting = "sp")
 #' # parametric Geo-INAR(2) bootstrap using moment-based estimation
-#' spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom", distr = "geo")}
+#' spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom",
+#'             distr = "geo")}
 #'
 #' @export spinar_boot
 spinar_boot <- function(x, p, B, setting, type=NA, distr=NA, M=100){

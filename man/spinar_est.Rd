@@ -19,12 +19,14 @@ of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represe
 an innovation being equal to \eqn{i}.
 }
 \description{
-Semiparametric estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
-\eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the conditional likelihood of the model.
+Semiparametric estimation of the autoregressive parameters and the innovation
+distribution of INAR(\code{p}) models, \eqn{\code{p} \in \{1,2\}}. The
+estimation is conducted by maximizing the conditional likelihood of the model.
 }
 \examples{
 # generate data
-dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5,
+                   pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
 dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
                    pmf = c(0.25, 0.2, 0.15, 0.1, 0.1, 0.1, 0.1))
 

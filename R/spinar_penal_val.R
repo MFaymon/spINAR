@@ -36,11 +36,13 @@
 #'
 #' @examples
 #' # generate data
-#' dat1 <- spinar_sim(n = 50, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+#' dat1 <- spinar_sim(n = 50, p = 1, alpha = 0.5,
+#'                    pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
 #'
 #' \dontrun{
 #' # penalized semiparametric estimation with validation over L1
-#' spinar_penal_val(x = dat1, p = 1, validation = TRUE, penal2 = 0.1, over = "L1")
+#' spinar_penal_val(x = dat1, p = 1, validation = TRUE, penal2 = 0.1,
+#'                  over = "L1")
 #' # penalized semiparametric estimation with validation over both L1 and L2
 #' spinar_penal_val(x = dat1, p = 1, validation = TRUE, over = "both")}
 #'
