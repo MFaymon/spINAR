@@ -14,12 +14,12 @@
 #' indicates whether validation is wanted.
 #' @param penal1 [\code{numeric(1)}]\cr
 #' \eqn{L_1} penalization parameter.
-#' It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both", "L_1"\}}}. It is mandatory if \code{validation = FALSE}.
+#' It will be ignored if \code{validation = TRUE} and \code{over} \eqn{\in \{"both", "L_1"\}}. It is mandatory if \code{validation = FALSE}.
 #' @param penal2 [\code{numeric(1)}]\cr
 #' \eqn{L_2} penalization parameter.
-#' It will be ignored if \code{validation = TRUE} and \code{over \eqn{\in \{"both", "L_2"\}}}. It is mandatory if \code{validation = FALSE}.
+#' It will be ignored if \code{validation = TRUE} and \code{over} \eqn{\in \{"both", "L_2"\}}. It is mandatory if \code{validation = FALSE}.
 #' @param over [\code{string(1)}]\cr
-#' validation over \code{"both"} penalization parameters or only over \code{\eqn{"L_1"}} or \code{\eqn{"L_2"}}.
+#' validation over \code{"both"} penalization parameters or only over \code{"L_1"} or \code{"L_2"}.
 #' It is mandatory if \code{validation = TRUE}, otherwise it will be ignored.
 #' @param folds [\code{integer(1)}]\cr
 #' number of folds for (cross) validation.
