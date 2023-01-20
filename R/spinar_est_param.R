@@ -37,10 +37,10 @@
 #'
 #' @export spinar_est_param
 spinar_est_param <- function(x, p, type, distr){
-  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
-  checkmate::assert_integerish(x, min.len = p+1, lower = 0)
-  checkmate::assert(checkmate::checkChoice(type, c("mom", "ml")))
-  checkmate::assert(checkmate::checkChoice(distr, c("poi", "geo", "nb")))
+  assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
+  assert_integerish(x, min.len = p+1, lower = 0)
+  assert(checkChoice(type, c("mom", "ml")))
+  assert(checkChoice(distr, c("poi", "geo", "nb")))
   eacf1 <- max(acf(x, plot=FALSE)$acf[2], 1e-16)
   eacf2 <- max(acf(x, plot=FALSE)$acf[3], 1e-16)
   ealpha2 <- max((eacf2-eacf1^2)/(1-eacf1^2), 1e-16)
@@ -184,7 +184,7 @@ spinar_est_param <- function(x, p, type, distr){
     }
   }
   if (p==2){
-    checkmate::assert_numeric(param[['alpha1']], upper = 1-param[['alpha2']])
+    assert_numeric(param[['alpha1']], upper = 1-param[['alpha2']])
   }
   return(param)
 }

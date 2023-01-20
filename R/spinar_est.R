@@ -29,8 +29,8 @@
 #'
 #' @export spinar_est
 spinar_est <- function(x, p) {
-  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
-  checkmate::assert_integerish(x, min.len = p+1)
+  assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
+  assert_integerish(x, min.len = p+1, lower = 0)
   xmax <- max(x)
   if(p==1){
     theta <- c(max(acf(x, plot = FALSE)$acf[p+1], 1e-5), rep(1 / (xmax + 1), xmax))

@@ -4,7 +4,6 @@ test_that("input", {
   expect_error(spinar_est(x = c(1), p = 1), "Assertion on 'x' failed: Must have length >= 2, but has length 1.")
   expect_error(spinar_est(x = c(1, 0), p = 2), "Assertion on 'x' failed: Must have length >= 3, but has length 2.")
   expect_error(spinar_est(x = c(2, 3), p = 2), "Assertion on 'x' failed: Must have length >= 3, but has length 2.")
-  # P: Need to add lower =0 in checkmate
   expect_error(spinar_est(x = c(-1, 2, 0, 4, 5), p = 1))
   expect_error(spinar_est(x = c(-1, 2, 0, 4, 5), p = 2))
   expect_error(spinar_est(x = c(1, 2.4, 0, 4, 5), p = 1), "Assertion on 'x' failed: Must be of type 'integerish'")
@@ -32,12 +31,10 @@ test_that("output", {
   expect_type(spinar_est(x = c(2, 0, 1), p = 1), "double")
   expect_type(spinar_est(x = c(2, 0, 1), p = 1)[1], "double")
   ######################## values ########################
-  # sum pmf equal 1
   expect_equal(sum(spinar_est(x=c(2, 0, 1), p=1)[2:4]), 1)
   expect_equal(sum(spinar_est(x=c(2, 9, 9, 9, 9, 1), p=1)[2:11]), 1)
   expect_equal(sum(spinar_est(x=c(2, 9, 9, 9, 9, 1), p=2)[3:12]), 1)
   expect_equal(sum(spinar_est(x=c(2, 9, 9, 9, 0, 1), p=2)[3:12]), 1)
-  # alpha range
   tmp = spinar_est(x=c(2, 8, 9, 9, 0, 1), p=2)
   expect_true(tmp[1] < 1)
   expect_true(tmp[1] > 0)
