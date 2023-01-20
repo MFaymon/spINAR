@@ -24,7 +24,8 @@ an innovation being equal to \eqn{i}.
 }
 \description{
 Semiparametric penalized estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
-\eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the penalized conditional likelihood of the model.
+\eqn{\code{p} \in \{1,2\}}. The estimation is conducted by maximizing the penalized conditional likelihood of the model. If both
+penalization parameters are set to zero, the function coincides to the spinar_est function of this package.
 }
 \examples{
 # generate data
