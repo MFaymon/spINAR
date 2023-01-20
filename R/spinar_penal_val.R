@@ -61,7 +61,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
   } else{
     checkmate::assert_logical(validation)
     checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both", NA)))
-    checkmate::assert_integerish(folds, upper = ceiling((length(x)/(p+1))), len = 1)
+    checkmate::assert_integerish(folds, lower = 2, upper = ceiling((length(x)/(p+1))), len = 1)
     checkmate::assert_numeric(init1, len = 1)
     checkmate::assert_numeric(init2, len = 1)
 
