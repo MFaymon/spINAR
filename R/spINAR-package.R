@@ -8,7 +8,7 @@
 #' 5. Semiparametric INAR Boostrap.
 #'
 #' @references
-#' REFERENCES? arXiv paper?
+#' REFERENCES? arXiv paper? ...
 #'
 #' @import stats
 #' @import checkmate
