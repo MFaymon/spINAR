@@ -1,6 +1,6 @@
 Package: spINAR
 Type: Package
-Title: Estimation of semiparametric integer autoregressive models
+Title: Estimation of Semiparametric Integer Autoregressive Models
 Version: 0.0.1
 Date: 2023-01-16
 Authors@R: c(person(given = "Maxime",
