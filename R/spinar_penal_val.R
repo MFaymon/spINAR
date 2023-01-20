@@ -48,10 +48,10 @@
 #'
 #' @export spinar_penal_val
 spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = NA, folds = 10, init1 = 1, init2 = 1){
-  checkmate::assert_integerish(p, lower = 1, len = 1, upper = 2)
-  checkmate::assert_integerish(x, lower = 0, min.len = p+1)
-  checkmate::assert_numeric(penal1, len = 1)
-  checkmate::assert_numeric(penal2, len = 1)
+  assert_integerish(p, lower = 1, len = 1, upper = 2)
+  assert_integerish(x, lower = 0, min.len = p+1)
+  assert_numeric(penal1, len = 1)
+  assert_numeric(penal2, len = 1)
 
   if(validation == FALSE){
     if(is.na(penal1) || is.na(penal2)){warning("values for penal1 or penal2 are missing, they are therefore treated as zero")}
@@ -59,11 +59,11 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
     if(is.na(penal2)){penal2 <- 0}
     parameters <- spinar_penal(x, p, penal1, penal2)
   } else{
-    checkmate::assert_logical(validation)
-    checkmate::assert(checkmate::checkChoice(over, c("L1", "L2", "both", NA)))
-    checkmate::assert_integerish(folds, lower = 2, upper = ceiling((length(x)/(p+1))), len = 1)
-    checkmate::assert_numeric(init1, len = 1)
-    checkmate::assert_numeric(init2, len = 1)
+    assert_logical(validation)
+    assert(checkChoice(over, c("L1", "L2", "both", NA)))
+    assert_integerish(folds, lower = 2, upper = ceiling((length(x)/(p+1))), len = 1)
+    assert_numeric(init1, len = 1)
+    assert_numeric(init2, len = 1)
 
     n <- length(x)
 
