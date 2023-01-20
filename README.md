@@ -1,5 +1,6 @@
 # spINAR
 [![R build status](https://github.com/MFaymon/spINAR/workflows/R-CMD-check/badge.svg)](https://github.com/MFaymon/spINAR/actions)
+[![codecov](https://codecov.io/gh/MFaymon/spINAR/branch/main/graph/badge.svg?token=U5KPFSY3XN)](https://codecov.io/gh/MFaymon/spINAR)
 
 Simulate, estimate and bootstrap integer autoregressive (INAR) models.
 
