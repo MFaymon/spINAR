@@ -26,7 +26,7 @@ Description: A set of functions used for the following tasks.
 License: GPL (>= 3)
 Encoding: UTF-8
 Depends:
-	R (>= 3.5.0)
+	R (>= 3.6.0)
 Imports:
 	checkmate (>= 1.8.5),
 	stats
