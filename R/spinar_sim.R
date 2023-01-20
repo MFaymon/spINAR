@@ -1,6 +1,7 @@
 #' @title Simulation of (semi)parametric integer autoregressive (INAR) models
 #'
-#' @description Generating INAR(p) observations, where \code{p} \eqn{\in \{1,2\}}. It allows for general pmfs
+#' @description Generating INAR(p) observations,
+#' where \code{p} \eqn{\in \{1,2\}}. It allows for general pmfs
 #' which can be generated parametrically or "manually" (semiparametrically).
 #'
 #' @param n [\code{integer(1)}]\cr
@@ -10,10 +11,12 @@
 #' @param alpha [\code{integer(p)}]\cr
 #' vector of INAR coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p}.
 #' @param pmf [\code{numeric}]\cr
-#' vector of probability mass function \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
-#' an innovation being equal to \eqn{i}.
+#' vector of probability mass function
+#' \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i}
+#' represents the probability of an innovation being equal to \eqn{i}.
 #' @param prerun [\code{integer(1)}]\cr
-#' number of observations which are generated additionally and then omitted (to ensure stationarity).
+#' number of observations which are generated additionally and then omitted
+#' (to ensure stationarity).
 #'
 #' @return Vector with \eqn{n} INAR(\code{p}) observations.
 #'
@@ -29,11 +32,11 @@
 #'
 #' @export spinar_sim
 spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
-  checkmate::assert_integerish(p, lower = 1, min.len = 1, max.len = 1,  upper = 2)
-  checkmate::assert_numeric(alpha, lower = 0, upper = 1, len = p)
-  checkmate::assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1)
-  checkmate::assert_integerish(n, lower = 0, len = 1)
-  checkmate::assert_integerish(prerun, lower = 0, len = 1)
+  assert_integerish(p, lower = 1, min.len = 1, max.len = 1,  upper = 2)
+  assert_numeric(alpha, lower = 0, upper = 1, len = p)
+  assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1)
+  assert_integerish(n, lower = 0, len = 1)
+  assert_integerish(prerun, lower = 0, len = 1)
   if (round(sum(pmf), 6) != 1) {
     warning("Sum of pmf entries has been standardized to 1.")
   }
