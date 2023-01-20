@@ -1,7 +1,7 @@
 # spinar_penal_val <- function(x, p, validation, penal1=NA, penal2=NA, over=NA, folds = 10, init1 = 1, init2 = 1)
 test_that("input", {
   data_sample <- spinar_sim(20, 1, 0.5, dpois(0:20,1))
-  data_small <- sample(1:40, 5)
+  data_small <- sample(1:10, 5)
   ######################## x ########################
   expect_error(spinar_penal_val(x = c(1), p = 1, validation = FALSE, penal1= 0, penal2= 0), "Assertion on 'x' failed: Must have length >= 2, but has length 1.")
   expect_error(spinar_penal_val(x = c(1, 0), p = 2, validation = FALSE, penal1= 0, penal2= 0), "Assertion on 'x' failed: Must have length >= 3, but has length 2.")
