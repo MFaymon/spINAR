@@ -32,9 +32,13 @@ moment- or maximum likelihood-based.
 }
 \examples{
 # generate data
-dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = dpois(0:20, 1)) # Poi-INAR(1) data
-dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = dgeom(0:60, 0.5)) # Geo-INAR(2) data
-dat3 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = dnbinom(0:40, 2, 2/3)) # NB-INAR(1) data
+# Poi-INAR(1) data
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = dpois(0:20, 1))
+# Geo-INAR(2) data
+dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
+                   pmf = dgeom(0:60, 0.5))
+# NB-INAR(1) data
+dat3 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = dnbinom(0:40, 2, 2/3))
 
 # moment-based parametric estimation of Poi-INAR(1) model
 spinar_est_param(x = dat1, p = 1, type = "mom", distr = "poi")
