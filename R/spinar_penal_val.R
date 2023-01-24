@@ -29,9 +29,9 @@
 #' initial value for penal2 in validation. Default value is init2 = 1
 #'
 #' @return For \code{validation=FALSE}, the function returns a vector containing the penalized estimated coefficients
-#' \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+#' \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0, \code{pmf}_1}... where \eqn{\code{pmf}_i} represents the probability of
 #' an innovation being equal to \eqn{i}. For \code{validation=TRUE}, the function returns a named list, where the first entry contains
-#' the penalized estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+#' the penalized estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0, \code{pmf}_1},... where \eqn{\code{pmf}_i} represents the probability of
 #' an innovation being equal to \eqn{i}. The second (and if \code{over = both} also the third entry) contain(s) the validated penalization paramter(s).
 #'
 #' @examples
@@ -81,15 +81,15 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         lngth[i] <- lngth[i] + 1
       }
 
-      index <- list()
-      index[[1]] <- 1:lngth[1]
+      idx <- list()
+      idx[[1]] <- 1:lngth[1]
       for(i in 2:length(lngth)){
-        index[[i]] <- sum(lngth[1:(i-1)],1):sum(lngth[1:i])
+        idx[[i]] <- sum(lngth[1:(i-1)],1):sum(lngth[1:i])
       }
 
       for(d in 1:folds){
-        ins[[d]] <- x[-index[[d]]]
-        outs[[d]] <- x[index[[d]]]
+        ins[[d]] <- x[-idx[[d]]]
+        outs[[d]] <- x[idx[[d]]]
       }
     }
 
@@ -146,6 +146,16 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
         aaf <- apply(loglik, 2, function(x) mean(x, na.rm=TRUE))
         index <- which(aaf==min(aaf))
+
+        if(length(index) > 1){
+          if(3 %in% index){
+            penal1_opt <- penal_val
+            break
+          } else{
+            index <- min(index)
+          }
+        }
+
         penal1_opt <- penal_vals[index]
         # CHANGE
         if(min(penal1_opt) < 0){
@@ -217,6 +227,16 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
         aaf <- apply(loglik, 2, function(x) mean(x, na.rm=TRUE))
         index <- which(aaf==min(aaf))
+
+        if(length(index) > 1){
+          if(3 %in% index){
+            penal2_opt <- penal_val
+            break
+          } else{
+            index <- min(index)
+          }
+        }
+
         penal2_opt <- penal_vals[index]
 
         if(penal2_opt < 0){
@@ -291,6 +311,17 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
         aaf <- apply(loglik, 2, function(x) mean(x, na.rm=TRUE))
         index <- which(aaf==min(aaf))
+
+        if(length(index) > 1){
+          if(5 %in% index){
+            penal1_opt <- penal_val1
+            penal2_opt <- penal_val2
+            break
+          } else{
+            index <- min(index)
+          }
+        }
+
         penal1_opt <- grid[index,1]
         penal2_opt <- grid[index,2]
         # CHANGE
