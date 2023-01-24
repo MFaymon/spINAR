@@ -4,7 +4,7 @@
 \alias{spinar_boot}
 \title{(Semi)parametric INAR bootstrap procedure}
 \usage{
-spinar_boot(x, p, B, setting, type = NA, distr = NA, M = 100)
+spinar_boot(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
@@ -30,13 +30,18 @@ Poi(\code{lambda}), \code{"geo"} Geo(\code{prob}) and \code{"nb"} NB(\code{r}, \
 
 \item{M}{[\code{integer(1)}]\cr
 upper limit for the innovations.}
+
+\item{level}{[\code{numeric(1)}]\cr
+level for the bootstrap confidence intervals.}
 }
 \value{
-(Named) List of length \code{B} containing the bootstrap estimated parameters. In the semiparametric case,
-each list entry contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
+(Named) List of length \code{3} containing a \code{B}\eqn{\times}length(\code{x}) matrix of bootstrap observations,
+a matrix with B rows containing the bootstrap estimated parameters (In the semiparametric case,
+each row contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
 of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
-an innovation being equal to \eqn{i}. In the parametric case, each list entry contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s)
-of the innovation distribution.
+an innovation being equal to \eqn{i}. In the parametric case, each list entry contains the estimated coefficients
+\eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s) of the innovation distribution.) and in the last list entry three types of
+bootstrap confidence intervals.
 }
 \description{
 INAR bootstrap procedures for the semiparametric and the parametric INAR setting, where the latter allows for
@@ -44,13 +49,16 @@ moment- and maximum likelihood-based estimation and Poisson, geometrically and n
 }
 \examples{
 # generate data
-dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5, pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
-dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3), pmf = dgeom(0:60, 0.5))
+dat1 <- spinar_sim(n = 200, p = 1, alpha = 0.5,
+                   pmf = c(0.3, 0.3, 0.2, 0.1, 0.1))
+dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
+                   pmf = dgeom(0:60, 0.5))
 
 \dontrun{
 # semiparametric INAR(1) bootstrap
-spinar_boot(x = dat1, p  = 1, B = 50, setting = "sp")
+spinar_boot(x = dat1, p = 1, B = 50, setting = "sp")
 # parametric Geo-INAR(2) bootstrap using moment-based estimation
-spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom", distr = "geo")}
+spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom",
+            distr = "geo")}
 
 }
