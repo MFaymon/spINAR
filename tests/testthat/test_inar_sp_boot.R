@@ -43,6 +43,10 @@ test_that("output", {
    expect_true(tmp$parameters_star[1] < 1)
    expect_true(tmp$parameters_star[1] > 0)
 })
+<<<<<<< HEAD
+=======
+
+>>>>>>> d2aa241e5a6e303e2bc20d2eecc2e725a185d685
 
 
 
