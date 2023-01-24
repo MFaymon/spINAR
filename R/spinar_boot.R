@@ -121,8 +121,20 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
   }
 
   # hall CI
+  for(i in 1: ncol(bs$parameters_star)){
+    srt <- sort(bs$parameters_star[,i] - parameters[i])
+    if((B*level)%%2 == 0){
+      bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B*(1-level/2)]
+      bs$bs_ci[[i]][2,2] <- parameters[i] - srt[B*level/2]
+    } else{
+      K <- ceiling((B+1)*level/2)
+      bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B+1-K]
+      bs$bs_ci[[i]][2,2] <- parameters[i] - srt[K]
+    }
+  }
 
-  # studentized CI
+  # studentized CI, set argument because computationally intensive?
+
 
   return(bs)
 }
