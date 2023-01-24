@@ -46,7 +46,7 @@ test_that("output", {
   expect_true(spinar_penal(x=rpois(10, 5), p=2, penal1 = 10, penal2 = -5)[1] < 1)
   expect_true(spinar_penal(x=rpois(10, 4), p=2, penal1 = 10, penal2 = -5)[1] > 0)
   expect_true(spinar_penal(x=rpois(10, 8), p=2, penal1 = 10, penal2 = -5)[2] < 1)
-  expect_true(spinar_penal(x=rpois(10, 6), p=2, penal1 = 10, penal2 = -5)[1] > 0)
+  expect_true(spinar_penal(x=rpois(10, 6), p=2, penal1 = 10, penal2 = -5)[2] > 0)
   expect_equal(sum(spinar_penal(x=c(2, 0, 1), p=1, penal1 = 10, penal2 = -5)[2:4]), 1)
   expect_equal(sum(spinar_penal(x=c(2, 9, 9, 9, 9, 1), p=1, penal1 = 10, penal2 = -5)[2:11]), 1)
   expect_equal(sum(spinar_penal(x=c(2, 9, 9, 9, 9, 1), p=2, penal1 = 10, penal2 = -5)[3:12]), 1)

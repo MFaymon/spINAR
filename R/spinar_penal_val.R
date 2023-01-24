@@ -147,8 +147,8 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         aaf <- apply(loglik, 2, function(x) mean(x, na.rm=TRUE))
         index <- which(aaf==min(aaf))
         penal1_opt <- penal_vals[index]
-
-        if(penal1_opt < 0){
+        # CHANGE
+        if(min(penal1_opt) < 0){
           penal1_opt <- 0
           break
         }
@@ -293,8 +293,8 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         index <- which(aaf==min(aaf))
         penal1_opt <- grid[index,1]
         penal2_opt <- grid[index,2]
-
-        if(penal1_opt < 0){
+        # CHANGE
+        if(min(penal1_opt) < 0){
           penal1_opt <- 0
         }
 
