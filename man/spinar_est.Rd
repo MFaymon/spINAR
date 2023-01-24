@@ -15,7 +15,7 @@ order of the INAR model, where \eqn{\code{p} \in \{1,2\}}.}
 }
 \value{
 Vector containing the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
-of the pmf \eqn{\code{pmf}_0,..., \code{pmf}_k} where \eqn{\code{pmf}_i} represents the probability of
+of the pmf \eqn{\code{pmf}_0, \code{pmf}_1},... where \eqn{\code{pmf}_i} represents the probability of
 an innovation being equal to \eqn{i}.
 }
 \description{
