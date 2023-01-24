@@ -32,7 +32,8 @@ Poi(\code{lambda}), \code{"geo"} Geo(\code{prob}) and \code{"nb"} NB(\code{r}, \
 upper limit for the innovations.}
 
 \item{level}{[\code{numeric(1)}]\cr
-level for the bootstrap confidence intervals.}
+level for the bootstrap confidence intervals (percentile interval and Hall's percentile interval
+(bootstrap-t-interval without studentization)).}
 }
 \value{
 (Named) List of length \code{3} containing
