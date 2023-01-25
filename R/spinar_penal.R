@@ -39,8 +39,8 @@ spinar_penal <- function(x, p, penal1 = 0, penal2 = 0) {
   if(p==2){
     eacf1 <- acf(x, plot=FALSE)$acf[p+1]
     eacf2 <- acf(x, plot=FALSE)$acf[p+2]
-    ealpha2 <- (eacf2-eacf1^2)/(1-eacf1^2)
-    ealpha1 <- (1-ealpha2)*eacf1
+    ealpha2 <- max((eacf2-eacf1^2)/(1-eacf1^2), 1e-16)
+    ealpha1 <- max((1-ealpha2)*eacf1, 1e-16)
     theta <- c(max(ealpha1, 1e-5), max(ealpha2, 1e-5), rep(1 / (xmax + 1), xmax))}
   if (max(x) == min(x)){
     parameters <- c(1, rep(0, p-1), 1, rep(0, xmax))
