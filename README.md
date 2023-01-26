@@ -6,10 +6,6 @@ Simulate, estimate and bootstrap integer autoregressive (INAR) models.
 
 The package provides flexible simulation of INAR data using a general pmf to define the innovations' distribution. It allows for semiparametric and parametric estimation of INAR models and includes a small sample refinement for the semiparametric setting. Additionally, it provides different procedures to appropriately bootstrap INAR data.
 
-## Citation
-
-Please cite the JOSS (XXX link DOI) paper using the BibTeX entry (XXX BibTeX entry).
-
 ## References (related to the methodology)
 
 * Faymonville, M., Jentsch, C., Weiß, C.H. und Aleksandrov, B. (2022). Semiparametric Estimation of INAR Models using Roughness Penalization. Statistical Methods & Applications. [DOI](https://doi.org/10.1007/s10260-022-00655-0)
