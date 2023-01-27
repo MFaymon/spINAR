@@ -53,7 +53,7 @@ We estimate an INAR(2) model on the second dataset.
 spinar_est(dat2, 2)
 ```
 
-For small samples, it can be beneficial to apply a penalized version of the semiparametric estimation. For illustration, we restrict ourselves to the first 50 observations of the first dataset and apply semiparametric, parametric and penalized semiparametric estimation. We chose a small L2 penalization as this showed to be most beneficial in the simulation study in Faymonville et al. (2022) (see references). Alternatively, one could also use the spinar_penal_val function which validates the two penalization parameters.
+For small samples, it can be beneficial to apply a penalized version of the semiparametric estimation. For illustration, we restrict ourselves to the first 50 observations of the first dataset and apply semiparametric, parametric and penalized semiparametric estimation. We choose a small L2 penalization as this showed to be most beneficial in the simulation study in Faymonville et al. (2022) (see references). Alternatively, one could also use the spinar_penal_val function which validates the two penalization parameters.
 
 ```r
 dat1_50 <- dat1[1:50]
