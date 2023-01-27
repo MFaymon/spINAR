@@ -25,7 +25,9 @@ devtools::install_github("MFaymon/spINAR")
 
 ## Example
 
+```r
 library(spINAR)
+```
 
 We simulate two datasets. The first consists of n = 100 observations resulting from an INAR(1) model with coefficient alpha = 0.5 and Poi(1) distributed innovations. The second consists of n = 100 observations from an INAR(2) model with coefficients alpha_1 = 0.3, alpha_2 = 0.2 and a pmf equal to (0.3, 0.3, 0.2, 0.1, 0.1).
 
