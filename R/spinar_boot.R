@@ -121,6 +121,10 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     }
   }
 
+  if(ncol(bs$parameters_star)>length(parameters)){
+    parameters <- c(parameters, rep(0,ncol(bs$parameters_star)-length(parameters)))
+  }
+
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i] - parameters[i])
     if((B*level)%%2 == 0){
