@@ -52,14 +52,14 @@
 #'
 #' @export spinar_boot
 spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05){
-  assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
-  assert_integerish(B, lower = 1, min.len = 1, max.len = 1)
+  assert_integerish(p, lower = 1, upper = 2, len = 1)
+  assert_integerish(B, lower = 1, len = 1)
   assert_integerish(x, lower = 0, min.len = p+1)
   assert_choice(setting, c("sp", "p"))
   assert_choice(type, c("mom", "ml", NA))
   assert_choice(distr, c("poi", "geo", "nb", NA))
-  assert_integerish(M, lower = 0, min.len = 1, max.len=1)
-  assert_numeric(level, lower = 0, upper = 1, min.len = 1, max.len = 1)
+  assert_integerish(M, lower = 0, len =  1)
+  assert_numeric(level, lower = 0, upper = 1, len = 1)
 
   bs <- list(x_star = matrix(NA, B, length(x)), parameters_star = matrix(0, B, M+p+1), bs_ci = NULL)
 
