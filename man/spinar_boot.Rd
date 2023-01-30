@@ -38,7 +38,7 @@ level for the bootstrap confidence intervals (percentile interval and Hall's per
 \value{
 (Named) List of length \code{3} containing
 
-- a \code{B}\eqn{\times}length(\code{x}) matrix of bootstrap observations,
+- a length(\code{x})\eqn{\times}\code{B} matrix of bootstrap observations,
 
 - a matrix with B rows containing the bootstrap estimated parameters (In the semiparametric case,
 each row contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries

@@ -26,7 +26,7 @@
 #'
 #' @return (Named) List of length \code{3} containing
 #'
-#' - a \code{B}\eqn{\times}length(\code{x}) matrix of bootstrap observations,
+#' - a length(\code{x})\eqn{\times}\code{B} matrix of bootstrap observations,
 #'
 #' - a matrix with B rows containing the bootstrap estimated parameters (In the semiparametric case,
 #' each row contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
@@ -61,7 +61,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
   assert_integerish(M, lower = 0, len =  1)
   assert_numeric(level, lower = 0, upper = 1, len = 1)
 
-  bs <- list(x_star = matrix(NA, B, length(x)), parameters_star = matrix(0, B, M+p+1), bs_ci = NULL)
+  bs <- list(x_star = matrix(NA, length(x), B), parameters_star = matrix(0, B, M+p+1), bs_ci = NULL)
 
   if(setting=="sp"){
     parameters <- spinar_est(x, p)
@@ -69,7 +69,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     g_hat <- parameters[-seq_len(p)]
     for(b in 1:B){
       x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = g_hat)
-      bs$x_star[b,] <- x_star
+      bs$x_star[,b] <- x_star
       parameters_star <- spinar_est(x_star, p)
       bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
     }
@@ -83,7 +83,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     if(distr=="poi"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dpois(0:M, param_hat[1]))
-        bs$x_star[b,] <- x_star
+        bs$x_star[,b] <- x_star
         parameters_star <- spinar_est_param(x_star, p, type, distr)
         bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
       }
@@ -91,7 +91,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     if(distr=="geo"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dgeom(0:M, param_hat[1]))
-        bs$x_star[b,] <- x_star
+        bs$x_star[,b] <- x_star
         parameters_star <- spinar_est_param(x_star, p, type, distr)
         bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
       }
@@ -99,7 +99,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     if(distr=="nb"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dnbinom(0:M, param_hat[1], param_hat[2]))
-        bs$x_star[b,] <- x_star
+        bs$x_star[,b] <- x_star
         parameters_star <- spinar_est_param(x_star, p, type, distr)
         bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
       }
