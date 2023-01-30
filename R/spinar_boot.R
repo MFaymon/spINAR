@@ -61,7 +61,8 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
   assert_integerish(M, lower = 0, len =  1)
   assert_numeric(level, lower = 0, upper = 1, len = 1)
 
-  bs <- list(x_star = matrix(NA, length(x), B), parameters_star = matrix(0, B, M+p+1), bs_ci = NULL)
+  bs <- list(x_star = matrix(NA, length(x), B), parameters_star = matrix(0, B, M+p+1),
+             bs_ci_percentile = NULL, bs_ci_hall = NULL)
 
   if(setting=="sp"){
     parameters <- spinar_est(x, p)
@@ -106,18 +107,18 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     }
   }
   bs$parameters_star <- bs$parameters_star[,colSums(bs$parameters_star)!=0]
-  bs$bs_ci <- rep(list(matrix(0, 2, 2, dimnames = list(c("lower","upper"), c("percentile","hall")))),
-                  ncol(bs$parameters_star))
+  bs$bs_ci_percentile <- matrix(0, 2, ncol(bs$parameters_star), dimnames = list(c("lower", "upper")))
+  bs$bs_ci_hall <- matrix(0, 2, ncol(bs$parameters_star), dimnames = list(c("lower", "upper")))
 
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i])
     if((B*level)%%2 == 0){
-      bs$bs_ci[[i]][1,1] <- srt[B*level/2]
-      bs$bs_ci[[i]][2,1] <- srt[B*(1-level/2)]
+      bs$bs_ci_percentile[1,i] <- srt[B*level/2]
+      bs$bs_ci_percentile[2,i] <- srt[B*(1-level/2)]
     } else{
       K <- ceiling((B+1)*level/2)
-      bs$bs_ci[[i]][1,1] <- srt[K]
-      bs$bs_ci[[i]][2,1] <- srt[B+1-K]
+      bs$bs_ci_percentile[1,i] <- srt[K]
+      bs$bs_ci_percentile[2,i] <- srt[B+1-K]
     }
   }
 
@@ -128,12 +129,12 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i] - parameters[i])
     if((B*level)%%2 == 0){
-      bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B*(1-level/2)]
-      bs$bs_ci[[i]][2,2] <- parameters[i] - srt[B*level/2]
+      bs$bs_ci_hall[1,i] <- parameters[i] - srt[B*(1-level/2)]
+      bs$bs_ci_hall[2,i] <- parameters[i] - srt[B*level/2]
     } else{
       K <- ceiling((B+1)*level/2)
-      bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B+1-K]
-      bs$bs_ci[[i]][2,2] <- parameters[i] - srt[K]
+      bs$bs_ci_hall[1,i] <- parameters[i] - srt[B+1-K]
+      bs$bs_ci_hall[2,i] <- parameters[i] - srt[K]
     }
   }
 
