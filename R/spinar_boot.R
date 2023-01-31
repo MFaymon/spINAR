@@ -147,21 +147,25 @@ print.spinar_boot = function(x, ...){
   n_param = ncol(x$bs_ci_percentile)
   any_neg = apply(rbind(x$bs_ci_hall, x$bs_ci_percentile), 2, function(x) any(x < 0))
   space = function(n) sapply(n, function(x) paste(rep(" ", x), collapse = ""))
-  ci_low_hall = sprintf("%.4f", x$bs_ci_hall[1,])
-  ci_upp_hall = sprintf("%.4f", x$bs_ci_hall[2,])
-  ci_low_perc = sprintf("%.4f", x$bs_ci_percentile[1,])
-  ci_upp_perc = sprintf("%.4f", x$bs_ci_percentile[2,])
+  ci_func = function(ci){
+    tmp = sprintf("%.4f", ci)
+    paste0(space(-(nchar(tmp)-any_neg-6)), tmp, " ")
+  }
+  #ci_low_hall = sprintf("%.4f", x$bs_ci_hall[1,])
+  #ci_upp_hall = sprintf("%.4f", x$bs_ci_hall[2,])
+  #ci_low_perc = sprintf("%.4f", x$bs_ci_percentile[1,])
+  #ci_upp_perc = sprintf("%.4f", x$bs_ci_percentile[2,])
   cat(
-    "spinar_boot object with element(s)\n",
+    "spinar_boot object (B=", ncol(x$x_star), ", n=", nrow(x$x_star), ") with element(s)\n",
     paste0(elements, collapse = ", "), "\n\n",
     "Hall Confidence Intervals for Parameters:\n",
     space(6), paste0(space(7-nchar(1:n_param)+any_neg), 1:n_param), "\n",
-    "lower: ", paste0(space(-(nchar(ci_low_hall)-any_neg-6)), ci_low_hall, " "), "\n",
-    "upper: ", paste0(space(-(nchar(ci_upp_hall)-any_neg-6)), ci_upp_hall, " "), "\n\n",
+    "lower: ", ci_func(x$bs_ci_hall[1,]), "\n",
+    "upper: ", ci_func(x$bs_ci_hall[2,]), "\n\n",
     "Percentile Confidence Intervals for Parameters:\n",
     space(6), paste0(space(7-nchar(1:n_param)+any_neg), 1:n_param), "\n",
-    "lower: ", paste0(space(-(nchar(ci_low_perc)-any_neg-6)), ci_low_perc, " "), "\n",
-    "upper: ", paste0(space(-(nchar(ci_upp_perc)-any_neg-6)), ci_upp_perc, " "), "\n",
+    "lower: ", ci_func(x$bs_ci_percentile[1,]), "\n",
+    "upper: ", ci_func(x$bs_ci_percentile[2,]), "\n",
     sep = ""
   )
 }
