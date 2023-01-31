@@ -158,11 +158,11 @@ print.spinar_boot = function(x, ...){
   cat(
     "spinar_boot object (B=", ncol(x$x_star), ", n=", nrow(x$x_star), ") with element(s)\n",
     paste0(elements, collapse = ", "), "\n\n",
-    "Hall Confidence Intervals for Parameters:\n",
+    "Hall's Bootstrap Percentile Confidence Intervals for Parameters:\n",
     space(6), paste0(space(7-nchar(1:n_param)+any_neg), 1:n_param), "\n",
     "lower: ", ci_func(x$bs_ci_hall[1,]), "\n",
     "upper: ", ci_func(x$bs_ci_hall[2,]), "\n\n",
-    "Percentile Confidence Intervals for Parameters:\n",
+    "Bootstrap Percentile Confidence Intervals for Parameters:\n",
     space(6), paste0(space(7-nchar(1:n_param)+any_neg), 1:n_param), "\n",
     "lower: ", ci_func(x$bs_ci_percentile[1,]), "\n",
     "upper: ", ci_func(x$bs_ci_percentile[2,]), "\n",
