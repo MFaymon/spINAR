@@ -14,7 +14,7 @@
 #' parameters (\code{\link{spinar_penal_val}}). Furthermore, it contains a semiparametric
 #' INAR bootstrap procedure implemented in \code{\link{spinar_boot}} (Jentsch and Weiß, 2017).
 #'
-#' @section Paramteric INAR Model:
+#' @section Parametric INAR Model:
 #' In addition to the semiparametric model, the package also allows for parametric simulation
 #' (\code{\link{spinar_sim}}), parametric estimation (\code{\link{spinar_est_param}}) and
 #' parametric bootstrapping (\code{\link{spinar_boot}}) of INAR data.
