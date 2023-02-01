@@ -49,6 +49,6 @@ test_that("output", {
 test_that("print.spinar_boot", {
   expect_output(print(tmp), "spinar_boot object")
   expect_output(print(tmp), "B=2, n=10")
-  expect_output(print(tmp), "Hall Confidence Intervals")
-  expect_output(print(tmp), "Percentile Confidence Intervals")
+  expect_output(print(tmp), "Hall's Bootstrap Percentile Confidence Intervals")
+  expect_output(print(tmp), "Bootstrap Percentile Confidence Intervals")
 })
