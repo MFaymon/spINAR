@@ -28,12 +28,12 @@ test_that("input", {
    expect_error(spinar_boot(tmp, 1, 10, setting = "p", type = "mom", distr = 'poi', M=2, level = 2), "Assertion on 'level' failed")
 })
 
+set.seed(123)
+m <- 10
+tmp = spinar_boot(x=sample(1:10, m, replace=TRUE), p=2, B=2, setting = "sp")
 
 test_that("output", {
    ######################## size ########################
-   set.seed(123)
-   m <- 10
-   tmp = spinar_boot(x=sample(1:10, m, replace=TRUE), p=2, B=2, setting = "sp")
    expect_true(expect_true(dim(tmp$x_star)[1]==m))
    expect_true(expect_true(dim(tmp$x_star)[2]==2))
    expect_true(sum(tmp$parameters_star[1,3:(length(tmp$parameters_star)/2)])==1)
@@ -46,7 +46,9 @@ test_that("output", {
    expect_true(tmp$parameters_star[1] > 0)
 })
 
-
-
-
-
+test_that("print.spinar_boot", {
+  expect_output(print(tmp), "spinar_boot object")
+  expect_output(print(tmp), "B=2, n=10")
+  expect_output(print(tmp), "Hall Confidence Intervals")
+  expect_output(print(tmp), "Percentile Confidence Intervals")
+})

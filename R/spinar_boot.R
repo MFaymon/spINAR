@@ -62,10 +62,10 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
   assert_choice(distr, c("poi", "geo", "nb", NA))
   assert_integerish(M, lower = 0, len =  1)
   assert_numeric(level, lower = 0, upper = 1, len = 1)
-  
+
   bs <- list(x_star = matrix(NA, length(x), B), parameters_star = matrix(0, B, M+p+1),
              bs_ci_percentile = NULL, bs_ci_hall = NULL)
-  
+
   if(setting=="sp"){
     parameters <- spinar_est(x, p)
     alpha_hat <- parameters[seq_len(p)]
@@ -77,12 +77,12 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
       bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
     }
   }
-  
+
   if(setting=="p"){
     parameters <- spinar_est_param(x, p, type, distr)
     alpha_hat <- parameters[seq_len(p)]
     param_hat <- parameters[-seq_len(p)]
-    
+
     if(distr=="poi"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dpois(0:M, param_hat[1]))
@@ -111,7 +111,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
   bs$parameters_star <- bs$parameters_star[,colSums(bs$parameters_star)!=0]
   bs$bs_ci_percentile <- matrix(0, 2, ncol(bs$parameters_star), dimnames = list(c("lower", "upper")))
   bs$bs_ci_hall <- matrix(0, 2, ncol(bs$parameters_star), dimnames = list(c("lower", "upper")))
-  
+
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i])
     if((B*level)%%2 == 0){
@@ -123,11 +123,11 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
       bs$bs_ci_percentile[2,i] <- srt[B+1-K]
     }
   }
-  
+
   if(ncol(bs$parameters_star)>length(parameters)){
     parameters <- c(parameters, rep(0,ncol(bs$parameters_star)-length(parameters)))
   }
-  
+
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i] - parameters[i])
     if((B*level)%%2 == 0){
@@ -153,10 +153,6 @@ print.spinar_boot = function(x, ...){
     tmp = sprintf("%.4f", ci)
     paste0(space(-(nchar(tmp)-any_neg-6)), tmp, " ")
   }
-  #ci_low_hall = sprintf("%.4f", x$bs_ci_hall[1,])
-  #ci_upp_hall = sprintf("%.4f", x$bs_ci_hall[2,])
-  #ci_low_perc = sprintf("%.4f", x$bs_ci_percentile[1,])
-  #ci_upp_perc = sprintf("%.4f", x$bs_ci_percentile[2,])
   cat(
     "spinar_boot object (B=", ncol(x$x_star), ", n=", nrow(x$x_star), ") with element(s)\n",
     paste0(elements, collapse = ", "), "\n\n",
