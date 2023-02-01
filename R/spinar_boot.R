@@ -70,11 +70,14 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     parameters <- spinar_est(x, p)
     alpha_hat <- parameters[seq_len(p)]
     g_hat <- parameters[-seq_len(p)]
+    pb = .makeProgressBar(progress = progress,
+                          total = B, format = "Bootstrap Iteration :current/:total  [:bar] :percent elapsed: :elapsed eta: :eta")
     for(b in 1:B){
       x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = g_hat)
       bs$x_star[,b] <- x_star
       parameters_star <- spinar_est(x_star, p)
       bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
+      pb$tick()
     }
   }
 

@@ -29,6 +29,7 @@ Depends:
 	R (>= 3.6.0)
 Imports:
 	checkmate (>= 1.8.5),
+	progress,
 	stats
 LazyData: true
 RoxygenNote: 7.2.3
