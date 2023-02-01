@@ -21,7 +21,8 @@
 #' @param M [\code{integer(1)}]\cr
 #' upper limit for the innovations.
 #' @param level [\code{numeric(1)}]\cr
-#' level for the bootstrap confidence intervals.
+#' level for the bootstrap confidence intervals (percentile interval and Hall's percentile interval
+#' (bootstrap-t-interval without studentization)).
 #'
 #' @return (Named) List of length \code{3} containing
 #'
@@ -105,9 +106,9 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     }
   }
   bs$parameters_star <- bs$parameters_star[,colSums(bs$parameters_star)!=0]
-  bs$bs_ci <- rep(list(matrix(0, 2, 3, dimnames = list(c("lower","upper"), c("percentile","hall","studentized")))),
+  bs$bs_ci <- rep(list(matrix(0, 2, 2, dimnames = list(c("lower","upper"), c("percentile","hall")))),
                   ncol(bs$parameters_star))
-  # percentile CI
+
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i])
     if((B*level)%%2 == 0){
@@ -120,9 +121,17 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     }
   }
 
-  # hall CI
-
-  # studentized CI
+  for(i in 1: ncol(bs$parameters_star)){
+    srt <- sort(bs$parameters_star[,i] - parameters[i])
+    if((B*level)%%2 == 0){
+      bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B*(1-level/2)]
+      bs$bs_ci[[i]][2,2] <- parameters[i] - srt[B*level/2]
+    } else{
+      K <- ceiling((B+1)*level/2)
+      bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B+1-K]
+      bs$bs_ci[[i]][2,2] <- parameters[i] - srt[K]
+    }
+  }
 
   return(bs)
 }

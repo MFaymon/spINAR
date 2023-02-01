@@ -60,8 +60,8 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
     parameters <- spinar_penal(x, p, penal1, penal2)
   } else{
     assert_logical(validation)
-    assert(checkChoice(over, c("L1", "L2", "both", NA)))
-    assert_integerish(folds, lower = 2, upper = ceiling((length(x)/(p+1))), len = 1)
+    assert(checkChoice(over, c("L1", "L2", "both")))
+    assert_integerish(folds, lower = 2, upper = floor((length(x)/(p+1))), len = 1)
     assert_numeric(init1, len = 1)
     assert_numeric(init2, len = 1)
 
@@ -157,8 +157,8 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         }
 
         penal1_opt <- penal_vals[index]
-        # CHANGE
-        if(min(penal1_opt) < 0){
+
+        if(penal1_opt < 0){
           penal1_opt <- 0
           break
         }
@@ -324,8 +324,8 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
         penal1_opt <- grid[index,1]
         penal2_opt <- grid[index,2]
-        # CHANGE
-        if(min(penal1_opt) < 0){
+
+        if(penal1_opt < 0){
           penal1_opt <- 0
         }
 
