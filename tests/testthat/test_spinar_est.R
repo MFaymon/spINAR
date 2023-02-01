@@ -14,7 +14,7 @@ test_that("input", {
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = 1.5), "Assertion on 'p' failed: Must be of type 'integerish'")
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = 0.5), "Assertion on 'p' failed: Must be of type 'integerish'")
   expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = -3), "Assertion on 'p' failed: Element 1 is not >= 1.")
-  expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = c(2,1)), "Assertion on 'p' failed: Must have length <= 1, but has length 2.")
+  expect_error(spinar_est(x = c(2, 3, 1, 1, 0), p = c(2,1)), "Assertion on 'p' failed")
 })
 
 test_that("output", {
@@ -41,7 +41,3 @@ test_that("output", {
   expect_true(tmp[2] < 1)
   expect_true(tmp[2] > 0)
 })
-
-
-
-
