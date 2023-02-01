@@ -44,11 +44,17 @@ test_that("output", {
    ######################## values ########################
    expect_true(tmp$parameters_star[1] < 1)
    expect_true(tmp$parameters_star[1] > 0)
+   tmp0 <- spinar_boot(x=sample(1:8, 10, replace=TRUE), p=1, B=2, setting = "p", type = "mom", distr="poi")
+   expect_true(length(tmp0$bs_ci_hall)== 4)
+   tmp1 <- spinar_boot(x=sample(1:8, 10, replace=TRUE), p=1, B=2, setting = "p", type = "mom", distr="geo")
+   expect_true(length(tmp1$bs_ci_percentile)==4)
+   tmp2 <- spinar_boot(x=sample(1:8, 10, replace=TRUE), p=1, B=2, setting = "p", type = "mom", distr="nb", level = 1)
+   print(length(tmp2$parameters)==6)
 })
 
 test_that("print.spinar_boot", {
-  expect_output(print(tmp), "spinar_boot object")
-  expect_output(print(tmp), "B=2, n=10")
-  expect_output(print(tmp), "Hall's Bootstrap Percentile Confidence Intervals")
-  expect_output(print(tmp), "Bootstrap Percentile Confidence Intervals")
+   expect_output(print(tmp), "spinar_boot object")
+   expect_output(print(tmp), "B=2, n=10")
+   expect_output(print(tmp), "Hall's Bootstrap Percentile Confidence Intervals")
+   expect_output(print(tmp), "Bootstrap Percentile Confidence Intervals")
 })
