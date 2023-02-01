@@ -23,6 +23,9 @@
 #' @param level [\code{numeric(1)}]\cr
 #' level for the bootstrap confidence intervals (percentile interval and Hall's percentile interval
 #' (bootstrap-t-interval without studentization)).
+#' @param progress [\code{logical(1)}]\cr
+#' Should a nice progress bar be shown? Turning it off, could lead to significantly
+#' faster calculation. Default is \code{TRUE}.
 #'
 #' @return (Named) List of length \code{4} containing
 #'
@@ -53,7 +56,7 @@
 #'             distr = "geo")}
 #'
 #' @export spinar_boot
-spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05){
+spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05, progress = TRUE){
   assert_integerish(p, lower = 1, upper = 2, len = 1)
   assert_integerish(B, lower = 1, len = 1)
   assert_integerish(x, lower = 0, min.len = p+1)

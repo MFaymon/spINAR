@@ -4,7 +4,17 @@
 \alias{spinar_boot}
 \title{(Semi)parametric INAR bootstrap procedure}
 \usage{
-spinar_boot(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05)
+spinar_boot(
+  x,
+  p,
+  B,
+  setting,
+  type = NA,
+  distr = NA,
+  M = 100,
+  level = 0.05,
+  progress = TRUE
+)
 }
 \arguments{
 \item{x}{[\code{integer}]\cr
@@ -34,6 +44,10 @@ upper limit for the innovations.}
 \item{level}{[\code{numeric(1)}]\cr
 level for the bootstrap confidence intervals (percentile interval and Hall's percentile interval
 (bootstrap-t-interval without studentization)).}
+
+\item{progress}{[\code{logical(1)}]\cr
+Should a nice progress bar be shown? Turning it off, could lead to significantly
+faster calculation. Default is \code{TRUE}.}
 }
 \value{
 (Named) List of length \code{4} containing
