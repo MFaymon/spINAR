@@ -8,3 +8,4 @@ paper
 ^appveyor\.yml$
 ^\.github$
 img_readme
+shim_package.sh

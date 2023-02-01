@@ -36,9 +36,9 @@ level for the bootstrap confidence intervals (percentile interval and Hall's per
 (bootstrap-t-interval without studentization)).}
 }
 \value{
-(Named) List of length \code{3} containing
+(Named) List of length \code{4} containing
 
-- a \code{B}\eqn{\times}length(\code{x}) matrix of bootstrap observations,
+- a length(\code{x})\eqn{\times}\code{B} matrix of bootstrap observations,
 
 - a matrix with B rows containing the bootstrap estimated parameters (In the semiparametric case,
 each row contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
@@ -46,7 +46,9 @@ of the pmf \eqn{\code{pmf}_0, \code{pmf}_1}, ... where \eqn{\code{pmf}_i} repres
 an innovation being equal to \eqn{i}. In the parametric case, each list entry contains the estimated coefficients
 \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s) of the innovation distribution.)
 
-- three types of bootstrap confidence intervals (Hall, percentile, studentized).
+- lower and upper bounds of Hall's bootstrap percentile confidence intervals for each parameter of the second list entry
+
+- lower and upper bounds of bootstrap percentile confidence intervals for each parameter of the second list entry
 }
 \description{
 INAR bootstrap procedures for the semiparametric and the parametric INAR setting, where the latter allows for

@@ -24,9 +24,9 @@
 #' level for the bootstrap confidence intervals (percentile interval and Hall's percentile interval
 #' (bootstrap-t-interval without studentization)).
 #'
-#' @return (Named) List of length \code{3} containing
+#' @return (Named) List of length \code{4} containing
 #'
-#' - a \code{B}\eqn{\times}length(\code{x}) matrix of bootstrap observations,
+#' - a length(\code{x})\eqn{\times}\code{B} matrix of bootstrap observations,
 #'
 #' - a matrix with B rows containing the bootstrap estimated parameters (In the semiparametric case,
 #' each row contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
@@ -34,7 +34,9 @@
 #' an innovation being equal to \eqn{i}. In the parametric case, each list entry contains the estimated coefficients
 #' \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s) of the innovation distribution.)
 #'
-#' - three types of bootstrap confidence intervals (Hall, percentile, studentized).
+#' - lower and upper bounds of Hall's bootstrap percentile confidence intervals for each parameter of the second list entry
+#'
+#' - lower and upper bounds of bootstrap percentile confidence intervals for each parameter of the second list entry
 #'
 #' @examples
 #' # generate data
@@ -52,16 +54,17 @@
 #'
 #' @export spinar_boot
 spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05){
-  assert_integerish(p, lower = 1, min.len = 1, max.len = 1, upper = 2)
-  assert_integerish(B, lower = 1, min.len = 1, max.len = 1)
+  assert_integerish(p, lower = 1, upper = 2, len = 1)
+  assert_integerish(B, lower = 1, len = 1)
   assert_integerish(x, lower = 0, min.len = p+1)
   assert_choice(setting, c("sp", "p"))
   assert_choice(type, c("mom", "ml", NA))
   assert_choice(distr, c("poi", "geo", "nb", NA))
-  assert_integerish(M, lower = 0, min.len = 1, max.len=1)
-  assert_numeric(level, lower = 0, upper = 1, min.len = 1, max.len = 1)
+  assert_integerish(M, lower = 0, len =  1)
+  assert_numeric(level, lower = 0, upper = 1, len = 1)
 
-  bs <- list(x_star = matrix(NA, B, length(x)), parameters_star = matrix(0, B, M+p+1), bs_ci = NULL)
+  bs <- list(x_star = matrix(NA, length(x), B), parameters_star = matrix(0, B, M+p+1),
+             bs_ci_percentile = NULL, bs_ci_hall = NULL)
 
   if(setting=="sp"){
     parameters <- spinar_est(x, p)
@@ -69,7 +72,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     g_hat <- parameters[-seq_len(p)]
     for(b in 1:B){
       x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = g_hat)
-      bs$x_star[b,] <- x_star
+      bs$x_star[,b] <- x_star
       parameters_star <- spinar_est(x_star, p)
       bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
     }
@@ -83,7 +86,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     if(distr=="poi"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dpois(0:M, param_hat[1]))
-        bs$x_star[b,] <- x_star
+        bs$x_star[,b] <- x_star
         parameters_star <- spinar_est_param(x_star, p, type, distr)
         bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
       }
@@ -91,7 +94,7 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     if(distr=="geo"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dgeom(0:M, param_hat[1]))
-        bs$x_star[b,] <- x_star
+        bs$x_star[,b] <- x_star
         parameters_star <- spinar_est_param(x_star, p, type, distr)
         bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
       }
@@ -99,28 +102,34 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
     if(distr=="nb"){
       for(b in 1:B){
         x_star <- spinar_sim(n = length(x), p = p, alpha = alpha_hat, pmf = dnbinom(0:M, param_hat[1], param_hat[2]))
-        bs$x_star[b,] <- x_star
+        bs$x_star[,b] <- x_star
         parameters_star <- spinar_est_param(x_star, p, type, distr)
         bs$parameters_star[b,1:length(parameters_star)] <- parameters_star
       }
     }
   }
   bs$parameters_star <- bs$parameters_star[,colSums(bs$parameters_star)!=0]
+<<<<<<< HEAD
   bs$bs_ci <- rep(list(matrix(0, 2, 2, dimnames = list(c("lower","upper"), c("percentile","hall")))),
                   ncol(bs$parameters_star))
+=======
+  bs$bs_ci_percentile <- matrix(0, 2, ncol(bs$parameters_star), dimnames = list(c("lower", "upper")))
+  bs$bs_ci_hall <- matrix(0, 2, ncol(bs$parameters_star), dimnames = list(c("lower", "upper")))
+>>>>>>> 0a67edec89ed2b0ed8dd8fad57863ed74685c6d2
 
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i])
     if((B*level)%%2 == 0){
-      bs$bs_ci[[i]][1,1] <- srt[B*level/2]
-      bs$bs_ci[[i]][2,1] <- srt[B*(1-level/2)]
+      bs$bs_ci_percentile[1,i] <- srt[B*level/2]
+      bs$bs_ci_percentile[2,i] <- srt[B*(1-level/2)]
     } else{
       K <- ceiling((B+1)*level/2)
-      bs$bs_ci[[i]][1,1] <- srt[K]
-      bs$bs_ci[[i]][2,1] <- srt[B+1-K]
+      bs$bs_ci_percentile[1,i] <- srt[K]
+      bs$bs_ci_percentile[2,i] <- srt[B+1-K]
     }
   }
 
+<<<<<<< HEAD
   for(i in 1: ncol(bs$parameters_star)){
     srt <- sort(bs$parameters_star[,i] - parameters[i])
     if((B*level)%%2 == 0){
@@ -131,7 +140,52 @@ spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level 
       bs$bs_ci[[i]][1,2] <- parameters[i] - srt[B+1-K]
       bs$bs_ci[[i]][2,2] <- parameters[i] - srt[K]
     }
+=======
+  if(ncol(bs$parameters_star)>length(parameters)){
+    parameters <- c(parameters, rep(0,ncol(bs$parameters_star)-length(parameters)))
+>>>>>>> 0a67edec89ed2b0ed8dd8fad57863ed74685c6d2
   }
 
+  for(i in 1: ncol(bs$parameters_star)){
+    srt <- sort(bs$parameters_star[,i] - parameters[i])
+    if((B*level)%%2 == 0){
+      bs$bs_ci_hall[1,i] <- parameters[i] - srt[B*(1-level/2)]
+      bs$bs_ci_hall[2,i] <- parameters[i] - srt[B*level/2]
+    } else{
+      K <- ceiling((B+1)*level/2)
+      bs$bs_ci_hall[1,i] <- parameters[i] - srt[B+1-K]
+      bs$bs_ci_hall[2,i] <- parameters[i] - srt[K]
+    }
+  }
+  class(bs) = "spinar_boot"
   return(bs)
+}
+
+#' @export
+print.spinar_boot = function(x, ...){
+  elements = paste0("\"", names(which(!sapply(x, is.null))), "\"")
+  n_param = ncol(x$bs_ci_percentile)
+  any_neg = apply(rbind(x$bs_ci_hall, x$bs_ci_percentile), 2, function(x) any(x < 0))
+  space = function(n) sapply(n, function(x) paste(rep(" ", x), collapse = ""))
+  ci_func = function(ci){
+    tmp = sprintf("%.4f", ci)
+    paste0(space(-(nchar(tmp)-any_neg-6)), tmp, " ")
+  }
+  #ci_low_hall = sprintf("%.4f", x$bs_ci_hall[1,])
+  #ci_upp_hall = sprintf("%.4f", x$bs_ci_hall[2,])
+  #ci_low_perc = sprintf("%.4f", x$bs_ci_percentile[1,])
+  #ci_upp_perc = sprintf("%.4f", x$bs_ci_percentile[2,])
+  cat(
+    "spinar_boot object (B=", ncol(x$x_star), ", n=", nrow(x$x_star), ") with element(s)\n",
+    paste0(elements, collapse = ", "), "\n\n",
+    "Hall's Bootstrap Percentile Confidence Intervals for Parameters:\n",
+    space(6), paste0(space(7-nchar(1:n_param)+any_neg), 1:n_param), "\n",
+    "lower: ", ci_func(x$bs_ci_hall[1,]), "\n",
+    "upper: ", ci_func(x$bs_ci_hall[2,]), "\n\n",
+    "Bootstrap Percentile Confidence Intervals for Parameters:\n",
+    space(6), paste0(space(7-nchar(1:n_param)+any_neg), 1:n_param), "\n",
+    "lower: ", ci_func(x$bs_ci_percentile[1,]), "\n",
+    "upper: ", ci_func(x$bs_ci_percentile[2,]), "\n",
+    sep = ""
+  )
 }

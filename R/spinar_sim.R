@@ -32,7 +32,7 @@
 #'
 #' @export spinar_sim
 spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
-  assert_integerish(p, lower = 1, min.len = 1, max.len = 1,  upper = 2)
+  assert_integerish(p, lower = 1, upper = 2, len = 1)
   assert_numeric(alpha, lower = 0, upper = 1, len = p)
   assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1)
   assert_integerish(n, lower = 0, len = 1)

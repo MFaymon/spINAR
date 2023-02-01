@@ -42,6 +42,10 @@ test_that("input", {
   expect_error(spinar_penal_val(x = tmp0, p = 1, validation = TRUE, over = "L1", penal1= 0.5, folds = 2), "if over = L1, no value for penal1 allowed")
   expect_warning(spinar_penal_val(x = tmp0, p = 1, validation = TRUE, over = "L1", init1 = 5,  init2 = 5, folds = 2), "value for penal2 is missing and is treated as zero")
   # validation = TRUE and over = 'L2'
+<<<<<<< HEAD
+=======
+  expect_error(spinar_penal_val(x = tmp0, p = 1, validation = TRUE, over = "L2", penal2 =0, folds = 2, init2=0.5), "if over = L2, no value for penal2 allowed")
+>>>>>>> 0a67edec89ed2b0ed8dd8fad57863ed74685c6d2
   expect_warning(spinar_penal_val(x = tmp0, p = 1, validation = TRUE, over = "L2", folds = 2, init2=0.5), 'value for penal1 is missing and is treated as zero')
   # validation = TRUE and over = 'both'
   expect_warning(spinar_penal_val(x = tmp0, p = 1, validation = TRUE, over = "both", penal1 = 1, folds=2, init1 =0 , init2 = 0.05), "if over = both, input values for penal1 and penal2 are ignored")
@@ -60,5 +64,8 @@ test_that("output size", {
   ######################## type ########################
   expect_type(aux1, "double")
 })
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0a67edec89ed2b0ed8dd8fad57863ed74685c6d2
 
