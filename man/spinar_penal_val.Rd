@@ -48,11 +48,13 @@ initial value for penal1 in validation. Default value is init1 = 1.}
 initial value for penal2 in validation. Default value is init2 = 1}
 }
 \value{
-For \code{validation=FALSE}, the function returns a vector containing the penalized estimated coefficients
+If \code{validation = FALSE}, the function returns a vector containing the penalized estimated coefficients
 \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0, \code{pmf}_1}... where \eqn{\code{pmf}_i} represents the probability of
-an innovation being equal to \eqn{i}. For \code{validation=TRUE}, the function returns a named list, where the first entry contains
+an innovation being equal to \eqn{i}.
+
+If \code{validation = TRUE}, the function returns a named list, where the first entry contains
 the penalized estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0, \code{pmf}_1},... where \eqn{\code{pmf}_i} represents the probability of
-an innovation being equal to \eqn{i}. The second (and if \code{over = both} also the third entry) contain(s) the validated penalization paramter(s).
+an innovation being equal to \eqn{i}. The second (and if \code{over = both} also the third entry) contain(s) the validated penalization parameter(s).
 }
 \description{
 Semiparametric penalized estimation of the autoregressive parameters and the innovation distribution of INAR(\code{p}) models,
