@@ -34,4 +34,5 @@
 #'
 #' @import stats
 #' @import checkmate
+#' @import progress
 "_PACKAGE"
