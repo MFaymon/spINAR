@@ -49,14 +49,29 @@ test_that("input", {
   # validation = FALSE
   expect_warning(spinar_penal_val(x = tmp0, p = 1, validation = FALSE, over = "L1", folds=2), 'values for penal1 or penal2 are missing, they are therefore treated as zero')
 })
-test_that("output size", {
+test_that("output", {
   ######################## size ########################
   set.seed(123)
   tmp2 <- sample(1:10, 6, replace = TRUE)
   aux1 <- spinar_penal_val(x = tmp2, p = 2, validation = FALSE, penal1= 0, penal2= 0, folds=2)
   expect_equal(length(aux1), max(tmp2)+3)
   aux2 <- spinar_penal_val(x = tmp2, p = 2, validation = TRUE, over = "L1", penal2= 0, init1=0, folds=2)
+  expect_equal(length(aux2$parameters), max(tmp2)+3)
   expect_true(length(aux2$penal1_opt)==1)
+  aux3 <- spinar_penal_val(x = tmp2, p = 2, validation = TRUE, over = "L2", penal1= 0, init2=0, folds=2)
+  expect_true(length(aux3$penal2_opt)==1)
+  expect_equal(length(aux3$parameters), max(tmp2)+3)
+  aux4 <- spinar_penal_val(x = tmp2, p = 2, validation = TRUE, over = "both", folds=2, init1 = 0.95, init2 = 1.05)
+  expect_equal(length(aux4$parameters), max(tmp2)+3)
+  expect_true(length(aux4$penal1_opt)==1)
+  expect_true(length(aux4$penal2_opt)==1)
+  aux5 <- spinar_penal_val(x = c(1,2,1,2,3,2,1), p = 1, validation = TRUE, over = "L1", penal2 = 0.5, folds = 3)
+  expect_true(length(aux5$parameters)==5)
+  aux6 <- spinar_penal_val(x = c(1,2,1,2,3,2,1), p = 1, validation = TRUE, over = "L1", penal2 = 0.5, folds = 2)
+  expect_true(length(aux6$parameters)==5)
+  aux7 <- spinar_penal_val(x = c(1,1,1,1,1,1,1), p = 1, validation = TRUE, over = "L1", penal2 = 0.5, folds = 3)
+  expect_true(length(aux7$parameters)==3)
+  expect_true(length(aux7$penal1_opt)==1)
   ######################## type ########################
   expect_type(aux1, "double")
 })
