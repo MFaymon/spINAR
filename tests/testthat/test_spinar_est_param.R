@@ -14,7 +14,7 @@ test_that("input", {
   expect_error(spinar_est_param(x = c(2, 3, 1, 1, 0), p = 1.5, type = "mom",  distr = "nb"), "Assertion on 'p' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
   expect_error(spinar_est_param(x = c(2, 3, 1, 1, 0), p = 0.5, type = "mom",  distr = "nb"), "Assertion on 'p' failed: Must be of type 'integerish', but element 1 is not close to an integer.")
   expect_error(spinar_est_param(x = c(2, 3, 1, 1, 0), p = -3, type = "mom",  distr = "nb"), "Assertion on 'p' failed: Element 1 is not >= 1.")
-  expect_error(spinar_est_param(x = c(2, 3, 1, 1, 0), p = c(2,1), type = "mom",  distr = "nb"), "Assertion on 'p' failed: Must have length <= 1, but has length 2.")
+  expect_error(spinar_est_param(x = c(2, 3, 1, 1, 0), p = c(2,1), type = "mom",  distr = "nb"), "Assertion on 'p' failed")
   ######################## type ########################
   expect_error(spinar_est_param(x = rpois(10, 2), p = 1, type = "mon",  distr = "nb"))
   expect_error(spinar_est_param(x = rpois(10, 3), p = 1, type = 2,  distr = "nb"))

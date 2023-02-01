@@ -32,11 +32,13 @@ test_that("input", {
 test_that("output", {
    ######################## size ########################
    set.seed(123)
-   tmp = spinar_boot(x=sample(1:10, 10, replace=TRUE), p=2, B=2, setting = "sp")
-   expect_true(expect_true(dim(tmp$x_star)[1]==2))
-   expect_true(expect_true(dim(tmp$x_star)[2]==10))
+   m <- 10
+   tmp = spinar_boot(x=sample(1:10, m, replace=TRUE), p=2, B=2, setting = "sp")
+   expect_true(expect_true(dim(tmp$x_star)[1]==m))
+   expect_true(expect_true(dim(tmp$x_star)[2]==2))
    expect_true(sum(tmp$parameters_star[1,3:(length(tmp$parameters_star)/2)])==1)
-   expect_true(length((tmp$parameters_star)) == 2*length(tmp$bs_ci))
+   expect_true(length((tmp$parameters_star)) == length(tmp$bs_ci_hall))
+   expect_true(length((tmp$bs_ci_percentile)) == length(tmp$bs_ci_hall))
    ######################## type ########################
    expect_type(tmp, "list")
    ######################## values ########################
