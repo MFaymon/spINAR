@@ -50,19 +50,27 @@ Should a nice progress bar be shown? Turning it off, could lead to significantly
 faster calculation. Default is \code{TRUE}.}
 }
 \value{
-(Named) List of length \code{4} containing
-
-- a length(\code{x})\eqn{\times}\code{B} matrix of bootstrap observations,
-
-- a matrix with B rows containing the bootstrap estimated parameters (In the semiparametric case,
-each row contains the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated entries
-of the pmf \eqn{\code{pmf}_0, \code{pmf}_1}, ... where \eqn{\code{pmf}_i} represents the probability of
-an innovation being equal to \eqn{i}. In the parametric case, each list entry contains the estimated coefficients
-\eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated parameter(s) of the innovation distribution.)
-
-- lower and upper bounds of Hall's bootstrap percentile confidence intervals for each parameter of the second list entry
-
-- lower and upper bounds of bootstrap percentile confidence intervals for each parameter of the second list entry
+[\code{named list}] with entries
+\describe{
+\item{\code{x_star}}{[\code{matrix}] of bootstrap observations with
+\code{length(x)} rows and \code{B} columns.}
+\item{\code{parameters_star}}{[\code{matrix}] of bootstrap estimated
+parameters with \code{B} rows.
+If \code{setting = "sp"}, each row contains
+the estimated coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the
+estimated entries of the pmf \eqn{\code{pmf}_0, \code{pmf}_1}, ... where
+\eqn{\code{pmf}_i} represents the probability of an innovation being equal
+to \eqn{i}.
+If \code{setting = "p"}, each row contains the estimated
+coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated
+parameter(s) of the innovation distribution.}
+\item{\code{bs_ci_percentile}}{[\code{named matrix}] with the lower and
+upper bounds of Hall's bootstrap percentile confidence intervals for each
+parameter in \code{parameters_star}.}
+\item{\code{bs_ci_hall}}{[\code{named matrix}] with the lower and
+upper bounds of the bootstrap percentile confidence intervals for each
+parameter in \code{parameters_star}.}
+}
 }
 \description{
 INAR bootstrap procedures for the semiparametric and the parametric INAR setting, where the latter allows for
@@ -79,7 +87,7 @@ dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
 # semiparametric INAR(1) bootstrap
 spinar_boot(x = dat1, p = 1, B = 50, setting = "sp")
 # parametric Geo-INAR(2) bootstrap using moment-based estimation
-spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom",
-            distr = "geo")}
+spinar_boot(x = dat2, p = 2, B = 50, setting = "p", type = "mom", distr = "geo")
+}
 
 }
