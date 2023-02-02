@@ -44,7 +44,7 @@ test_that("output", {
    ######################## values ########################
    expect_true(tmp$parameters_star[1] < 1)
    expect_true(tmp$parameters_star[1] > 0)
-   tmp0 <- spinar_boot(x=sample(1:8, 10, replace=TRUE), p=1, B=2, setting = "p", type = "mom", distr="poi")
+   tmp0 <- spinar_boot(x=sample(1:8, 10, replace=TRUE), p=1, B=2, setting = "p", type = "mom", distr="poi", progress = FALSE)
    expect_true(length(tmp0$bs_ci_hall)== 4)
    tmp1 <- spinar_boot(x=sample(1:8, 10, replace=TRUE), p=1, B=2, setting = "p", type = "mom", distr="geo")
    expect_true(length(tmp1$bs_ci_percentile)==4)
