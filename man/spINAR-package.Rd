@@ -4,7 +4,7 @@
 \name{spINAR-package}
 \alias{spINAR}
 \alias{spINAR-package}
-\title{Simulate, estimate and bootstrap integer autoregressive (INAR) models}
+\title{Semiparametric and parametric estimation and bootstrapping of integer-valued autoregressive (INAR) models.}
 \description{
 Flexible simulation of INAR data using a general pmf to define
 the innovations' distribution, semiparametric and parametric estimation of
