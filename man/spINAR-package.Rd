@@ -51,12 +51,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maxime Faymonville \email{faymonville@statistik.tu-dortmund.de}
+\strong{Maintainer}: Maxime Faymonville \email{faymonville@statistik.tu-dortmund.de} (\href{https://orcid.org/0000-0001-5565-0711}{ORCID})
 
 Authors:
 \itemize{
-  \item Javiera Riffo \email{javiera.riffo@tu-dortmund.de}
+  \item Javiera Riffo \email{javiera.riffo@tu-dortmund.de} (\href{https://orcid.org/0000-0002-5372-7196}{ORCID})
   \item Jonas Rieger \email{rieger@statistik.tu-dortmund.de} (\href{https://orcid.org/0000-0002-0007-4478}{ORCID})
+  \item Carsten Jentsch \email{jentsch@statistik.tu-dortmund.de} (\href{https://orcid.org/0000-0001-7824-1697}{ORCID})
 }
 
 }
