@@ -2,7 +2,7 @@
 [![R build status](https://github.com/MFaymon/spINAR/workflows/R-CMD-check/badge.svg)](https://github.com/MFaymon/spINAR/actions)
 [![codecov](https://codecov.io/gh/MFaymon/spINAR/branch/main/graph/badge.svg?token=U5KPFSY3XN)](https://codecov.io/gh/MFaymon/spINAR)
 
-Simulate, estimate and bootstrap integer autoregressive (INAR) models.
+Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models.
 
 The package provides flexible simulation of INAR data using a general pmf to define the innovations' distribution. It allows for semiparametric and parametric estimation of INAR models and includes a small sample refinement for the semiparametric setting. Additionally, it provides different procedures to appropriately bootstrap INAR data.
 
