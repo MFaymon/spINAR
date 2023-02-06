@@ -62,6 +62,8 @@ test_that("output", {
   expect_true(length(aux3$penal2_opt)==1)
   expect_equal(length(aux3$parameters), max(tmp2)+3)
   aux4 <- spinar_penal_val(x = tmp2, p = 2, validation = TRUE, over = "both", folds=2, init1 = 0.95, init2 = 1.05)
+  aux4_false <- spinar_penal_val(x = tmp2, p = 2, validation = TRUE, over = "both", folds=2, init1 = 0.95, init2 = 1.05, progress = FALSE)
+  expect_identical(aux4, aux4_false)
   expect_equal(length(aux4$parameters), max(tmp2)+3)
   expect_true(length(aux4$penal1_opt)==1)
   expect_true(length(aux4$penal2_opt)==1)
