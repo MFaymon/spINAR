@@ -4,7 +4,7 @@
 \name{spINAR-package}
 \alias{spINAR}
 \alias{spINAR-package}
-\title{Semiparametric and parametric estimation and bootstrapping of integer-valued autoregressive (INAR) models.}
+\title{Semiparametric and parametric estimation and bootstrapping of integer-valued autoregressive (INAR) models}
 \description{
 Semiparametric and parametric estimation of INAR models
 including a finite sample refinement for the semiparametric setting, different

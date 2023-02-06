@@ -1,6 +1,6 @@
 Package: spINAR
 Type: Package
-Title: Semiparametric and parametric estimation and bootstrapping of integer-valued autoregressive (INAR) models
+Title: Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models
 Version: 0.0.1
 Date: 2023-02-13
 Authors@R: c(person(given = "Maxime",
