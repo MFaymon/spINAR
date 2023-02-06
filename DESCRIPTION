@@ -2,7 +2,7 @@ Package: spINAR
 Type: Package
 Title: Simulate, Estimate and Bootstrap Integer Autoregressive (INAR) Models
 Version: 0.0.1
-Date: 2023-01-16
+Date: 2023-02-13
 Authors@R: c(person(given = "Maxime",
            family = "Faymonville",
            role = c("aut", "cre"),
