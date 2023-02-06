@@ -1,9 +1,8 @@
 #' @title Semiparametric and parametric estimation and bootstrapping of integer-valued autoregressive (INAR) models.
 #'
-#' @description Flexible simulation of INAR data using a general pmf to define
-#' the innovations' distribution, semiparametric and parametric estimation of
-#' INAR models (including a small sample refinement for the semiparametric
-#' setting) and different procedures to appropriately bootstrap INAR data.
+#' @description Semiparametric and parametric estimation of INAR models
+#' including a finite sample refinement for the semiparametric setting, different
+#' procedures to bootstrap INAR data and flexible simulation of INAR data.
 #'
 #' @section Semiparametric INAR Model:
 #' The package provides a flexible simulation of INAR data by inserting a user-defined
