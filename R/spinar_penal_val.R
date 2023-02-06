@@ -27,6 +27,9 @@
 #' initial value for penal1 in validation. Default value is init1 = 1.
 #' @param init2 [\code{numeric(1)}]\cr
 #' initial value for penal2 in validation. Default value is init2 = 1
+#' @param progress [\code{logical(1)}]\cr
+#' Should a nice progress bar be shown? Turning it off, could lead to significantly
+#' faster calculation. Default is \code{TRUE}.
 #'
 #' @return If \code{validation = FALSE}, the function returns a vector containing the penalized estimated coefficients
 #' \eqn{\code{alpha}_1,...,\code{alpha}_p} and the penalized estimated entries of the pmf \eqn{\code{pmf}_0, \code{pmf}_1}... where \eqn{\code{pmf}_i} represents the probability of
@@ -49,7 +52,7 @@
 #' spinar_penal_val(x = dat1, p = 1, validation = TRUE, over = "both")}
 #'
 #' @export spinar_penal_val
-spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = NA, folds = 10, init1 = 1, init2 = 1){
+spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = NA, folds = 10, init1 = 1, init2 = 1, progress = TRUE){
   assert_integerish(p, lower = 1, len = 1, upper = 2)
   assert_integerish(x, lower = 0, min.len = p+1)
   assert_numeric(penal1, len = 1)
@@ -102,15 +105,19 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
       penal_val <- init1
 
       loglik <- matrix(NA, folds, 5)
-
+      z = 0
       repeat{
+        z = z+1
         penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1)
-
+        pb <- .makeProgressBar(progress = progress,
+                               total = folds*length(penal_vals), format = "Fold :fold/:folds [:bar] :percent elapsed: :elapsed eta: :eta")
+        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(penal_vals, collapse = ", ")," for L1 penalization"))
         for(f in 1:folds){
           data_in <- ins[[f]]
           data_out <- outs[[f]]
 
           for (l in 1:length(penal_vals)){
+            pb$tick(tokens = list(folds = folds, fold = f))
             penal <- penal_vals[l]
             est <- spinar_penal(x, p, penal, penal2)
             alpha <- est[seq_len(p)]
@@ -183,15 +190,19 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
       penal_val <- init2
 
       loglik <- matrix(NA, folds, 5)
-
+      z = 0
       repeat{
+        z = z+1
         penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1)
-
+        pb <- .makeProgressBar(progress = progress,
+                               total = folds*length(penal_vals), format = "Fold :fold/:folds [:bar] :percent elapsed: :elapsed eta: :eta")
+        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(penal_vals, collapse = ", ")," for L2 penalization"))
         for(f in 1:folds){
           data_in <- ins[[f]]
           data_out <- outs[[f]]
 
           for (l in 1:length(penal_vals)){
+            pb$tick(tokens = list(folds = folds, fold = f))
             penal <- penal_vals[l]
             est <- spinar_penal(x, p, penal1, penal)
             alpha <- est[seq_len(p)]
@@ -265,16 +276,22 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
 
       loglik <- matrix(NA, folds, 9)
 
+      z = 0
       repeat{
+        z = z+1
         penal_vals1 <- c(penal_val1-0.05, penal_val1, penal_val1+0.05)
         penal_vals2 <- c(penal_val2-0.05, penal_val2, penal_val2+0.05)
         grid <- expand.grid(penal_vals1, penal_vals2)
-
+        pb <- .makeProgressBar(progress = progress,
+                               total = folds*nrow(grid), format = "Fold :fold/:folds [:bar] :percent elapsed: :elapsed eta: :eta")
+        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(penal_vals1, collapse = ", "),
+                                       " for L1 and ", paste(penal_vals2, collapse = ", "), " for L2 penalization"))
         for(f in 1:folds){
           data_in <- ins[[f]]
           data_out <- outs[[f]]
 
           for (l in 1:nrow(grid)){
+            pb$tick(tokens = list(folds = folds, fold = f))
             penal1 <- grid[l,1]
             penal2 <- grid[l,2]
             est <- spinar_penal(x, p, penal1, penal2)

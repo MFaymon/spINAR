@@ -13,7 +13,8 @@ spinar_penal_val(
   over = NA,
   folds = 10,
   init1 = 1,
-  init2 = 1
+  init2 = 1,
+  progress = TRUE
 )
 }
 \arguments{
@@ -46,6 +47,10 @@ initial value for penal1 in validation. Default value is init1 = 1.}
 
 \item{init2}{[\code{numeric(1)}]\cr
 initial value for penal2 in validation. Default value is init2 = 1}
+
+\item{progress}{[\code{logical(1)}]\cr
+Should a nice progress bar be shown? Turning it off, could lead to significantly
+faster calculation. Default is \code{TRUE}.}
 }
 \value{
 If \code{validation = FALSE}, the function returns a vector containing the penalized estimated coefficients
