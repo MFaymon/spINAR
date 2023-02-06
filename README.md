@@ -1,6 +1,7 @@
 # spINAR
 [![R build status](https://github.com/MFaymon/spINAR/workflows/R-CMD-check/badge.svg)](https://github.com/MFaymon/spINAR/actions)
 [![codecov](https://codecov.io/gh/MFaymon/spINAR/branch/main/graph/badge.svg?token=U5KPFSY3XN)](https://codecov.io/gh/MFaymon/spINAR)
+[![DOI](https://zenodo.org/badge/520425653.svg)](https://zenodo.org/badge/latestdoi/520425653)
 
 Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models.
 
