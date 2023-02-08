@@ -111,7 +111,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1)
         pb <- .makeProgressBar(progress = progress,
                                total = folds*length(penal_vals), format = "Fold :fold/:folds [:bar] :percent elapsed: :elapsed eta: :eta")
-        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(penal_vals, collapse = ", ")," for L1 penalization"))
+        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(round(penal_vals, 4), collapse = ", ")," for L1 penalization"))
         for(f in 1:folds){
           data_in <- ins[[f]]
           data_out <- outs[[f]]
@@ -196,7 +196,7 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         penal_vals <- c(penal_val-0.1, penal_val-0.05, penal_val, penal_val+0.05, penal_val+0.1)
         pb <- .makeProgressBar(progress = progress,
                                total = folds*length(penal_vals), format = "Fold :fold/:folds [:bar] :percent elapsed: :elapsed eta: :eta")
-        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(penal_vals, collapse = ", ")," for L2 penalization"))
+        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(round(penal_vals, 4), collapse = ", ")," for L2 penalization"))
         for(f in 1:folds){
           data_in <- ins[[f]]
           data_out <- outs[[f]]
@@ -284,8 +284,8 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
         grid <- expand.grid(penal_vals1, penal_vals2)
         pb <- .makeProgressBar(progress = progress,
                                total = folds*nrow(grid), format = "Fold :fold/:folds [:bar] :percent elapsed: :elapsed eta: :eta")
-        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(penal_vals1, collapse = ", "),
-                                       " for L1 and ", paste(penal_vals2, collapse = ", "), " for L2 penalization"))
+        if(progress) pb$message(paste0("Step ", z, ": trying ", paste(round(penal_vals1, 4), collapse = ", "),
+                                       " for L1 and ", paste(round(penal_vals2, 4), collapse = ", "), " for L2 penalization"))
         for(f in 1:folds){
           data_in <- ins[[f]]
           data_out <- outs[[f]]
