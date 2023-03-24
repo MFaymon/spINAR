@@ -29,7 +29,7 @@ parametric bootstrapping (\code{\link{spinar_boot}}) of INAR data.
 }
 
 \references{
-Faymonville, M., Jentsch, C., Weiß, C.H. und Aleksandrov, B. (2022).
+Faymonville, M., Jentsch, C., Weiß, C.H. and Aleksandrov, B. (2022).
 Semiparametric Estimation of INAR Models using Roughness Penalization.
 Statistical Methods & Applications. \doi{10.1007/s10260-022-00655-0}.
 
