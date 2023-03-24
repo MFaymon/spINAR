@@ -27,7 +27,7 @@
 #' Bernoulli 25(3), pp. 2359--2408. \doi{10.3150/18-BEJ1057}.
 #'
 #' Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of
-#' auto-regression parameters and inovation distributions for semiparametric
+#' auto-regression parameters and innovation distributions for semiparametric
 #' integer-valued AR(p) models”. Journal of the Royal Statistical Society.
 #' Series B 71(2), pp. 467--485. \doi{10.1111/j.1467-9868.2008.00687.x}.
 #'
