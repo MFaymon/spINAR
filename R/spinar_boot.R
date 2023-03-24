@@ -56,7 +56,7 @@
 #' dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
 #'                    pmf = dgeom(0:60, 0.5))
 #'
-#' \dontrun{
+#' \donttest{
 #' # semiparametric INAR(1) bootstrap
 #' spinar_boot(x = dat1, p = 1, B = 50, setting = "sp")
 #' # parametric Geo-INAR(2) bootstrap using moment-based estimation

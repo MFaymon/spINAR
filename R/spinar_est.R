@@ -21,7 +21,7 @@
 #' dat2 <- spinar_sim(n = 200, p = 2, alpha = c(0.2, 0.3),
 #'                    pmf = c(0.25, 0.2, 0.15, 0.1, 0.1, 0.1, 0.1))
 #'
-#' \dontrun{
+#' \donttest{
 #' # semiparametric estimation of INAR(1) model
 #' spinar_est(x = dat1, p = 1)
 #' # semiparametric estimation of INAR(2) model
