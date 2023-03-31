@@ -1,5 +1,6 @@
 # spINAR
 [![status](https://joss.theoj.org/papers/6fcfcc77635fdd18153b35d5986fe2aa/status.svg)](https://github.com/openjournals/joss-reviews/issues/5152)
+[![CRAN](https://www.r-pkg.org/badges/version/spINAR)](https://cran.r-project.org/package=spINAR)
 [![R build status](https://github.com/MFaymon/spINAR/workflows/R-CMD-check/badge.svg)](https://github.com/MFaymon/spINAR/actions)
 [![codecov](https://codecov.io/gh/MFaymon/spINAR/branch/main/graph/badge.svg?token=U5KPFSY3XN)](https://app.codecov.io/gh/MFaymon/spINAR)
 [![DOI](https://zenodo.org/badge/520425653.svg)](https://zenodo.org/badge/latestdoi/520425653)
