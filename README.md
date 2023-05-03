@@ -80,4 +80,4 @@ spinar_boot(dat1, 1, 500, setting = "p", type = "mom", distr = "poi")
 ```
 ## Outlook
 
-A possible extension of the spINAR package is to not only cover INAR models but also the extension to GINAR (generalized INAR) models, see Latour (1997).  This model class does not only cover the binomial thinning but also allows for other thinning operations, e.g. thinning using geometrically distributed random variables. 
+A possible extension of the spINAR package is to not only cover INAR models but also the extension to GINAR (generalized INAR) models, see [Latour (1997)](https://doi.org/10.1017/s0001867800027865).  This model class does not only cover the binomial thinning but also allows for other thinning operations, e.g. thinning using geometrically distributed random variables. 
