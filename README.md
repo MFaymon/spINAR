@@ -15,6 +15,11 @@ The package provides flexible simulation of INAR data using a general pmf to def
 * Jentsch, C. and Weiß, C.H. (2017), “Bootstrapping INAR Models”. Bernoulli 25(3), pp. 2359-2408. [DOI](https://doi.org/10.3150/18-BEJ1057)
 * Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of auto-regression parameters and inovation distributions for semiparametric integer-valued AR(p) models”. Journal of the Royal Statistical Society. Series B 71(2), pp. 467-485. [DOI](https://doi.org/10.1111/j.1467-9868.2008.00687.x)
 
+## Contribution
+This R package is licensed under the [GPLv3](https://www.gnu.org/licenses/gpl-3.0.en.html).
+For bug reports (lack of documentation, misleading or wrong documentation, unexpected behaviour, ...) and feature requests please use the [issue tracker](https://github.com/MFaymon/spINAR/issues).
+Pull requests are welcome and will be included at the discretion of the author.
+
 ## Installation
 
 For installation of the development version use [devtools](https://cran.r-project.org/package=devtools):
