@@ -78,4 +78,6 @@ Finally, we bootstrap INAR(1) data on the first data set. We perform a semiparam
 spinar_boot(dat1, 1, 500, setting = "sp")
 spinar_boot(dat1, 1, 500, setting = "p", type = "mom", distr = "poi")
 ```
+## Outlook
 
+A possible extension of the spINAR package is to not only cover INAR models but also the extension to GINAR (generalized INAR) models, see Latour (1997).  This model class does not only cover the binomial thinning but also allows for other thinning operations, e.g. thinning using geometrically distributed random variables. 
