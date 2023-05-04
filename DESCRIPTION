@@ -22,7 +22,12 @@ Authors@R: c(person(given = "Maxime",
            family = "Jentsch",
            role = "aut",
            email = "jentsch@statistik.tu-dortmund.de",
-           comment = c(ORCID = "0000-0001-7824-1697")))
+           comment = c(ORCID = "0000-0001-7824-1697")),
+    person(given = "Christian H.",
+           family = "Weiß",
+           role = "ctb",
+           email = "weissc@hsu-hh.de",
+           comment = c(ORCID = "0000-0001-8739-6631")))
 Maintainer: Maxime Faymonville <faymonville@statistik.tu-dortmund.de>
 Description: Semiparametric and parametric estimation of INAR models including a finite sample refinement (Faymonville et al. (2022) <doi:10.1007/s10260-022-00655-0>) for the semiparametric setting introduced in Drost et al. (2009) <doi:10.1111/j.1467-9868.2008.00687.x>, different procedures to bootstrap INAR data (Jentsch, C. and Weiß, C.H. (2017) <doi:10.3150/18-BEJ1057>) and flexible simulation of INAR data.
 License: GPL (>= 3)
