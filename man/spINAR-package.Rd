@@ -59,4 +59,9 @@ Authors:
   \item Carsten Jentsch \email{jentsch@statistik.tu-dortmund.de} (\href{https://orcid.org/0000-0001-7824-1697}{ORCID})
 }
 
+Other contributors:
+\itemize{
+  \item Christian H. Weiß \email{weissc@hsu-hh.de} (\href{https://orcid.org/0000-0001-8739-6631}{ORCID}) [contributor]
+}
+
 }
