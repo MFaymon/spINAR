@@ -1,8 +1,3 @@
----
-output:
-  pdf_document: default
-  html_document: default
----
 # Application
 
 This file provides reproduced results from the literature for each provided functionality of the \textit{spINAR} package. 
