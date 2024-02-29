@@ -122,7 +122,7 @@ M <- 10
 mu_est <- mean(ice)
 ```
 
-$95%$ confidence intervals for the observations' mean using the parametric approach
+95\% confidence intervals for the observations' mean using the parametric approach
 
 ```{r}
 # p=1
@@ -140,7 +140,7 @@ srt <- sort(mu_est_star_cent)
 c(mu_est - quantile(srt,1-level,names=FALSE), mu_est - quantile(srt,level,names=FALSE))
 ```
 
-$95%$ confidence intervals for the observations' mean using the semi-parametric approach
+95\% confidence intervals for the observations' mean using the semi-parametric approach
 
 ```{r eval=FALSE}
 # p=1
