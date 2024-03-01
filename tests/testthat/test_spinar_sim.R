@@ -27,7 +27,7 @@ test_that("input", {
   ######################## prerun ########################
   expect_error(spinar_sim(30, 2, c(0.1, 0.2), c(0.25, 0.25, 0.25, 0.25), prerun = -10))
   ######################## n, p, prerun ##################
-  expect_error(spinar_sim(n = 1, p = 2, alpha = c(0.2, 0.3), pmf = c(0.5, 0.3, 0.2), prerun = 1), "n + prerun must be > p.")
+  expect_error(spinar_sim(n = 1, p = 2, alpha = c(0.2, 0.3), pmf = c(0.5, 0.3, 0.2), prerun = 1), "Sum of n and prerun must be greater than p.")
 })
 
 test_that("output", {

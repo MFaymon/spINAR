@@ -41,7 +41,7 @@ spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
     warning("Sum of pmf entries has been standardized to 1.")
   }
   if (n + prerun <= p) {
-    stop("n + prerun must be > p.")
+    stop("Sum of n and prerun must be greater than p.")
   }
   pmf <- pmf / sum(pmf)
   err <-
