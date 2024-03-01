@@ -26,6 +26,8 @@ test_that("input", {
   expect_error(spinar_sim(n = 40, p = 1, alpha = 0.5, pmf = 1), "Assertion on 'pmf' failed: Must have length >= 2, but has length 1.")
   ######################## prerun ########################
   expect_error(spinar_sim(30, 2, c(0.1, 0.2), c(0.25, 0.25, 0.25, 0.25), prerun = -10))
+  ######################## n, p, prerun ##################
+  expect_error(spinar_sim(n = 1, p = 2, alpha = c(0.2, 0.3), pmf = c(0.5, 0.3, 0.2), prerun = 1), "n + prerun must be > p.")
 })
 
 test_that("output", {
@@ -33,6 +35,8 @@ test_that("output", {
   expect_equal(length(spinar_sim(n = 10, p = 1, alpha = 0.5, pmf = c(0.1,0.5,0.4), prerun = 500)), 10)
   expect_equal(length(spinar_sim(n = 10, p = 1, alpha = 0.5, pmf = c(0.1,0.5,0.4))), 10)
   expect_equal(length(spinar_sim(n = 30, p = 2, alpha = c(0.1, 0.2), pmf = c(0.25, 0.25, 0.25, 0.25), prerun = 29)), 30)
+  ######################## prerun ######################
+  expect_equal(length(spinar_sim(n = 30, p = 2, alpha = c(0.1, 0.2), pmf = c(0.25, 0.25, 0.25, 0.25), prerun = 0)), 30)
   ######################## type ########################
   expect_type(spinar_sim(n = 30, p = 2, alpha = c(0.1, 0.2), pmf = c(0.25, 0.25, 0.25, 0.25), prerun = 29), 'double')
 })
