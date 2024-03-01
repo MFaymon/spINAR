@@ -13,10 +13,10 @@
 #' estimation setting \eqn{\in \code{\{"sp", "p"\}}}, where \code{"sp"} defines a semiparametric setting and
 #' \code{"p"} a parametric setting.
 #' @param type [\code{string(1)}]\cr
-#' type of estimation \eqn{\in \code{\{"mom", "ml"\}}}, where \code{"mom"} performs moment-based estimation and
+#' type of estimation \eqn{\in \code{\{"mom", "ml"\}}}, where \code{"mom"} (default) performs moment-based estimation and
 #' \code{"ml"} maximum likelihood-based estimation.
 #' @param distr [\code{string(1)}]\cr
-#' parametric family of innovation distribution \eqn{\in  \code{\{"poi", "geo", "nb"\}}}, where \code{"poi"} denotes
+#' parametric family of innovation distribution \eqn{\in  \code{\{"poi", "geo", "nb"\}}}, where \code{"poi"} (default) denotes
 #' Poi(\code{lambda}), \code{"geo"} Geo(\code{prob}) and \code{"nb"} NB(\code{r}, \code{prob}) distributions.
 #' @param M [\code{integer(1)}]\cr
 #' upper limit for the innovations.
@@ -64,15 +64,15 @@
 #' }
 #'
 #' @export spinar_boot
-spinar_boot <- function(x, p, B, setting, type = NA, distr = NA, M = 100, level = 0.05, progress = TRUE){
-  assert_integerish(p, lower = 1, upper = 2, len = 1)
+spinar_boot <- function(x, p, B, setting, type = "mom", distr = "poi", M = 100, level = 0.05, progress = TRUE){
+  assert_integerish(p, lower = 1, upper = 2, len = 1, any.missing = FALSE)
   assert_integerish(B, lower = 1, len = 1)
   assert_integerish(x, lower = 0, min.len = p+1)
   assert_choice(setting, c("sp", "p"))
-  assert_choice(type, c("mom", "ml", NA))
-  assert_choice(distr, c("poi", "geo", "nb", NA))
+  assert_choice(type, c("mom", "ml"))
+  assert_choice(distr, c("poi", "geo", "nb"))
   assert_integerish(M, lower = 0, len =  1)
-  assert_numeric(level, lower = 0, upper = 1, len = 1)
+  assert_numeric(level, lower = 1e-16, upper = 1, len = 1)
 
   bs <- list(x_star = matrix(NA, length(x), B), parameters_star = matrix(0, B, M+p+1),
              bs_ci_percentile = NULL, bs_ci_hall = NULL)

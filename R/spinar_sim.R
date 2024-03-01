@@ -32,13 +32,16 @@
 #'
 #' @export spinar_sim
 spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
-  assert_integerish(p, lower = 1, upper = 2, len = 1)
+  assert_integerish(p, lower = 1, upper = 2, len = 1, any.missing = FALSE)
   assert_numeric(alpha, lower = 0, upper = 1, len = p)
   assert_numeric(pmf, lower = 0, upper = 1, min.len = p+1)
-  assert_integerish(n, lower = 0, len = 1)
+  assert_integerish(n, lower = 0, len = 1, any.missing = FALSE)
   assert_integerish(prerun, lower = 0, len = 1)
   if (round(sum(pmf), 6) != 1) {
     warning("Sum of pmf entries has been standardized to 1.")
+  }
+  if (n + prerun <= p) {
+    stop("n + prerun must be > p.")
   }
   pmf <- pmf / sum(pmf)
   err <-
@@ -62,6 +65,11 @@ spinar_sim <- function(n, p, alpha, pmf, prerun = 500) {
         rbinom(1, x[i - 1], alpha1) + rbinom(1, x[i - 2], alpha2) + err[i]
     }
   }
-  return(x[-seq_len(prerun)])
+  if (prerun > 0){
+    return(x[-seq_len(prerun)])
+  }
+  else {
+    return(x)
+  }
 }
 
