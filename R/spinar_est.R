@@ -29,7 +29,7 @@
 #'
 #' @export spinar_est
 spinar_est <- function(x, p) {
-  assert_integerish(p, lower = 1, upper = 2, len =  1)
+  assert_integerish(p, lower = 1, upper = 2, len =  1, any.missing = FALSE)
   assert_integerish(x, min.len = p+1, lower = 0)
   xmax <- max(x)
   if(p==1){
