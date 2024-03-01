@@ -28,7 +28,7 @@
 #'
 #' @export spinar_penal
 spinar_penal <- function(x, p, penal1 = 0, penal2 = 0) {
-  assert_integerish(p, lower = 1, upper = 2, len = 1)
+  assert_integerish(p, lower = 1, upper = 2, len = 1, any.missing = FALSE)
   assert_integerish(x, lower = 0, min.len = p+1)
   assert_numeric(penal1, len = 1)
   assert_numeric(penal2, len = 1)

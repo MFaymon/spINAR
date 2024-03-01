@@ -53,8 +53,9 @@
 #'
 #' @export spinar_penal_val
 spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = NA, folds = 10, init1 = 1, init2 = 1, progress = TRUE){
-  assert_integerish(p, lower = 1, len = 1, upper = 2)
+  assert_integerish(p, lower = 1, len = 1, upper = 2, any.missing = FALSE)
   assert_integerish(x, lower = 0, min.len = p+1)
+  assert_logical(validation, any.missing = FALSE)
   assert_numeric(penal1, len = 1)
   assert_numeric(penal2, len = 1)
 
@@ -64,7 +65,6 @@ spinar_penal_val <- function(x, p, validation, penal1 = NA, penal2 = NA, over = 
     if(is.na(penal2)){penal2 <- 0}
     parameters <- spinar_penal(x, p, penal1, penal2)
   } else{
-    assert_logical(validation)
     assert(checkChoice(over, c("L1", "L2", "both")))
     assert_integerish(folds, lower = 2, upper = floor((length(x)/(p+1))), len = 1)
     assert_numeric(init1, len = 1)

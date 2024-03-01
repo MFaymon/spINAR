@@ -37,7 +37,7 @@
 #'
 #' @export spinar_est_param
 spinar_est_param <- function(x, p, type, distr){
-  assert_integerish(p, lower = 1, upper = 2, len = 1)
+  assert_integerish(p, lower = 1, upper = 2, len = 1, any.missing = FALSE)
   assert_integerish(x, min.len = p+1, lower = 0)
   assert(checkChoice(type, c("mom", "ml")))
   assert(checkChoice(distr, c("poi", "geo", "nb")))
