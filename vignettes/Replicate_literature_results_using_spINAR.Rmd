@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(spINAR)
 ```
 
-# Application
+## Application
 
 This file provides reproduced results from the literature for each provided functionality of the \textit{spINAR} package. 
 
@@ -196,7 +196,7 @@ est_unpenal <- spinar_est(data,1)
 est_penal <- spinar_penal(data,1,0,1)
 ```
 
-Plot of the unpenalized and penalized estimated innovation distribution
+Plot of the unpenalized and penalized estimated innovation distribution (see https://github.com/MFaymon/spINAR/blob/main/vignettes/barplots.png)
 
 ```{r eval=FALSE}
 par(mfrow=c(1,2))
@@ -207,7 +207,7 @@ main="Penalized estimated \n innovation distribution")
 ```
 
 ![](https://github.com/MFaymon/spINAR/blob/main/vignettes/barplots.png)
-## References
+### References
 
 * Faymonville, M., Jentsch, C., Weiß, C.H. and Aleksandrov, B. (2022). "Semiparametric Estimation of INAR Models using Roughness Penalization". Statistical Methods & Applications. [DOI](https://doi.org/10.1007/s10260-022-00655-0)
 * Hyndman, R., Koehler, A., Ord, K. and Snyder, R. (2008). "Forecasting with Exponential Smoothing". Springer. [DOI](https://doi.org/10.1007/978-3-540-71918-2)
