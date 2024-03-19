@@ -1,3 +1,23 @@
+---
+title: "Replication of results from the literature using the spINAR package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Replication of results from the literature using the spINAR package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(spINAR)
+```
+
 # Application
 
 This file provides reproduced results from the literature for each provided functionality of the \textit{spINAR} package. 

@@ -48,3 +48,4 @@ unnamed-chunk-*.pdf
 *fdb_latexmk
 
 .DS_Store
+inst/doc
