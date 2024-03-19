@@ -198,7 +198,7 @@ est_penal <- spinar_penal(data,1,0,1)
 
 Plot of the unpenalized and penalized estimated innovation distribution
 
-```{r eval=FLASE}
+```{r eval=FALSE}
 par(mfrow=c(1,2))
 barplot(est_unpenal[-1], ylim=c(0,1),names.arg=0:5,
 main="Unpenalized estimated \n innovation distribution")
