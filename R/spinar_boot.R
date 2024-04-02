@@ -137,6 +137,7 @@ spinar_boot <- function(x, p, B, setting, type = "mom", distr = "poi", M = 100, 
       bs$bs_ci_percentile[2,i] <- srt[B*(1-level/2)]
     } else{
       K <- floor((B+1)*level/2)
+      if(K == 0){K <- 1}
       bs$bs_ci_percentile[1,i] <- srt[K]
       bs$bs_ci_percentile[2,i] <- srt[B+1-K]
     }
@@ -153,6 +154,7 @@ spinar_boot <- function(x, p, B, setting, type = "mom", distr = "poi", M = 100, 
       bs$bs_ci_hall[2,i] <- parameters[i] - srt[B*level/2]
     } else{
       K <- floor((B+1)*level/2)
+      if(K == 0){K <- 1}
       bs$bs_ci_hall[1,i] <- parameters[i] - srt[B+1-K]
       bs$bs_ci_hall[2,i] <- parameters[i] - srt[K]
     }
