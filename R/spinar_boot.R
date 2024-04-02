@@ -42,10 +42,10 @@
 #' coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated
 #' parameter(s) of the innovation distribution.}
 #' \item{\code{bs_ci_percentile}}{[\code{named matrix}] with the lower and
-#' upper bounds of Hall's bootstrap percentile confidence intervals for each
+#' upper bounds of the bootstrap percentile confidence intervals for each
 #' parameter in \code{parameters_star}.}
 #' \item{\code{bs_ci_hall}}{[\code{named matrix}] with the lower and
-#' upper bounds of the bootstrap percentile confidence intervals for each
+#' upper bounds of Hall's bootstrap percentile confidence intervals for each
 #' parameter in \code{parameters_star}.}
 #' }
 #'
@@ -136,7 +136,7 @@ spinar_boot <- function(x, p, B, setting, type = "mom", distr = "poi", M = 100, 
       bs$bs_ci_percentile[1,i] <- srt[B*level/2]
       bs$bs_ci_percentile[2,i] <- srt[B*(1-level/2)]
     } else{
-      K <- ceiling((B+1)*level/2)
+      K <- floor((B+1)*level/2)
       bs$bs_ci_percentile[1,i] <- srt[K]
       bs$bs_ci_percentile[2,i] <- srt[B+1-K]
     }
@@ -152,7 +152,7 @@ spinar_boot <- function(x, p, B, setting, type = "mom", distr = "poi", M = 100, 
       bs$bs_ci_hall[1,i] <- parameters[i] - srt[B*(1-level/2)]
       bs$bs_ci_hall[2,i] <- parameters[i] - srt[B*level/2]
     } else{
-      K <- ceiling((B+1)*level/2)
+      K <- floor((B+1)*level/2)
       bs$bs_ci_hall[1,i] <- parameters[i] - srt[B+1-K]
       bs$bs_ci_hall[2,i] <- parameters[i] - srt[K]
     }

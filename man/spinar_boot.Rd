@@ -65,10 +65,10 @@ If \code{setting = "p"}, each row contains the estimated
 coefficients \eqn{\code{alpha}_1,...,\code{alpha}_p} and the estimated
 parameter(s) of the innovation distribution.}
 \item{\code{bs_ci_percentile}}{[\code{named matrix}] with the lower and
-upper bounds of Hall's bootstrap percentile confidence intervals for each
+upper bounds of the bootstrap percentile confidence intervals for each
 parameter in \code{parameters_star}.}
 \item{\code{bs_ci_hall}}{[\code{named matrix}] with the lower and
-upper bounds of the bootstrap percentile confidence intervals for each
+upper bounds of Hall's bootstrap percentile confidence intervals for each
 parameter in \code{parameters_star}.}
 }
 }
