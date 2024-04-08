@@ -1,8 +1,8 @@
 Package: spINAR
 Type: Package
 Title: (Semi)Parametric Estimation and Bootstrapping of INAR Models
-Version: 0.1.0
-Date: 2023-03-22
+Version: 0.2.0
+Date: 2024-04-08
 Authors@R: c(person(given = "Maxime",
            family = "Faymonville",
            role = c("aut", "cre"),
