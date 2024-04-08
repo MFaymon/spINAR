@@ -1,18 +1,14 @@
 citHeader("To cite spINAR in publications use:")
 
-year = sub(".*(2[[:digit:]]{3})-.*", "\\1", meta$Date)
-vers = paste("R package version", meta$Version)
-
-bibentry(bibtype = "Manual",
-  title        = "{spINAR}: Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models",
+bibentry(bibtype = "Article",
+  title        = "{spINAR}: An {R} Package for Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive ({INAR}) Models",
   author       = "Maxime Faymonville and Javiera Riffo and Jonas Rieger and Carsten Jentsch",
-  year         = year,
-  doi          = "10.5281/zenodo.7611601",
+  year         = "2024",
+  journal      = "Journal of Open Source Software",
+  doi          = "tba",
   url          = "https://github.com/MFaymon/spINAR",
-  note         = vers,
   textVersion  =
-  paste("Faymonville et al. (", year, "). ",
-        "spINAR: Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models. ",
-        vers, ". ",
-        "DOI: 10.5281/zenodo.7611601.", sep = "")
+  paste("Faymonville et al. (2024).",
+        "{spINAR}: An {R} Package for Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive ({INAR}) Models.",
+        "Journal of Open Source Software")
 )
