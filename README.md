@@ -1,5 +1,5 @@
 # spINAR
-[![status](https://joss.theoj.org/papers/6fcfcc77635fdd18153b35d5986fe2aa/status.svg)](https://github.com/openjournals/joss-reviews/issues/5386)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.05386/status.svg)](https://doi.org/10.21105/joss.05386)
 [![CRAN](https://www.r-pkg.org/badges/version/spINAR)](https://cran.r-project.org/package=spINAR)
 [![R build status](https://github.com/MFaymon/spINAR/workflows/R-CMD-check/badge.svg)](https://github.com/MFaymon/spINAR/actions)
 [![codecov](https://codecov.io/gh/MFaymon/spINAR/branch/main/graph/badge.svg?token=U5KPFSY3XN)](https://app.codecov.io/gh/MFaymon/spINAR)
@@ -9,8 +9,26 @@ Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Aut
 
 The package provides flexible simulation of INAR data using a general pmf to define the innovations' distribution. It allows for semiparametric and parametric estimation of INAR models and includes a small sample refinement for the semiparametric setting. Additionally, it provides different procedures to appropriately bootstrap INAR data.
 
-## References (related to the methodology)
+## Citation
+Please cite the [JOSS](https://doi.org/10.21105/joss.05386) paper using the BibTeX entry
+```
+@article{faymonville2024spinar,
+  doi = {10.21105/joss.05386},
+  url = {https://doi.org/10.21105/joss.05386},
+  year = {2024},
+  publisher = {The Open Journal},
+  volume = {9},
+  number = {97},
+  pages = {5386},
+  author = {Maxime Faymonville and Javiera Riffo and Jonas Rieger and Carsten Jentsch},
+  title = {spINAR: An R Package for Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models},
+  journal = {Journal of Open Source Software}
+} 
 
+```
+which is also obtained by the call ``citation("spINAR")``.
+
+## References (related to the methodology)
 * Faymonville, M., Jentsch, C., Weiß, C.H. and Aleksandrov, B. (2022). "Semiparametric Estimation of INAR Models using Roughness Penalization". Statistical Methods & Applications. [DOI](https://doi.org/10.1007/s10260-022-00655-0)
 * Jentsch, C. and Weiß, C.H. (2017), “Bootstrapping INAR Models”. Bernoulli 25(3), pp. 2359-2408. [DOI](https://doi.org/10.3150/18-BEJ1057)
 * Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of auto-regression parameters and inovation distributions for semiparametric integer-valued AR(p) models”. Journal of the Royal Statistical Society. Series B 71(2), pp. 467-485. [DOI](https://doi.org/10.1111/j.1467-9868.2008.00687.x)
