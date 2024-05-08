@@ -29,16 +29,21 @@ parametric bootstrapping (\code{\link{spinar_boot}}) of INAR data.
 }
 
 \references{
+Faymonville, M., Riffo, J., Rieger, J. and Jentsch, C. (2024).
+"spINAR: An R Package for Semiparametric and Parametric Estimation and
+Bootstrapping of Integer-Valued Autoregressive (INAR) Models".
+Journal of Open Source Software 9(97), pp. 5386. \doi{10.21105/joss.05386}.
+
 Faymonville, M., Jentsch, C., Weiß, C.H. and Aleksandrov, B. (2022).
 "Semiparametric Estimation of INAR Models using Roughness Penalization".
 Statistical Methods & Applications. \doi{10.1007/s10260-022-00655-0}.
 
-Jentsch, C. and Weiß, C. H. (2017), “Bootstrapping INAR Models”.
+Jentsch, C. and Weiß, C. H. (2017), "Bootstrapping INAR Models".
 Bernoulli 25(3), pp. 2359--2408. \doi{10.3150/18-BEJ1057}.
 
-Drost, F., Van den Akker, R. and Werker, B. (2009), “Efficient estimation of
+Drost, F., Van den Akker, R. and Werker, B. (2009), "Efficient estimation of
 auto-regression parameters and innovation distributions for semiparametric
-integer-valued AR(p) models”. Journal of the Royal Statistical Society.
+integer-valued AR(p) models". Journal of the Royal Statistical Society.
 Series B 71(2), pp. 467--485. \doi{10.1111/j.1467-9868.2008.00687.x}.
 }
 \seealso{
