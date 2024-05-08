@@ -6,8 +6,15 @@ bibentry(bibtype = "Article",
   year         = "2024",
   journal      = "Journal of Open Source Software",
   url          = "https://github.com/MFaymon/spINAR",
+  volume       = "9",
+  number       = "97",
+  pages        = "5386",
+  doi          = "10.21105/joss.05386",
+  url          = "https://doi.org/10.21105/joss.05386",
+  publisher    = "The Open Journal",
   textVersion  =
   paste("Faymonville et al. (2024).",
         "{spINAR}: An {R} Package for Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive ({INAR}) Models.",
-        "Journal of Open Source Software")
+        "Journal of Open Source Software, 9(97), 5386, https://doi.org/10.21105/joss.05386."
+)
 )
