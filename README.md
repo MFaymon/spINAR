@@ -21,7 +21,7 @@ Please cite the [JOSS](https://doi.org/10.21105/joss.05386) paper using the BibT
   number = {97},
   pages = {5386},
   author = {Maxime Faymonville and Javiera Riffo and Jonas Rieger and Carsten Jentsch},
-  title = {spINAR: An R Package for Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive (INAR) Models},
+  title = {{spINAR}: An {R} Package for Semiparametric and Parametric Estimation and Bootstrapping of Integer-Valued Autoregressive ({INAR}) Models},
   journal = {Journal of Open Source Software}
 } 
 
